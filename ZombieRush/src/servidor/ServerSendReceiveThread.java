@@ -53,12 +53,18 @@ public class ServerSendReceiveThread extends Thread {
 				case "DatosPartida":
 					DatosPartida datosPartida = (DatosPartida) obj;
 					datosPartida.setUsuarioId(IdUsuario);
+					/* Crear Partida
 					if (datosPartida.getAccion() == 0)
 						this.juegoServer.crearPartida(datosPartida);
+						*/
+					
 					if (datosPartida.getAccion() == 1)
 						this.juegoServer.unirsePartida(datosPartida);
+					
+					/* Dejar Partida
 					if (datosPartida.getAccion() == -1)
 						this.juegoServer.dejarPartida(datosPartida);
+						*/
 
 				case "DatosMovimiento":
 					DatosMovimiento datosMov = (DatosMovimiento) obj;
