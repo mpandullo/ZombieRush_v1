@@ -28,7 +28,7 @@ public class ClientSendReceiveThread extends Thread {
 
 				// Devolucion de login de usuario desde el server
 				case "DatosLogin":
-					
+					// debe devolver DatosLogin a la clase Login
 					break;
 					
 				default :
