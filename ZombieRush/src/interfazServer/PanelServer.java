@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -23,6 +24,7 @@ import javax.swing.border.EmptyBorder;
 import servidor.Constantes;
 import servidor.JuegoServer;
 import servidor.ServerAcceptSocketsThread;
+
 import javax.swing.JTextArea;
 
 public class PanelServer extends JFrame {
@@ -55,7 +57,7 @@ public class PanelServer extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public PanelServer(JuegoServer juegoServer) {
+	public PanelServer(JuegoServer juegoServer, final Semaphore semOutStream) {
 		setTitle("ZombieRush Server");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 381);
@@ -68,7 +70,7 @@ public class PanelServer extends JFrame {
 		btnIniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					iniciarSocket();
+					iniciarSocket(semOutStream);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -106,7 +108,7 @@ public class PanelServer extends JFrame {
 		this.juegoServer = juegoServer;
 	}
 
-	protected void iniciarSocket() throws IOException {
+	protected void iniciarSocket(Semaphore semOutStream) throws IOException {
 		int puerto = 0;
 		String port = this.txtFieldPuerto.getText();
 		if (!port.isEmpty())
@@ -118,7 +120,7 @@ public class PanelServer extends JFrame {
 		ServerSocket serverSocket = new ServerSocket(puerto);
 
 		ServerAcceptSocketsThread accept = new ServerAcceptSocketsThread(
-				serverSocket, this.juegoServer, this);
+				serverSocket, this.juegoServer, this, semOutStream);
 		Thread threadAccept = new Thread(accept);
 		threadAccept.start();
 
