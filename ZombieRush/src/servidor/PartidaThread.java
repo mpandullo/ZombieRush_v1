@@ -20,7 +20,8 @@ public class PartidaThread extends Thread {
 		try {
 			
 			// Tengo que ver como hago la carga inicial de datosPartidaEnJuego
-			broadcast.broadcastMsg(datosPartidaEnJuego, listaUsuarios);
+			this.datosPartidaEnJuego = this.partida.procesarMovimientos();
+			broadcast.broadcastMsgNormal(datosPartidaEnJuego, partida.getListaJugadores());
 			
 			while(enJuego){
 				// Espero 5 segundos para volver a procesar
@@ -28,7 +29,7 @@ public class PartidaThread extends Thread {
 				
 				// Proceso todos los movimientos y hago el broadcast
 				this.datosPartidaEnJuego = this.partida.procesarMovimientos();
-				broadcast.broadcastMsg(datosPartidaEnJuego, listaUsuarios);
+				broadcast.broadcastMsgNormal(datosPartidaEnJuego, partida.getListaJugadores());
 								
 			}
 			
