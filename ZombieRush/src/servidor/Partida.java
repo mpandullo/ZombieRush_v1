@@ -19,14 +19,15 @@ public class Partida {
 	private int cantJugadores;
 	private int estado = 0; // 0 en espera - 1 activo
 	
-	private List<UsuarioNormal> usuario = new ArrayList<UsuarioNormal>();
+	private List<UsuarioNormal> usuarios = new ArrayList<UsuarioNormal>();
 	private Tablero tablero = new Tablero();
 	
 	private Queue<DatosMovimiento> cola = new LinkedList<DatosMovimiento>();
 	
 	private PartidaThread partidaThread;
+	private Broadcast broadcast;
 	
-	public Partida(DatosCrearPartida datos, Broadcast broadcast) {
+	public DatosCrearPartida crearPartida(DatosCrearPartida datos, Broadcast broadcast) {
 		int id = ConsultasUsuario.crearPartida(datos);
 		if (id > 0) {
 			this.partidaId = id;
@@ -34,8 +35,13 @@ public class Partida {
 			this.minJugadores = datos.getCantMin();
 			this.maxJugadores = datos.getCantMax();
 			this.cantJugadores = 0;
-		} else {
+			this.broadcast = broadcast;
+			datos.setUsuarioId(1);
 			
+			return datos;
+		} else {
+			datos.setUsuarioId(-1);
+			return datos;
 		}
 	}
 
@@ -78,6 +84,18 @@ public class Partida {
 
 	public void setCantJugadores(int cantJugadores) {
 		this.cantJugadores = cantJugadores;
+	}
+	
+	public Broadcast getBroadcast() {
+		return this.broadcast;
+	}
+
+	public List<UsuarioNormal> getUsuarios() {
+		return usuarios;
+	}
+
+	public void setUsuarios(List<UsuarioNormal> usuarios) {
+		this.usuarios = usuarios;
 	}
 
 	// Metodos

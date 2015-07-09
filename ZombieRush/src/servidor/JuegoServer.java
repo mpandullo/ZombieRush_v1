@@ -59,8 +59,14 @@ public class JuegoServer {
 		usuariosAdmin.add(usuario);
 	}
 	
-	public void crearPartida(DatosCrearPartida datos) {
-		this.partidas.add(new Partida(datos, this.broadcast));
+	public DatosCrearPartida crearPartida(DatosCrearPartida datos) {
+		Partida partida = new Partida();
+		datos = partida.crearPartida(datos, broadcast);
+		if (datos.getUsuarioId() > 0) {
+			this.partidas.add(partida);
+		} 
+		
+		return datos;			
 	}
 
 	public DatosUnirsePartida unirsePartida(DatosUnirsePartida partida) {
