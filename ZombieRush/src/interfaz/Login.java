@@ -2,6 +2,7 @@ package interfaz;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.Semaphore;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,14 +26,18 @@ public class Login extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtUsuario;
 	private JPasswordField txtPassword;
+	private Semaphore semLogin = null;
 	
 	// Main
+	/* no va mas
 	public static void main(String[] args) {		
 		Login login = new Login();
-	}
+	}*/
 
 	// Constructor
-	public Login() {
+	public Login(Semaphore semLogin) {
+		
+		this.semLogin = semLogin;
 
 		setTitle("Zombie Rush");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -64,7 +69,12 @@ public class Login extends JFrame {
 		JButton btnEntrar = new JButton("Entrar");
 		btnEntrar.addActionListener(new ActionListener() {			
 			public void actionPerformed(ActionEvent arg0) {
-				login();
+				try {
+					login();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		btnEntrar.setBounds(48, 183, 89, 23);
@@ -113,11 +123,12 @@ public class Login extends JFrame {
 		this.txtUsuario.setText(usuario);
 	}
 	
-	private void login() {		
+	private void login() throws InterruptedException {		
 		// Cambiar el metodo q obtiene la pass
 		DatosLogin datosLogin = new DatosLogin(this.txtUsuario.getText(), this.txtPassword.getText());
 		datosLogin = SocketCliente.login(datosLogin);
 		
+		semLogin.acquire();
 		int valor = datosLogin.getIdUsuario();
 		
 		switch (valor) {			
@@ -144,5 +155,6 @@ public class Login extends JFrame {
 			
 			break;
 		}
+		semLogin.release();
 	}
 }

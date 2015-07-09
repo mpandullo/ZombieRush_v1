@@ -1,37 +1,41 @@
 package servidor;
 
+import interfazServer.PanelServer;
+
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ServerAcceptSocketsThread extends Thread {
 	ServerSocket serverSocket = null;
-	List<Socket> socketsList = new ArrayList<Socket>();
-	JuegoServer juego;
+	JuegoServer juego = null;
+	PanelServer panelServer = null;
 
 	public ServerAcceptSocketsThread(ServerSocket serverSocket,
-			List<Socket> socketList, JuegoServer juego) {
+			JuegoServer juego, PanelServer panelServer) {
 		this.serverSocket = serverSocket;
-		this.socketsList = socketList;
 		this.juego = juego;
+		this.panelServer = panelServer;
 	}
 
 	@Override
 	public void run() {
 		try {
-			
+
 			while (true) {
 				Socket clientSocket = serverSocket.accept();
-				socketsList.add(clientSocket);
-
-				System.out.println("Conexion recibida desde: "
+				
+				this.panelServer.escribirLog("Conexion recibida desde: "
 						+ clientSocket.getInetAddress() + " en el puerto: "
 						+ clientSocket.getPort());
+				/*
+				System.out.println("Conexion recibida desde: "
+						+ clientSocket.getInetAddress() + " en el puerto: "
+						+ clientSocket.getPort());*/
 
 				// creo un Thread para enviar y recibir desde el cliente
+				
 				ServerSendReceiveThread sendReceive = new ServerSendReceiveThread(
-						clientSocket, socketsList, juego);
+						clientSocket, juego);
 
 				Thread threadSendReceive = new Thread(sendReceive);
 				threadSendReceive.start();

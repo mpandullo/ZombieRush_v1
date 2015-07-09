@@ -3,8 +3,6 @@ package servidor;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
 import datosSocket.DatosLogin;
 import datosSocket.DatosMovimiento;
@@ -12,17 +10,14 @@ import datosSocket.DatosPartida;
 
 public class ServerSendReceiveThread extends Thread {
 	Socket socketId = null;
-	List<Socket> socketsList = new ArrayList<Socket>();
 	int IdUsuario;
 	int cod;
 	Object obj;
 	Usuario usuario;
 	JuegoServer juegoServer;
 
-	public ServerSendReceiveThread(Socket socket, List<Socket> socketsList,
-			JuegoServer juego) {
+	public ServerSendReceiveThread(Socket socket, JuegoServer juego) {
 		this.socketId = socket;
-		this.socketsList = socketsList;
 		this.juegoServer = juego;
 	}
 
@@ -48,6 +43,7 @@ public class ServerSendReceiveThread extends Thread {
 						this.IdUsuario = datos.getIdUsuario();
 
 					outStream.writeObject(datos);
+					outStream.flush();
 					break;
 
 				case "DatosPartida":

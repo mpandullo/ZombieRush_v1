@@ -23,6 +23,7 @@ import javax.swing.border.EmptyBorder;
 import servidor.Constantes;
 import servidor.JuegoServer;
 import servidor.ServerAcceptSocketsThread;
+import javax.swing.JTextArea;
 
 public class PanelServer extends JFrame {
 
@@ -33,6 +34,7 @@ public class PanelServer extends JFrame {
 
 	private JuegoServer juegoServer;
 	private List<Socket> socketsList = new ArrayList<Socket>();
+	private JTextArea textArea;
 
 	/**
 	 * Launch the application.
@@ -97,9 +99,9 @@ public class PanelServer extends JFrame {
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setBounds(10, 45, 414, 286);
 		contentPane.add(scrollPane);
-
-		JTextPane textPane = new JTextPane();
-		scrollPane.setViewportView(textPane);
+		
+		textArea = new JTextArea();
+		scrollPane.setViewportView(textArea);
 
 		this.juegoServer = juegoServer;
 	}
@@ -116,10 +118,14 @@ public class PanelServer extends JFrame {
 		ServerSocket serverSocket = new ServerSocket(puerto);
 
 		ServerAcceptSocketsThread accept = new ServerAcceptSocketsThread(
-				serverSocket, socketsList, this.juegoServer);
+				serverSocket, this.juegoServer, this);
 		Thread threadAccept = new Thread(accept);
 		threadAccept.start();
 
 		this.btnIniciar.setEnabled(false);
+	}
+	
+	public void escribirLog(String linea){
+		this.textArea.append(linea + "\n");
 	}
 }
