@@ -179,8 +179,7 @@ public class PanelCliente extends JDialog {
 				juego.unirsePartida(partida, this);
 			} catch (Exception e) {
 				e.printStackTrace();
-			}
-			
+			}			
 		}
 	}
 	

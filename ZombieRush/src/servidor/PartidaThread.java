@@ -5,14 +5,12 @@ import datosSocket.DatosPartidaEnJuego;
 public class PartidaThread extends Thread {
 	
 	// Al lanzarse la partida debemos ejecutar el partidaThread.start()
-	private JuegoServer juegoServer = null;
 	private Partida partida = null;
 	private DatosPartidaEnJuego datosPartidaEnJuego = null;
 	private boolean enJuego = false;
 	private Broadcast broadcast = null;
 	
-	public PartidaThread(JuegoServer juegoServer, Partida partida) {
-		this.juegoServer = juegoServer;
+	public PartidaThread(Partida partida) {
 		this.partida = partida;
 	}
 	
@@ -36,7 +34,6 @@ public class PartidaThread extends Thread {
 			
 			
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

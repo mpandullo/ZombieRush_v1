@@ -108,7 +108,7 @@ public class Usuario {
 		String usuario = datos.getUsuario();
 		String password = datos.getPassword();
 		
-		Consultas.login(datos);
+		ConsultasUsuario.login(datos);
 		
 		if (datos.getIdUsuario() == -2 )
 			return datos;

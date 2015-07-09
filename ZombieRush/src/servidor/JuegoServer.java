@@ -3,6 +3,7 @@ package servidor;
 import java.util.ArrayList;
 import java.util.List;
 
+import datosSocket.DatosCrearPartida;
 import datosSocket.DatosMovimiento;
 import datosSocket.DatosUnirsePartida;
 
@@ -56,6 +57,10 @@ public class JuegoServer {
 	
 	public void agregarUsuario(UsuarioAdmin usuario) {
 		usuariosAdmin.add(usuario);
+	}
+	
+	public void crearPartida(DatosCrearPartida datos) {
+		this.partidas.add(new Partida(datos, this.broadcast));
 	}
 
 	public DatosUnirsePartida unirsePartida(DatosUnirsePartida partida) {

@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import datosSocket.DatosCrearPartida;
 import datosSocket.DatosMovimiento;
 import datosSocket.DatosPartidaEnJuego;
 import datosSocket.DatosUnirsePartida;
@@ -22,6 +23,21 @@ public class Partida {
 	private Tablero tablero = new Tablero();
 	
 	private Queue<DatosMovimiento> cola = new LinkedList<DatosMovimiento>();
+	
+	private PartidaThread partidaThread;
+	
+	public Partida(DatosCrearPartida datos, Broadcast broadcast) {
+		int id = ConsultasUsuario.crearPartida(datos);
+		if (id > 0) {
+			this.partidaId = id;
+			this.nombre = datos.getNombre();
+			this.minJugadores = datos.getCantMin();
+			this.maxJugadores = datos.getCantMax();
+			this.cantJugadores = 0;
+		} else {
+			
+		}
+	}
 
 	// Getters And Setters
 	public int getPartidaId() {

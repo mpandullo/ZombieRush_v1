@@ -104,10 +104,8 @@ public class JuegoCliente {
 
 			if (this.datosUP.getEstadoPartida() == 0)
 				panel.enEspera();
-			else {
-				VentanaJuego ventana = new VentanaJuego(panel, this);
-				ventana.setVisible(true);
-			}
+			else
+				panel.enEspera(); // cambiar por uniendose...
 		}
 		this.semUP.release();
 	}
@@ -125,6 +123,7 @@ public class JuegoCliente {
 			this.panel.getEspera().dispose();
 			this.ventana.setVisible(true);
 		} else {
+			this.panel.getEspera().dispose(); // Cambiar por cerrar uniendose...
 			this.ventana.actualizarTablero(datos);
 		}
 	}
