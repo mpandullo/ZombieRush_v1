@@ -61,19 +61,29 @@ public class ServerSendReceiveThread extends Thread {
 
 					case "DatosCrearPartida":
 						DatosCrearPartida datosCrearPartida = (DatosCrearPartida) obj;
-						//datosCrearPartida.setUsuarioId(IdUsuario);
+						//this.juegoServer.crearPartida(datosCrearPartida);
+						break;
 
 					case "DatosUnirsePartida":
 						DatosUnirsePartida datosUnirsePartida = (DatosUnirsePartida) obj;
 						this.juegoServer.unirsePartida(datosUnirsePartida);
 						
+						this.semOutStream.acquire();
+						outStream.writeObject(datosUnirsePartida);
+						outStream.flush();
+						this.semOutStream.release();
+						break;
+						
 
 					case "DatosAbandonarPartida":
 						DatosAbandonarPartida datosAbandonarPartida = (DatosAbandonarPartida) obj;
+						//this.juegoServer.abandonarPartida(datosAbandonarPartida);
+						break;
 
 					case "DatosMovimiento":
 						DatosMovimiento datosMov = (DatosMovimiento) obj;
-						// this.juegoServer.encolarMovimiento(datosMov);
+						this.juegoServer.encolarMovimiento(datosMov);
+						break;
 
 					default:
 						break;

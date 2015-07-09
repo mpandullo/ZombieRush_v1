@@ -23,7 +23,7 @@ public class ClientSendReceiveThread extends Thread {
 
 	public ClientSendReceiveThread(Socket socketId,
 			ObjectOutputStream outStream, ObjectInputStream inStream,
-			Login login, Semaphore semLogin) {
+			Login login, Semaphore semLogin, Semaphore semUP, JuegoCliente juegoCliente) {
 		this.socketId = socketId;
 		this.inStream = inStream;
 		this.outStream = outStream;
@@ -60,7 +60,7 @@ public class ClientSendReceiveThread extends Thread {
 					break;
 					
 				case "DatosPartidaEnJuego" :
-					//juegoCliente.actualizarPartida((DatosPartidaEnJuego) obj);
+					juegoCliente.actualizarTablero((DatosPartidaEnJuego) obj);
 					break;
 
 				default:

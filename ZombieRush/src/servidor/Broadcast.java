@@ -13,7 +13,21 @@ public class Broadcast {
 		this.semOutStream = semOutStream;
 	}
 
-	public void broadcastMsg(Object obj, List<Usuario> listaUsuarios)
+	public void broadcastMsgNormal(Object obj, List<UsuarioNormal> listaUsuarios)
+			throws IOException, InterruptedException {
+
+		for (Usuario usuario : listaUsuarios) {
+			ObjectOutputStream outStream = new ObjectOutputStream(usuario
+					.getSocket().getOutputStream());
+
+			semOutStream.acquire();
+			outStream.writeObject(obj);
+			outStream.flush();
+			semOutStream.release();
+		}
+	}
+
+	public void broadcastMsgAdmin(Object obj, List<UsuarioAdmin> listaUsuarios)
 			throws IOException, InterruptedException {
 
 		for (Usuario usuario : listaUsuarios) {
