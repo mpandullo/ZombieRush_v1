@@ -5,9 +5,11 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.Semaphore;
 
+import datosSocket.DatosAbandonarPartida;
+import datosSocket.DatosCrearPartida;
 import datosSocket.DatosLogin;
 import datosSocket.DatosMovimiento;
-import datosSocket.DatosPartida;
+import datosSocket.DatosUnirsePartida;
 
 public class ServerSendReceiveThread extends Thread {
 	Socket socketId = null;
@@ -19,7 +21,8 @@ public class ServerSendReceiveThread extends Thread {
 	private boolean corriendo;
 	Semaphore semOutStream = null;
 
-	public ServerSendReceiveThread(Socket socket, JuegoServer juego, Semaphore semOutStream) {
+	public ServerSendReceiveThread(Socket socket, JuegoServer juego,
+			Semaphore semOutStream) {
 		this.socketId = socket;
 		this.juegoServer = juego;
 		this.corriendo = true;
@@ -48,17 +51,25 @@ public class ServerSendReceiveThread extends Thread {
 								this.socketId);
 						if (datos.getIdUsuario() > 0)
 							this.IdUsuario = datos.getIdUsuario();
-						
+
 						this.semOutStream.acquire();
 						outStream.writeObject(datos);
 						outStream.flush();
 						this.semOutStream.release();
-						
+
 						break;
 
-					case "DatosPartida":
-						DatosPartida datosPartida = (DatosPartida) obj;
-						datosPartida.setUsuarioId(IdUsuario);
+					case "DatosCrearPartida":
+						DatosCrearPartida datosCrearPartida = (DatosCrearPartida) obj;
+						datosCrearPartida.setUsuarioId(IdUsuario);
+
+					case "DatosUnirsePartida":
+						DatosUnirsePartida datosUnirsePartida = (DatosUnirsePartida) obj;
+						this.juegoServer.unirsePartida(datosUnirsePartida);
+						
+
+					case "DatosAbandonarPartida":
+						DatosAbandonarPartida datosAbandonarPartida = (DatosAbandonarPartida) obj;
 
 					case "DatosMovimiento":
 						DatosMovimiento datosMov = (DatosMovimiento) obj;
