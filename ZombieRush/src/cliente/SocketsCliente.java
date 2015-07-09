@@ -35,7 +35,7 @@ public class SocketsCliente {
 		}
 	}
 
-	public boolean lanzarConexion() {
+	public boolean lanzarConexion() throws IOException {
 		if (this.socketId.isConnected()) {
 			ClientSendReceiveThread sendReceive = new ClientSendReceiveThread(
 					socketId, outStream, inStream, login, semLogin, semUP, juegoCliente);
