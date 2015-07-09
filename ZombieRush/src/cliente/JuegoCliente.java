@@ -1,5 +1,8 @@
 package cliente;
 
+import java.io.IOException;
+import java.util.concurrent.Semaphore;
+
 import interfaz.Login;
 import interfaz.PanelCliente;
 import interfaz.VentanaJuego;
@@ -13,6 +16,8 @@ public class JuegoCliente {
 	private PanelCliente panel;
 	private int[] partidasId;
 	private int partidaIniciada;
+	private SocketsCliente clientSocket = null;
+	private Semaphore semUP = null;
 
 	private DatosUnirsePartida datosUP;
 	
@@ -21,6 +26,8 @@ public class JuegoCliente {
 	public JuegoCliente(Login login, UsuarioNormal usuario) {
 		this.usuario = usuario;
 		this.panel = new PanelCliente(login, this, usuario);
+		this.clientSocket = login.getClientSocket();
+		this.semUP = login.getSemUP();
 	}
 
 	// Getters and Setter
@@ -80,23 +87,31 @@ public class JuegoCliente {
 		return lista;
 	}
 
-	public void unirsePartida(int id, PanelCliente panel) {
+	public void unirsePartida(int id, PanelCliente panel) throws IOException, InterruptedException {
 		
 		this.panel = panel;
 
 		// Enviamos los datos al server
-		SocketCliente.unirse(this.partidasId[id]);
+		this.clientSocket.enviarObjeto(datosUP);
 
 		// Ponemos un semaforo para esperar la respuesta
-
+		this.semUP.acquire();
+		
 		if (this.datosUP.getEstadoPartida() == -1)
 			panel.mensajeErrorUnirse();
 		else {
 			this.partidaIniciada = this.partidasId[id];
+
 			if (this.datosUP.getEstadoPartida() == 0)
 				panel.enEspera();
+			else {
+				VentanaJuego ventana = new VentanaJuego(panel, this);
+				ventana.setVisible(true);
+			}
 		}
+		this.semUP.release();
 	}
+			
 
 	public void abandonarPartida() {
 		SocketCliente.abandonar(partidaIniciada);

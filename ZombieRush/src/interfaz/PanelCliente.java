@@ -175,7 +175,12 @@ public class PanelCliente extends JDialog {
 		if (partida == -1) {
 			JOptionPane.showMessageDialog(this, "Debe seleccionar una partida", "", JOptionPane.WARNING_MESSAGE);
 		} else {
-			juego.unirsePartida(partida, this);
+			try {
+				juego.unirsePartida(partida, this);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 		}
 	}
 	

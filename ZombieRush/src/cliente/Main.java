@@ -8,11 +8,12 @@ public class Main {
 
 	public static void main(String[] args) {
 		Semaphore semLogin = new Semaphore(1);
+		Semaphore semUP = new Semaphore(1);
 		
-		Login login = new Login(semLogin);
-		SocketsCliente socketsClient = new SocketsCliente(login, semLogin);
-		socketsClient.lanzarConexion();
-		
+		Login login = new Login(semLogin, semUP);
+		SocketsCliente clientSocket = new SocketsCliente(login, semLogin, semUP);
+		login.setClientSocket(clientSocket);		
+		clientSocket.lanzarConexion();		
 		login.setVisible(true);		
 		
 
