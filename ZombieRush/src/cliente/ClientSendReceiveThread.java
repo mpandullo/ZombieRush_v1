@@ -2,6 +2,7 @@ package cliente;
 
 import interfaz.Login;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -25,10 +26,11 @@ public class ClientSendReceiveThread extends Thread {
 	public ClientSendReceiveThread(Socket socketId,
 			ObjectOutputStream outStream, ObjectInputStream inStream,
 			Login login, Semaphore semLogin, Semaphore semUP,
-			JuegoCliente juegoCliente) {
+			JuegoCliente juegoCliente) throws IOException {
 		this.socketId = socketId;
-		this.inStream = inStream;
-		this.outStream = outStream;
+		//this.inStream = inStream;
+		//this.outStream = outStream;
+		this.inStream = new ObjectInputStream(this.socketId.getInputStream());
 		this.login = login;
 		this.semLogin = semLogin;
 		this.semUP = semUP;
@@ -43,6 +45,7 @@ public class ClientSendReceiveThread extends Thread {
 				// Login
 				semLogin.acquire();
 				semUP.acquire();
+
 				// Leo objeto del socket
 				obj = inStream.readObject();
 				
