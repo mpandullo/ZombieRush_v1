@@ -1,5 +1,7 @@
 package servidor;
 
+import java.io.IOException;
+
 import datosSocket.DatosPartidaEnJuego;
 
 public class PartidaThread extends Thread {
@@ -35,7 +37,7 @@ public class PartidaThread extends Thread {
 
 			}
 
-		} catch (InterruptedException e) {
+		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
 

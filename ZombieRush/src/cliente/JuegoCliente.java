@@ -72,7 +72,7 @@ public class JuegoCliente {
 	}
 
 	public String[][] obtenerPartidas() {
-		DatosPartidas datos = SocketCliente.obternerPartidas();
+		DatosPartidas datos = Datos.getDatosPartidas();
 		String aux[][] = datos.getPartidas();
 		String[][] lista = new String[aux.length][3];
 		this.partidasId = new int[aux.length];
