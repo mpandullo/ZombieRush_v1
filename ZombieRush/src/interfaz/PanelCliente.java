@@ -21,7 +21,6 @@ import javax.swing.table.DefaultTableModel;
 
 import cliente.JuegoCliente;
 import cliente.UsuarioNormal;
-import datosSocket.DatosPartida;
 
 public class PanelCliente extends JDialog {
 
@@ -31,6 +30,8 @@ public class PanelCliente extends JDialog {
 	private UsuarioNormal usuario;
 	private Login login;
 	private JuegoCliente juego;
+	
+	private PartidaEnEspera espera;
 	
 	// Constructor
 	public PanelCliente(Login login, JuegoCliente juego, UsuarioNormal usuario) {
@@ -174,28 +175,22 @@ public class PanelCliente extends JDialog {
 		if (partida == -1) {
 			JOptionPane.showMessageDialog(this, "Debe seleccionar una partida", "", JOptionPane.WARNING_MESSAGE);
 		} else {
-			DatosPartida respuesta = juego.unirsePartida(partida);
-			if (respuesta.getPartidaId() == -1) {
-				JOptionPane.showMessageDialog(this, "No puede unirse a esta partida", "Unirse", JOptionPane.INFORMATION_MESSAGE);
-			} else {
-				iniciar(respuesta);
-			}
+			juego.unirsePartida(partida, this);
 		}
+	}
+	
+	public void mensajeErrorUnirse() {
+		JOptionPane.showMessageDialog(this, "No puede unirse a esta partida", "Unirse", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	public void enEspera() {
+		espera = new PartidaEnEspera(this);
+		espera.setVisible(true);
 	}
 	
 	public void abandonar() {
 		this.juego.abandonarPartida();
-	}
-	
-	public void iniciar(DatosPartida partida) {
-		if (partida.getEstado() == 0) {
-			PartidaEnEspera espera = new PartidaEnEspera(this);
-			espera.setVisible(true);
-		} else {
-			VentanaJuego ventanaJuego = new VentanaJuego(this, partida, this.usuario, this.juego);
-			ventanaJuego.setVisible(true);
-		}
-	}
+	}	
 	
 	// Salir
 	private void salir() {

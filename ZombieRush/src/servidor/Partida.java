@@ -3,7 +3,7 @@ package servidor;
 import java.util.ArrayList;
 import java.util.List;
 
-import datosSocket.DatosPartida;
+import datosSocket.DatosUnirsePartida;
 
 public class Partida {
 
@@ -59,13 +59,16 @@ public class Partida {
 	}
 
 	// Metodos
-	public boolean agregarUsuario(UsuarioNormal usuario) {
+	public DatosUnirsePartida agregarUsuario(UsuarioNormal usuario) {
+		
+		DatosUnirsePartida datos = new DatosUnirsePartida();
 		
 		if (this.cantJugadores != this.maxJugadores) {
 			this.tablero.agregarJugador(new Jugador(usuario));
 			this.cantJugadores++;
 		} else {
-			return false;
+			datos.setEstadoPartida(-1);
+			return datos;
 		}
 
 		if (this.cantJugadores >= this.minJugadores && this.estado == 0) {
@@ -73,7 +76,13 @@ public class Partida {
 			this.iniciar();
 		} 
 		
-		return true;
+		datos.setEstadoPartida(estado);
+		datos.setMatriz(tablero.getMapa());
+		datos.setJugadores(tablero.getJugadores());
+		datos.setNombrePartida(this.nombre);
+		datos.setTipoJugador(0);
+		
+		return datos;
 	}
 	
 	public void iniciar() {
@@ -93,12 +102,6 @@ public class Partida {
 			}
 			jugadores.get(0).setFueZombie(true);
 		}
-		
-		
-		
-		//Enviar señal de inicio de partida a todos los clientes de la partida
-	}
-	
-	
+	}	
 
 }

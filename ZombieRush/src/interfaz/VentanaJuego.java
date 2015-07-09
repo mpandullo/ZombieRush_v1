@@ -17,26 +17,20 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import cliente.JuegoCliente;
-import cliente.UsuarioNormal;
-import datosSocket.DatosPartida;
 
 public class VentanaJuego extends JDialog {
 
 	private JPanel contentPane;
 	
-	private TableroJuego tablero = new TableroJuego();
-	
-	private UsuarioNormal usuario;
-	private DatosPartida partida;
+	private TableroJuego tablero;
 	private JuegoCliente juego;
 	
 	// Constructor
-	public VentanaJuego(PanelCliente p, DatosPartida partida, UsuarioNormal usuario, JuegoCliente juego) {
+	public VentanaJuego(PanelCliente p, JuegoCliente juego) {
 		
 		super(p);
-		this.partida = partida;
-		this.usuario = usuario;
 		this.juego = juego;
+		this.tablero = new TableroJuego(juego.getDatosUP().getMatriz(), juego.getDatosUP().getJugadores(), juego.getDatosUP().getTipoJugador(), juego.getUsuario().getIdUsuario());
 		
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
@@ -46,7 +40,7 @@ public class VentanaJuego extends JDialog {
 			}
 		});
 		
-		setTitle(partida.getNombre());
+		setTitle(juego.getDatosUP().getNombrePartida());
 		setBounds(100, 100, 625, 627);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -60,11 +54,11 @@ public class VentanaJuego extends JDialog {
 		tablero.setBounds(10, 34, 600, 450);
 		contentPane.add(tablero);
 		
-		JLabel lblNombreJugador = new JLabel(usuario.getUsuario());
+		JLabel lblNombreJugador = new JLabel(juego.getUsuario().getUsuario());
 		lblNombreJugador.setBounds(10, 10, 161, 14);
 		contentPane.add(lblNombreJugador);
 		
-		JLabel lblPuntos = new JLabel("Puntos: " + partida.getPuntos());
+		JLabel lblPuntos = new JLabel("Puntos: 0");
 		lblPuntos.setBounds(546, 9, 64, 14);
 		contentPane.add(lblPuntos);
 		

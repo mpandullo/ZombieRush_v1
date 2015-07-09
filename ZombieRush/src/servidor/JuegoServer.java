@@ -3,7 +3,7 @@ package servidor;
 import java.util.ArrayList;
 import java.util.List;
 
-import datosSocket.DatosPartida;
+import datosSocket.DatosUnirsePartida;
 
 public class JuegoServer {
 
@@ -47,7 +47,7 @@ public class JuegoServer {
 		usuariosAdmin.add(usuario);
 	}
 
-	public boolean unirsePartida(DatosPartida partida) {
+	public DatosUnirsePartida unirsePartida(DatosUnirsePartida partida) {
 		int p = 0;
 		int u = 0;
 		

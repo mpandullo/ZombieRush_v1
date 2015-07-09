@@ -5,11 +5,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+
+import servidor.Jugador;
 
 public class TableroJuego extends JPanel  {
 
@@ -18,14 +19,15 @@ public class TableroJuego extends JPanel  {
 	private Image humano;
 	
 	private int[][] matriz;	
-	private int[] jugadores;
+	private List<Jugador> jugadores;
 	
 	// 0 -> Humano / 1 -> Zombie
 	private int tipoPersonaje = 0;
-	private int id = 4;
+	private int usuarioId = 4;
 	private int[] pos = new int[2];
 
-	public TableroJuego(int[][] matriz, int[] jugadores, int tipo) {
+	public TableroJuego(int[][] matriz, List<Jugador> jugadores, int tipo, int usuarioId) {
+		this.usuarioId = usuarioId;
 		this.matriz = matriz;
 		this.jugadores = jugadores;
 		this.tipoPersonaje = tipo;
@@ -45,7 +47,7 @@ public class TableroJuego extends JPanel  {
 		
 		for (int i = 0; i < matriz.length; i++) {
 			for (int j = 0; j < matriz.length; j++) {
-				if (matriz[i][j] == id) {
+				if (matriz[i][j] == usuarioId) {
 					pos[0] = j;
 					pos[1] = i;
 				}
@@ -76,13 +78,6 @@ public class TableroJuego extends JPanel  {
 		
 		Toolkit.getDefaultToolkit().sync();
 		g.dispose();
-	}
-	
-	public void actualizar(int[][] matriz, int[] jugadores, int tipo) {
-		this.matriz = matriz;
-		this.jugadores = jugadores;
-		this.tipoPersonaje = tipo;
-		this.repaint();
 	}
 }
 
