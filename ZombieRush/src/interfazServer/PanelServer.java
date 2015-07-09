@@ -39,22 +39,6 @@ public class PanelServer extends JFrame {
 	private JTextArea textArea;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					// PanelServer frame = new PanelServer();
-					// frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public PanelServer(JuegoServer juegoServer, final Semaphore semOutStream) {

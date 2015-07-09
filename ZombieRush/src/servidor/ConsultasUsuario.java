@@ -37,7 +37,7 @@ public class ConsultasUsuario {
 
 			if (rs.next()) {
 
-				usuario.(rs.getInt("cod_usuario"));
+				usuario.setIdUsuario(rs.getInt("cod_usuario"));
 				nickUsuario = rs.getString("nick_usuario");
 				contraseña = rs.getString("contraseña");
 				usuario.setTipoUsuario(rs.getInt("tipo_usuario"));
@@ -302,5 +302,4 @@ public class ConsultasUsuario {
 		}
 		return -1;
 	}
-}
 }

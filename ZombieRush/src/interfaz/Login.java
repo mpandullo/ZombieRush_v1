@@ -16,7 +16,6 @@ import javax.swing.border.EmptyBorder;
 
 import cliente.JuegoAdmin;
 import cliente.JuegoCliente;
-import cliente.SocketCliente;
 import cliente.SocketsCliente;
 import cliente.UsuarioAdmin;
 import cliente.UsuarioNormal;
