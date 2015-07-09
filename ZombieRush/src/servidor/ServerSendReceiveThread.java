@@ -61,7 +61,7 @@ public class ServerSendReceiveThread extends Thread {
 
 					case "DatosCrearPartida":
 						DatosCrearPartida datosCrearPartida = (DatosCrearPartida) obj;
-						datosCrearPartida.setUsuarioId(IdUsuario);
+						//datosCrearPartida.setUsuarioId(IdUsuario);
 
 					case "DatosUnirsePartida":
 						DatosUnirsePartida datosUnirsePartida = (DatosUnirsePartida) obj;

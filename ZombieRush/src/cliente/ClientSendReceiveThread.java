@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.util.concurrent.Semaphore;
 
 import datosSocket.DatosLogin;
+import datosSocket.DatosPartidaEnJuego;
+import datosSocket.DatosUnirsePartida;
 
 public class ClientSendReceiveThread extends Thread {
 	Socket socketId = null;
@@ -16,15 +18,19 @@ public class ClientSendReceiveThread extends Thread {
 	ObjectInputStream inStream = null;
 	Login login = null;
 	Semaphore semLogin = null;
+	Semaphore semUP = null;
+	JuegoCliente juegoCliente = null;
 
 	public ClientSendReceiveThread(Socket socketId,
 			ObjectOutputStream outStream, ObjectInputStream inStream,
-			Login login, Semaphore semLogin) {
+			Login login, Semaphore semLogin, Semaphore semUP, JuegoCliente juegoCliente) {
 		this.socketId = socketId;
 		this.inStream = inStream;
 		this.outStream = outStream;
 		this.login = login;
 		this.semLogin = semLogin;
+		this.semUP = semUP;
+		this.juegoCliente = juegoCliente;
 	}
 
 	public void run() {
@@ -34,6 +40,7 @@ public class ClientSendReceiveThread extends Thread {
 				
 				//Adquiero semaforo para bloquear el metodo login de la class Login
 				semLogin.acquire();
+				semUP.acquire();
 				
 				//Leo objeto del socket
 				obj = inStream.readObject();
@@ -45,6 +52,15 @@ public class ClientSendReceiveThread extends Thread {
 					// debe devolver DatosLogin a la clase Login
 					login.setDatosLogin((DatosLogin) obj);
 					semLogin.release();
+					break;
+					
+				case "DatosUnirsePartida" :
+					juegoCliente.setDatosUP((DatosUnirsePartida) obj);
+					semUP.release();
+					break;
+					
+				case "DatosPartidaEnJuego" :
+					//juegoCliente.actualizarPartida((DatosPartidaEnJuego) obj);
 					break;
 
 				default:

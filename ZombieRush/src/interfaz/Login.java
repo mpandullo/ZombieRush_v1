@@ -2,6 +2,7 @@ package interfaz;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.concurrent.Semaphore;
 
 import javax.swing.JButton;
@@ -16,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 import cliente.JuegoAdmin;
 import cliente.JuegoCliente;
 import cliente.SocketCliente;
+import cliente.SocketsCliente;
 import cliente.UsuarioAdmin;
 import cliente.UsuarioNormal;
 import datosSocket.DatosLogin;
@@ -27,13 +29,16 @@ public class Login extends JFrame {
 	private JTextField txtUsuario;
 	private JPasswordField txtPassword;
 	private Semaphore semLogin = null;
-	
+	private Semaphore semUP = null;
+	private SocketsCliente clientSocket = null;
+
 	private DatosLogin datosLogin;
-	
+
 	// Constructor
-	public Login(Semaphore semLogin) {
-		
+	public Login(Semaphore semLogin, Semaphore semUP) {
+
 		this.semLogin = semLogin;
+		this.semUP = semUP;
 
 		setTitle("Zombie Rush");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,18 +61,21 @@ public class Login extends JFrame {
 		txtUsuario.setBounds(181, 70, 86, 20);
 		contentPane.add(txtUsuario);
 		txtUsuario.setColumns(10);
-		
+
 		txtPassword = new JPasswordField();
 		txtPassword.setBounds(181, 110, 86, 20);
 		contentPane.add(txtPassword);
 
 		// Boton entrar
 		JButton btnEntrar = new JButton("Entrar");
-		btnEntrar.addActionListener(new ActionListener() {			
+		btnEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					login();
 				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -95,7 +103,7 @@ public class Login extends JFrame {
 		});
 		btnRegistrarse.setBounds(166, 183, 112, 23);
 		contentPane.add(btnRegistrarse);
-		
+
 		this.setVisible(true);
 	}
 
@@ -109,32 +117,36 @@ public class Login extends JFrame {
 			e2.printStackTrace();
 		}
 	}
-	
+
 	public void vaciarCampos() {
 		this.txtPassword.setText("");
 		this.txtUsuario.setText("");
 	}
-	
+
 	public void setUsuario(String usuario) {
 		this.txtUsuario.setText(usuario);
 	}
-	
-	private void login() throws InterruptedException {		
+
+	private void login() throws InterruptedException, IOException {
 		// Cambiar el metodo q obtiene la pass
-		this.datosLogin = new DatosLogin(this.txtUsuario.getText(), this.txtPassword.getText());
-		datosLogin = SocketCliente.login(datosLogin);
-		
+		this.datosLogin = new DatosLogin(this.txtUsuario.getText(),
+				this.txtPassword.getText());
+		this.clientSocket.enviarObjeto(datosLogin);
+
 		semLogin.acquire();
 		int valor = datosLogin.getIdUsuario();
-		
-		switch (valor) {			
+
+		switch (valor) {
 		case -1:
-			JOptionPane.showMessageDialog(this, "Usuario y/o contraseña inválidos", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this,
+					"Usuario y/o contraseña inválidos", "Error",
+					JOptionPane.ERROR_MESSAGE);
 			this.vaciarCampos();
 			break;
-			
+
 		case -2:
-			JOptionPane.showMessageDialog(this, "Usuario inexistente", "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, "Usuario inexistente", "Error",
+					JOptionPane.ERROR_MESSAGE);
 			this.vaciarCampos();
 			break;
 
@@ -142,19 +154,32 @@ public class Login extends JFrame {
 			if (datosLogin.getTipoUsuario() == 0) {
 				UsuarioNormal usuario = new UsuarioNormal(datosLogin);
 				this.setVisible(false);
-				JuegoCliente juego = new JuegoCliente(this, usuario);				
+				JuegoCliente juego = new JuegoCliente(this, usuario);
+				this.clientSocket.setJuegoCliente(juego);
 			} else {
 				UsuarioAdmin usuario = new UsuarioAdmin(datosLogin);
 				this.setVisible(false);
 				JuegoAdmin juego = new JuegoAdmin(this, usuario);
 			}
-			
+
 			break;
 		}
 		semLogin.release();
 	}
-	
+
 	public void setDatosLogin(DatosLogin datos) {
 		this.datosLogin = datos;
+	}
+
+	public void setClientSocket(SocketsCliente clientSocket) {
+		this.clientSocket = clientSocket;
+	}
+
+	public SocketsCliente getClientSocket() {
+		return clientSocket;
+	}
+
+	public Semaphore getSemUP() {
+		return semUP;
 	}
 }

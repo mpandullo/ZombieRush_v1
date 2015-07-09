@@ -15,14 +15,17 @@ public class SocketsCliente {
 	ObjectInputStream inStream = null;
 	Login login = null;
 	Semaphore semLogin = null;
+	Semaphore semUP = null;
+	JuegoCliente juegoCliente = null;
 
-	public SocketsCliente(Login login, Semaphore semLogin) {
+	public SocketsCliente(Login login, Semaphore semLogin, Semaphore semUP) {
 		try {
 			this.socketId = new Socket("localhost", 9999);
 			this.outStream = new ObjectOutputStream(socketId.getOutputStream());
 			this.inStream = new ObjectInputStream(socketId.getInputStream());
 			this.login = login;
 			this.semLogin = semLogin;
+			this.semUP = semUP;
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -35,7 +38,7 @@ public class SocketsCliente {
 	public boolean lanzarConexion() {
 		if (this.socketId.isConnected()) {
 			ClientSendReceiveThread sendReceive = new ClientSendReceiveThread(
-					socketId, outStream, inStream, login, semLogin);
+					socketId, outStream, inStream, login, semLogin, semUP, juegoCliente);
 			Thread sendReceiveThread = new Thread(sendReceive);
 			sendReceiveThread.start();
 			return true;
@@ -46,6 +49,11 @@ public class SocketsCliente {
 	// Metodo para enviar objetos de mensaje al socket
 	public void enviarObjeto(Object obj) throws IOException {
 		outStream.writeObject(obj);
+		outStream.flush();
+	}
+
+	public void setJuegoCliente(JuegoCliente juegoCliente) {
+		this.juegoCliente = juegoCliente;
 	}
 
 }
