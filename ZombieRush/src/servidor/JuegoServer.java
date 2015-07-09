@@ -1,7 +1,5 @@
 package servidor;
 
-import interfazServer.PanelServer;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,22 +10,24 @@ public class JuegoServer {
 	// Singleton
 	private static JuegoServer INSTANCE = null;
 
-	private JuegoServer() {
+	private JuegoServer(Broadcast broadcast) {
 		
 	}
 
-	private static void createInstance() {
+	private static void createInstance(Broadcast broadcast) {
 		if (INSTANCE == null) {
-			INSTANCE = new JuegoServer();
+			INSTANCE = new JuegoServer(broadcast);
 		}
 	}
 
-	public static JuegoServer getInstance() {
+	public static JuegoServer getInstance(Broadcast broadcast) {
 		if (INSTANCE == null)
-			createInstance();
+			createInstance(broadcast);
 		return INSTANCE;
 	} // Fin Singleton
 
+	private Broadcast broadcast;
+	
 	private List<UsuarioNormal> usuarios = new ArrayList<UsuarioNormal>();
 	private List<UsuarioAdmin> usuariosAdmin = new ArrayList<UsuarioAdmin>();
 	private List<Partida> partidas = new ArrayList<Partida>();
