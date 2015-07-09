@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import datosSocket.DatosCrearPartida;
 import datosSocket.DatosLogin;
 import datosSocket.DatosRegistro;
 
@@ -256,6 +257,50 @@ public class ConsultasUsuario {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public static int crearPartida(DatosCrearPartida datosCrearPartida) {
+		
+		Conexion con = null;
+		String sql;
+		
+		String nombre= datosCrearPartida.nombre;
+		int min= datosCrearPartida.cantMin;
+		int max= datosCrearPartida.cantMax;
+		String estadoIni= "En Espera";
+		String usuario= IdUsuario;
+		ResultSet rs;
+		int cod_partida=0;
+		
+		try {
+			con = new Conexion();
+			sql = "INSERT INTO partida (nom_partida, estado, min_jugadores, max_jugadores, cant_jugadores, "
+					+ "puntos, tiempo_de_juego, fecha_mod, usuario_mod) VALUES ('"+nombre+"','"+estadoIni
+					+"',"+min+","+max+",0,0,null,getdate(),'"+usuario+"');";
+			//System.out.println(sql);
+			
+			sql2= "select top 1 cod_partida cod_partida from partida order by fecha_mod desc";
+			
+			rs = con.obtenerRegistros(sql2);
+			if (rs.next()) {
+				cod_partida= rs.getInt("cod_partida");
+			}
+		
+			if (con.ejecutarQuery(sql)== true)
+				return cod_partida;
+			else
+				return -1;
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally {
+			try {
+				if (con != null)
+					con.cerrarConexion();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return -1;
 	}
 }
 }
