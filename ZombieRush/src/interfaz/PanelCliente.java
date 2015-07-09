@@ -188,6 +188,10 @@ public class PanelCliente extends JDialog {
 		espera.setVisible(true);
 	}
 	
+	public PartidaEnEspera getEspera() {
+		return this.espera;
+	}
+	
 	public void abandonar() {
 		this.juego.abandonarPartida();
 	}	

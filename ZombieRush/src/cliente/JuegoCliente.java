@@ -3,6 +3,7 @@ package cliente;
 import interfaz.Login;
 import interfaz.PanelCliente;
 import interfaz.VentanaJuego;
+import datosSocket.DatosPartidaEnJuego;
 import datosSocket.DatosPartidas;
 import datosSocket.DatosUnirsePartida;
 
@@ -14,6 +15,8 @@ public class JuegoCliente {
 	private int partidaIniciada;
 
 	private DatosUnirsePartida datosUP;
+	
+	private VentanaJuego ventana;
 
 	public JuegoCliente(Login login, UsuarioNormal usuario) {
 		this.usuario = usuario;
@@ -78,6 +81,8 @@ public class JuegoCliente {
 	}
 
 	public void unirsePartida(int id, PanelCliente panel) {
+		
+		this.panel = panel;
 
 		// Enviamos los datos al server
 		SocketCliente.unirse(this.partidasId[id]);
@@ -90,14 +95,22 @@ public class JuegoCliente {
 			this.partidaIniciada = this.partidasId[id];
 			if (this.datosUP.getEstadoPartida() == 0)
 				panel.enEspera();
-			else {
-				VentanaJuego ventana = new VentanaJuego(panel, this);
-				ventana.setVisible(true);
-			}
 		}
 	}
 
 	public void abandonarPartida() {
 		SocketCliente.abandonar(partidaIniciada);
+	}
+	
+	public void actualizarTablero(DatosPartidaEnJuego datos) {
+		if (this.getDatosUP().getEstadoPartida() == 0) {
+			this.datosUP.setEstadoPartida(1);
+			this.ventana = new VentanaJuego(panel, this);
+			this.ventana.actualizarTablero(datos);
+			this.panel.getEspera().dispose();
+			this.ventana.setVisible(true);
+		} else {
+			this.ventana.actualizarTablero(datos);
+		}
 	}
 }

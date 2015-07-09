@@ -1,8 +1,12 @@
 package servidor;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
+import datosSocket.DatosMovimiento;
+import datosSocket.DatosPartidaEnJuego;
 import datosSocket.DatosUnirsePartida;
 
 public class Partida {
@@ -16,6 +20,8 @@ public class Partida {
 	
 	private List<UsuarioNormal> usuario = new ArrayList<UsuarioNormal>();
 	private Tablero tablero = new Tablero();
+	
+	private Queue<DatosMovimiento> cola = new LinkedList<DatosMovimiento>();
 
 	// Getters And Setters
 	public int getPartidaId() {
@@ -103,5 +109,19 @@ public class Partida {
 			jugadores.get(0).setFueZombie(true);
 		}
 	}	
+	
+	public void encolarMovimiento(DatosMovimiento datos) {
+		this.cola.add(datos);
+	}
+	
+	public DatosPartidaEnJuego procesarMovimientos() {
+		DatosMovimiento movimiento;
+		while (!this.cola.isEmpty()) {
+			movimiento = cola.poll();
+			this.tablero.mover(movimiento);			
+		}
+		
+		return new DatosPartidaEnJuego(this.tablero.getMapa(), this.tablero.getJugadores());
+	}
 
 }

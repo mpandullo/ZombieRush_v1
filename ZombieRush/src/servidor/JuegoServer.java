@@ -3,6 +3,7 @@ package servidor;
 import java.util.ArrayList;
 import java.util.List;
 
+import datosSocket.DatosMovimiento;
 import datosSocket.DatosUnirsePartida;
 
 public class JuegoServer {
@@ -10,19 +11,18 @@ public class JuegoServer {
 	// Singleton
 	private static JuegoServer INSTANCE = null;
 
-	private JuegoServer(Broadcast broadcast) {
-		
+	private JuegoServer() {
 	}
 
-	private static void createInstance(Broadcast broadcast) {
+	private static void createInstance() {
 		if (INSTANCE == null) {
-			INSTANCE = new JuegoServer(broadcast);
+			INSTANCE = new JuegoServer();
 		}
 	}
 
-	public static JuegoServer getInstance(Broadcast broadcast) {
+	public static JuegoServer getInstance() {
 		if (INSTANCE == null)
-			createInstance(broadcast);
+			createInstance();
 		return INSTANCE;
 	} // Fin Singleton
 
@@ -39,6 +39,14 @@ public class JuegoServer {
 	
 	public List<UsuarioAdmin> getUsuariosAdmin() {
 		return usuariosAdmin;
+	}
+	
+	public void setBroadcast(Broadcast broadcast) {
+		this.broadcast = broadcast;
+	}
+	
+	public Broadcast getBroadcast() {
+		return this.broadcast;
 	}
 
 	// Metodos
@@ -67,5 +75,12 @@ public class JuegoServer {
 		}
 		
 		return partidas.get(p).agregarUsuario(usuarios.get(u));
+	}
+	
+	public void encolarMovimiento(DatosMovimiento dato) {
+		for (int i = 0; i < this.partidas.size(); i++) {
+			if (this.partidas.get(i).getPartidaId() == dato.getPartidaId())
+				this.partidas.get(i).encolarMovimiento(dato);
+		}
 	}
 }

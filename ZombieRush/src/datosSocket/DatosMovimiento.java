@@ -1,6 +1,8 @@
 package datosSocket;
 
-public class DatosMovimiento {
+import java.io.Serializable;
+
+public class DatosMovimiento implements Serializable {
 
 	private int partidaId;
 	private int usuarioId;

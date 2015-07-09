@@ -17,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import cliente.JuegoCliente;
+import datosSocket.DatosPartidaEnJuego;
 
 public class VentanaJuego extends JDialog {
 
@@ -30,7 +31,7 @@ public class VentanaJuego extends JDialog {
 		
 		super(p);
 		this.juego = juego;
-		this.tablero = new TableroJuego(juego.getDatosUP().getMatriz(), juego.getDatosUP().getJugadores(), juego.getDatosUP().getTipoJugador(), juego.getUsuario().getIdUsuario());
+		this.tablero = new TableroJuego(juego.getUsuario().getIdUsuario());
 		
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
@@ -182,6 +183,10 @@ public class VentanaJuego extends JDialog {
 	
 	private void abajo() {
 		//Envio por socket el movimiento
+	}
+	
+	public void actualizarTablero(DatosPartidaEnJuego datos) {
+		this.tablero.actualizar(datos);
 	}
 }
 

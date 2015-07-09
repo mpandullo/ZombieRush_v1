@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import servidor.Jugador;
+import datosSocket.DatosPartidaEnJuego;
 
 public class TableroJuego extends JPanel  {
 
@@ -26,12 +27,9 @@ public class TableroJuego extends JPanel  {
 	private int usuarioId = 4;
 	private int[] pos = new int[2];
 
-	public TableroJuego(int[][] matriz, List<Jugador> jugadores, int tipo, int usuarioId) {
+	public TableroJuego(int usuarioId) {
 		this.usuarioId = usuarioId;
-		this.matriz = matriz;
-		this.jugadores = jugadores;
-		this.tipoPersonaje = tipo;
-		
+			
 		setBackground(Color.WHITE);
 		setDoubleBuffered(true);
 		
@@ -71,13 +69,33 @@ public class TableroJuego extends JPanel  {
 		for (int i = 0; i < matriz.length; i++) {
 			for (int j = 0; j < matriz[0].length; j++) {
 				if (matriz[i][j] > 0) {
-					g2.drawImage(humano, j*30, i*30, null);
+					if (this.jugadores.get(buscar(matriz[i][j])).getTipo() == 0 )
+						g2.drawImage(humano, j*30, i*30, null);
+					else
+						g2.drawImage(zombie, j*30, i*30, null);
 				}
 			}
 		}
 		
 		Toolkit.getDefaultToolkit().sync();
 		g.dispose();
+	}
+	
+	public void actualizar(DatosPartidaEnJuego datos) {
+		this.matriz = datos.getMatriz();
+		this.jugadores = datos.getJugadores();
+		this.tipoPersonaje = this.jugadores.get(this.buscar(this.usuarioId)).getTipo();
+		this.repaint();
+	}
+	
+	public int buscar(int id) {
+		int pos = 0;
+		for (int i = 0; i < this.jugadores.size(); i++) {
+			if (this.jugadores.get(i).getUsuarioId() == id)
+				pos = i;
+		}
+		
+		return pos;
 	}
 }
 

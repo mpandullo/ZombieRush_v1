@@ -33,6 +33,10 @@ public class Tablero {
 	public List<Jugador> getJugadores() {
 		return this.jugadores;
 	}
+	
+	public int[][] getMapa() {
+		return this.matriz;
+	}
 		
 	// Metodos
 	public void agregarJugador(Jugador jugador) {
@@ -144,9 +148,5 @@ public class Tablero {
 		if (jugadores.get(jugOrigen).getTipo() == 1 && jugadores.get(jugDestino).getTipo() == 0) {
 			jugadores.get(jugDestino).setTipo(1);
 		}		
-	}
-	
-	public int[][] getMapa() {
-		return this.matriz;
 	}
 }
