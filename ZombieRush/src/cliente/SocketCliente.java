@@ -13,7 +13,7 @@ public class SocketCliente {
 		
 		if( datos.getUsuario().compareToIgnoreCase("Dario") == 0 && datos.getPassword().compareTo("123456") == 0) {
 			datos.setIdUsuario(1);
-			datos.setTipoUsuario(1);
+			datos.setTipoUsuario(0);
 			datos.setUsuario("Dario");
 			datos.setPassword("123456");
 			datos.setNombre("Dario");
@@ -38,7 +38,7 @@ public class SocketCliente {
 	
 	public static DatosPartida unirse(int id) {
 		
-		DatosPartida partida = new DatosPartida(id, 0, "Apocalipsis Now", 50);
+		DatosPartida partida = new DatosPartida(id, 1, "Apocalipsis Now", 50);
 		
 		return partida;
 	}
