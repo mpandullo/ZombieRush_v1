@@ -28,12 +28,8 @@ public class Login extends JFrame {
 	private JPasswordField txtPassword;
 	private Semaphore semLogin = null;
 	
-	// Main
-	/* no va mas
-	public static void main(String[] args) {		
-		Login login = new Login();
-	}*/
-
+	private DatosLogin datosLogin;
+	
 	// Constructor
 	public Login(Semaphore semLogin) {
 		
@@ -125,7 +121,7 @@ public class Login extends JFrame {
 	
 	private void login() throws InterruptedException {		
 		// Cambiar el metodo q obtiene la pass
-		DatosLogin datosLogin = new DatosLogin(this.txtUsuario.getText(), this.txtPassword.getText());
+		this.datosLogin = new DatosLogin(this.txtUsuario.getText(), this.txtPassword.getText());
 		datosLogin = SocketCliente.login(datosLogin);
 		
 		semLogin.acquire();
@@ -156,5 +152,9 @@ public class Login extends JFrame {
 			break;
 		}
 		semLogin.release();
+	}
+	
+	public void setDatosLogin(DatosLogin datos) {
+		this.datosLogin = datos;
 	}
 }

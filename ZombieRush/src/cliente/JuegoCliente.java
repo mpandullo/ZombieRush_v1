@@ -95,7 +95,6 @@ public class JuegoCliente {
 				ventana.setVisible(true);
 			}
 		}
-
 	}
 
 	public void abandonarPartida() {
