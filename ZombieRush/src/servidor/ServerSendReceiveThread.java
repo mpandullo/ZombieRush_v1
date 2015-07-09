@@ -61,7 +61,12 @@ public class ServerSendReceiveThread extends Thread {
 
 					case "DatosCrearPartida":
 						DatosCrearPartida datosCrearPartida = (DatosCrearPartida) obj;
-						//this.juegoServer.crearPartida(datosCrearPartida);
+						this.juegoServer.crearPartida(datosCrearPartida);
+						
+						this.semOutStream.acquire();
+						outStream.writeObject(datosCrearPartida);
+						outStream.flush();
+						this.semOutStream.release();
 						break;
 
 					case "DatosUnirsePartida":

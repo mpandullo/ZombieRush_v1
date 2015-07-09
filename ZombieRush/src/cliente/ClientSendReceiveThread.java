@@ -9,6 +9,7 @@ import java.util.concurrent.Semaphore;
 
 import datosSocket.DatosLogin;
 import datosSocket.DatosPartidaEnJuego;
+import datosSocket.DatosPartidas;
 import datosSocket.DatosUnirsePartida;
 
 public class ClientSendReceiveThread extends Thread {
@@ -23,7 +24,8 @@ public class ClientSendReceiveThread extends Thread {
 
 	public ClientSendReceiveThread(Socket socketId,
 			ObjectOutputStream outStream, ObjectInputStream inStream,
-			Login login, Semaphore semLogin, Semaphore semUP, JuegoCliente juegoCliente) {
+			Login login, Semaphore semLogin, Semaphore semUP,
+			JuegoCliente juegoCliente) {
 		this.socketId = socketId;
 		this.inStream = inStream;
 		this.outStream = outStream;
@@ -37,14 +39,15 @@ public class ClientSendReceiveThread extends Thread {
 		try {
 
 			while (true) {
-				
-				//Adquiero semaforo para bloquear el metodo login de la class Login
+
+				// Adquiero semaforo para bloquear el metodo login de la class
+				// Login
 				semLogin.acquire();
 				semUP.acquire();
-				
-				//Leo objeto del socket
+
+				// Leo objeto del socket
 				obj = inStream.readObject();
-				
+
 				switch (obj.getClass().getSimpleName()) {
 
 				// Devolucion de login de usuario desde el server
@@ -53,14 +56,23 @@ public class ClientSendReceiveThread extends Thread {
 					login.setDatosLogin((DatosLogin) obj);
 					semLogin.release();
 					break;
-					
-				case "DatosUnirsePartida" :
+
+				case "DatosUnirsePartida":
 					juegoCliente.setDatosUP((DatosUnirsePartida) obj);
 					semUP.release();
 					break;
-					
-				case "DatosPartidaEnJuego" :
+
+				case "DatosPartidaEnJuego":
 					juegoCliente.actualizarTablero((DatosPartidaEnJuego) obj);
+					break;
+
+				case "DatosPartidas":
+					Datos.setDatosPartidas((DatosPartidas) obj);
+					break;
+
+				case "DatosCrearPartida":
+					// Ver a quien se lo paso para verificar si la partida se
+					// creo o no
 					break;
 
 				default:
