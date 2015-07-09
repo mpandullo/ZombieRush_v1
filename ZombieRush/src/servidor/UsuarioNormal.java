@@ -1,5 +1,7 @@
 package servidor;
 
+import java.net.Socket;
+
 import datosSocket.DatosLogin;
 
 public class UsuarioNormal extends Usuario {
@@ -7,8 +9,8 @@ public class UsuarioNormal extends Usuario {
 	private int puntosAcumulados;
 	
 	// Constructor
-	public UsuarioNormal(DatosLogin datos) {
-		super(datos);
+	public UsuarioNormal(DatosLogin datos, Socket socket) {
+		super(datos, socket);
 		this.puntosAcumulados = datos.getPuntosAcumulados();
 	}
 

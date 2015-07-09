@@ -1,5 +1,7 @@
 package servidor;
 
+import java.net.Socket;
+
 import datosSocket.DatosLogin;
 
 public class Usuario {
@@ -12,9 +14,11 @@ public class Usuario {
 	private String correo;
 	private int preguntaSeguridad;
 	private String respuestaSeguridad;
+	
+	private Socket socket;
 
 	// Constructor
-	public Usuario(DatosLogin datos) {
+	public Usuario(DatosLogin datos, Socket socket) {
 		this.idUsuario = datos.getIdUsuario();
 		this.tipoUsuario = datos.getTipoUsuario();
 		this.usuario = datos.getUsuario();
@@ -23,6 +27,7 @@ public class Usuario {
 		this.correo = datos.getCorreo();
 		this.preguntaSeguridad = datos.getPreguntaSeguridad();
 		this.respuestaSeguridad = datos.getRespuestaSeguridad();
+		this.socket = socket;
 	}
 
 	// Getters and Setters
@@ -90,8 +95,16 @@ public class Usuario {
 		this.respuestaSeguridad = respuestaSeguridad;
 	}
 	
+	public Socket getSocket() {
+		return this.socket;
+	}
+	
+	public void setSocket(Socket socket) {
+		this.socket = socket;
+	}
+	
 	// Metodos
-	public static DatosLogin login(DatosLogin datos) {
+	public static DatosLogin login(DatosLogin datos, Socket socket) {
 		String usuario = datos.getUsuario();
 		String password = datos.getPassword();
 		
@@ -102,9 +115,9 @@ public class Usuario {
 		
 		if( usuario.compareTo(datos.getUsuario()) == 0 && password.compareTo(datos.getPassword()) == 0) {
 			if (datos.getTipoUsuario() == 0) {
-				JuegoServer.getInstance().agregarUsuario(new UsuarioNormal(datos));
+				JuegoServer.getInstance().agregarUsuario(new UsuarioNormal(datos, socket));
 			} else {
-				JuegoServer.getInstance().agregarUsuario(new UsuarioAdmin(datos));
+				JuegoServer.getInstance().agregarUsuario(new UsuarioAdmin(datos, socket));
 			}
 		} else {
 			datos.setIdUsuario(-1);

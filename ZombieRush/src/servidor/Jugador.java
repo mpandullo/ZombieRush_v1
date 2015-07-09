@@ -1,6 +1,6 @@
 package servidor;
 
-import datosSocket.DatosPartida;
+import java.net.Socket;
 
 public class Jugador {
 	
@@ -10,9 +10,12 @@ public class Jugador {
 	private int tipo;
 	private boolean fueZombie = false;
 	
-	public Jugador(DatosPartida datos) {
-		this.usuarioId = datos.getUsuarioId();
-		this.nombre = datos.getNombre();
+	private Socket socket;
+	
+	public Jugador(UsuarioNormal usuario) {
+		this.usuarioId = usuario.getIdUsuario();
+		this.nombre = usuario.getUsuario();
+		this.socket = usuario.getSocket();
 	}
 
 	public int getUsuarioId() {
@@ -53,6 +56,10 @@ public class Jugador {
 
 	public void setFueZombie(boolean fueZombie) {
 		this.fueZombie = fueZombie;
+	}
+	
+	public Socket getSocket() {
+		return this.socket;
 	}
 
 }
