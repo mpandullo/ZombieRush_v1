@@ -109,6 +109,10 @@ public class Login extends JFrame {
 		this.txtUsuario.setText("");
 	}
 	
+	public void setUsuario(String usuario) {
+		this.txtUsuario.setText(usuario);
+	}
+	
 	private void login() {		
 		// Cambiar el metodo q obtiene la pass
 		DatosLogin datosLogin = new DatosLogin(this.txtUsuario.getText(), this.txtPassword.getText());

@@ -9,14 +9,12 @@ public class DatosPartida implements Serializable {
 	private int estado;
 	private String nombre;
 	private int puntos;
-	private int accion;
 	
-	public DatosPartida(int partidaId, int estado, String nombre, int puntos, int accion) {
+	public DatosPartida(int partidaId, int estado, String nombre, int puntos) {
 		this.partidaId = partidaId;
 		this.estado = estado;
 		this.nombre = nombre;
 		this.puntos = puntos;
-		this.accion = accion;
 	}
 	
 	public int getPartidaId() {
@@ -57,14 +55,6 @@ public class DatosPartida implements Serializable {
 
 	public void setPuntos(int puntos) {
 		this.puntos = puntos;
-	}
-
-	public int getAccion() {
-		return accion;
-	}
-
-	public void setAccion(int accion) {
-		this.accion = accion;
 	}
 
 }

@@ -145,4 +145,8 @@ public class Tablero {
 			jugadores.get(jugDestino).setTipo(1);
 		}		
 	}
+	
+	public int[][] getMapa() {
+		return this.matriz;
+	}
 }

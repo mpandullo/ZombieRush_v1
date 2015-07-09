@@ -83,7 +83,7 @@ public class VentanaJuego extends JDialog {
 		JButton btnUp = new JButton("");
 		btnUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				tablero.arriba();
+				arriba();
 			}
 		});
 		btnUp.setBorderPainted(false);
@@ -105,7 +105,7 @@ public class VentanaJuego extends JDialog {
 		JButton btnDown = new JButton("");
 		btnDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				tablero.abajo();
+				abajo();
 			}
 		});
 		btnDown.setBorderPainted(false);
@@ -127,7 +127,7 @@ public class VentanaJuego extends JDialog {
 		JButton btnLeft = new JButton("");
 		btnLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				tablero.izquierda();
+				izquierda();
 			}
 		});
 		btnLeft.setBorderPainted(false);
@@ -149,7 +149,7 @@ public class VentanaJuego extends JDialog {
 		JButton btnRight = new JButton("");
 		btnRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				tablero.derecha();
+				derecha();
 			}
 		});
 		btnRight.setBorderPainted(false);
@@ -173,5 +173,21 @@ public class VentanaJuego extends JDialog {
 		} 
 	}
 	
+	// Movimientos
+	private void izquierda() {
+		//Envio por socket el movimiento
+	}
+	
+	private void derecha() {
+		//Envio por socket el movimiento
+	}
+	
+	private void arriba() {
+		//Envio por socket el movimiento
+	}
+	
+	private void abajo() {
+		//Envio por socket el movimiento
+	}
 }
 
