@@ -38,7 +38,7 @@ public class ServerSendReceiveThread extends Thread {
 
 				// Mensaje de login de usuario
 				case "DatosLogin":
-					DatosLogin datos = Usuario.login((DatosLogin) this.obj);
+					DatosLogin datos = Usuario.login((DatosLogin) this.obj, this.socketId);
 					if (datos.getIdUsuario() > 0)
 						this.IdUsuario = datos.getIdUsuario();
 

@@ -10,6 +10,10 @@ public class DatosPartida implements Serializable {
 	private String nombre;
 	private int puntos;
 	
+	public DatosPartida() {
+		
+	}
+	
 	public DatosPartida(int partidaId, int estado, String nombre, int puntos) {
 		this.partidaId = partidaId;
 		this.estado = estado;

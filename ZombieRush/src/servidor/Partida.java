@@ -1,5 +1,6 @@
 package servidor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import datosSocket.DatosPartida;
@@ -13,6 +14,7 @@ public class Partida {
 	private int cantJugadores;
 	private int estado = 0; // 0 en espera - 1 activo
 	
+	private List<UsuarioNormal> usuario = new ArrayList<UsuarioNormal>();
 	private Tablero tablero = new Tablero();
 
 	// Getters And Setters
@@ -57,22 +59,21 @@ public class Partida {
 	}
 
 	// Metodos
-	public DatosPartida agregarJugador(DatosPartida datos) {
+	public boolean agregarUsuario(UsuarioNormal usuario) {
+		
 		if (this.cantJugadores != this.maxJugadores) {
-			this.tablero.agregarJugador(new Jugador(datos));
+			this.tablero.agregarJugador(new Jugador(usuario));
 			this.cantJugadores++;
 		} else {
-			datos.setUsuarioId(-1);
+			return false;
 		}
 
 		if (this.cantJugadores >= this.minJugadores && this.estado == 0) {
-			datos.setEstado(1);
 			this.estado = 1;
 			this.iniciar();
-		} else
-			datos.setEstado(this.estado);
-
-		return datos;
+		} 
+		
+		return true;
 	}
 	
 	public void iniciar() {
