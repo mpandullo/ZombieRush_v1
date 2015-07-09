@@ -1,16 +1,19 @@
 package servidor;
 
+import interfazServer.PanelServer;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import datosSocket.DatosPartida;
 
 public class JuegoServer {
-
+		
 	// Singleton
 	private static JuegoServer INSTANCE = null;
 
 	private JuegoServer() {
+		
 	}
 
 	private static void createInstance() {

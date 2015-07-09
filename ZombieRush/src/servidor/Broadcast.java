@@ -14,6 +14,7 @@ public class Broadcast {
 			ObjectOutputStream outStream = new ObjectOutputStream(
 					usuario.getSocket.getOutputStream());
 			outStream.writeObject(obj);
+			outStream.flush();
 		}
 
 	}
