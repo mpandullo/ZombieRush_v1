@@ -50,6 +50,7 @@ public class SocketsCliente {
 	public void enviarObjeto(Object obj) throws IOException {
 		outStream.writeObject(obj);
 		outStream.flush();
+		System.out.println("enviandooooo");
 	}
 
 	public void setJuegoCliente(JuegoCliente juegoCliente) {

@@ -131,7 +131,7 @@ public class Login extends JFrame {
 		this.datosLogin = new DatosLogin(this.txtUsuario.getText(),
 				this.txtPassword.getText());
 		this.clientSocket.enviarObjeto(datosLogin);
-
+		
 		semLogin.acquire();
 		int valor = datosLogin.getIdUsuario();
 

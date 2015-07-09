@@ -105,7 +105,7 @@ public class Usuario {
 	
 	// Metodos
 	public static DatosLogin login(DatosLogin datos, Socket socket) {
-		String usuario = datos.getUsuario();
+		/*String usuario = datos.getUsuario();
 		String password = datos.getPassword();
 		
 		ConsultasUsuario.login(datos);
@@ -121,8 +121,9 @@ public class Usuario {
 			}
 		} else {
 			datos.setIdUsuario(-1);
-		}				
+		}				*/
 				
+		datos.setIdUsuario(-1);
 		return datos;
 	}
 

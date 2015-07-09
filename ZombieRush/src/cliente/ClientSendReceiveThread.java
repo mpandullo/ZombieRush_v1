@@ -37,21 +37,20 @@ public class ClientSendReceiveThread extends Thread {
 
 	public void run() {
 		try {
-
 			while (true) {
 
 				// Adquiero semaforo para bloquear el metodo login de la class
 				// Login
 				semLogin.acquire();
 				semUP.acquire();
-
 				// Leo objeto del socket
 				obj = inStream.readObject();
-
+				
 				switch (obj.getClass().getSimpleName()) {
 
 				// Devolucion de login de usuario desde el server
 				case "DatosLogin":
+					
 					// debe devolver DatosLogin a la clase Login
 					login.setDatosLogin((DatosLogin) obj);
 					semLogin.release();
