@@ -17,24 +17,23 @@ public class PartidaThread extends Thread {
 		this.broadcast = partida.getBroadcast();
 	}
 
+	public void setEnJuego(boolean enJuego) {
+		this.enJuego = enJuego;
+	}
+
 	@Override
 	public void run() {
 		try {
-
-			// Tengo que ver como hago la carga inicial de datosPartidaEnJuego
-			this.datosPartidaEnJuego = this.partida.procesarMovimientos();
-			broadcast.broadcastMsgNormal(datosPartidaEnJuego,
-					partida.getUsuarios());
+			
 
 			while (enJuego) {
-				// Espero 5 segundos para volver a procesar
-				sleep(5000);
-
 				// Proceso todos los movimientos y hago el broadcast
 				this.datosPartidaEnJuego = this.partida.procesarMovimientos();
 				broadcast.broadcastMsgNormal(datosPartidaEnJuego,
 						partida.getUsuarios());
-
+				
+				// Espero 5 segundos para volver a procesar
+				sleep(5000);
 			}
 
 		} catch (InterruptedException | IOException e) {

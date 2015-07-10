@@ -59,7 +59,7 @@ public class ClientSendReceiveThread extends Thread {
 
 				case "DatosUnirsePartida":
 					DatosUnirsePartida datos = (DatosUnirsePartida) obj;
-					juegoCliente.setDatosUP(datos);
+					//juegoCliente.setDatosUP(datos);
 					semUP.release();
 					System.out.println("llegue unirse partida");
 					break;

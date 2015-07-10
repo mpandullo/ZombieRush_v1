@@ -30,6 +30,7 @@ public class DatosUnirsePartida implements Serializable {
 		this.matriz = datos.getMatriz();
 		this.jugadores = datos.getJugadores();
 	}
+	
 
 	public DatosUnirsePartida(int usuarioId, int partidaId) {
 		this.usuarioId = usuarioId;

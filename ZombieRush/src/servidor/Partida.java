@@ -116,7 +116,7 @@ public class Partida {
 
 		if (this.cantJugadores >= this.minJugadores && this.estado == 0) {
 			this.estado = 1;
-			this.iniciar();
+			this.iniciarPartida();
 		} 
 		
 		datos.setEstadoPartida(estado);
@@ -178,7 +178,7 @@ public class Partida {
 			}
 			jugadores.get(0).setFueZombie(true);
 		}
-		
+		this.partidaThread.setEnJuego(true);
 		this.partidaRun.start();
 	}
 	

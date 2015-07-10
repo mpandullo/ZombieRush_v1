@@ -70,7 +70,8 @@ public class JuegoCliente {
 	}
 
 	public void setDatosUP(DatosUnirsePartida datosUP) {
-		this.datosUP = new DatosUnirsePartida(datosUP);		
+		this.datosUP.setEstadoPartida(datosUP.getEstadoPartida());
+		this.datosUP.setNombrePartida(datosUP.getNombrePartida());
 	}
 
 	public String[][] obtenerPartidas() {
@@ -96,6 +97,7 @@ public class JuegoCliente {
 		
 		this.datosUP.setPartidaId(id);
 		this.datosUP.setUsuarioId(usuario.getIdUsuario());
+		this.datosUP.setEstadoPartida(0);
 		
 		// Enviamos los datos al server
 		this.clientSocket.enviarObjeto(datosUP);
