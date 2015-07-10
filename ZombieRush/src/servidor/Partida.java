@@ -30,7 +30,9 @@ public class Partida {
 	private Broadcast broadcast;
 	
 	public DatosCrearPartida crearPartida(DatosCrearPartida datos, Broadcast broadcast) {
-		int id = ConsultasUsuario.crearPartida(datos);
+		ConsultasUsuario.crearPartida(datos);
+		int id = ConsultasUsuario.obtenerIdPartida(datos.getNombre());
+		System.out.println("Id de la partida:" + id);
 		if (id > 0) {
 			this.partidaId = id;
 			this.nombre = datos.getNombre();

@@ -279,7 +279,7 @@ public class ConsultasUsuario {
 		}
 	}
 	
-	public static int crearPartida(DatosCrearPartida datosCrearPartida) {
+	public static void crearPartida(DatosCrearPartida datosCrearPartida) {
 		
 		Conexion con = null;
 		String sql,sql2;
@@ -289,8 +289,6 @@ public class ConsultasUsuario {
 		int max= datosCrearPartida.getCantMax();
 		String estadoIni= "En Espera";
 		int usuario= datosCrearPartida.getUsuarioId();
-		ResultSet rs;
-		int cod_partida=0;
 		
 		try {
 			con = new Conexion();
@@ -299,17 +297,9 @@ public class ConsultasUsuario {
 					+"',"+min+","+max+",0,0,null,getdate(),'"+usuario+"');";
 			//System.out.println(sql);
 			
-			sql2= "select top 1 cod_partida cod_partida from partida order by fecha_mod desc";
+			con.ejecutarQuery(sql);
 			
-			rs = con.obtenerRegistros(sql2);
-			if (rs.next()) {
-				cod_partida= rs.getInt("cod_partida");
-			}
-		
-			if (con.ejecutarQuery(sql)== true)
-				return cod_partida;
-			else
-				return -1;
+			
 		}catch(SQLException e){
 			e.printStackTrace();
 		}finally {
@@ -320,10 +310,9 @@ public class ConsultasUsuario {
 				e.printStackTrace();
 			}
 		}
-		return -1;
 	}
 	
-public static DatosPartidas cargarTablaPrincipal(){
+	public static DatosPartidas cargarTablaPrincipal(){
 		
 		Conexion con = null;
 		ResultSet rs = null;
@@ -410,6 +399,38 @@ public static DatosPartidas cargarTablaPrincipal(){
 			}
 		}
 		return false;
+	}
+	
+public static int obtenerIdPartida(String nombre){
+		
+		Conexion con = null;
+		ResultSet rs = null;
+		String sql;
+		int id = -1;
+		
+		try {
+			con = new Conexion();
+			sql = "select cod_partida FROM partida where nom_partida = '"+nombre+"'";
+			//System.out.println(sql);
+			rs = con.obtenerRegistros(sql);
+			
+			if(rs.next()) {
+				id = rs.getInt("cod_partida");
+			}
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.cerrarRs(rs);
+				if (con != null)
+					con.cerrarConexion();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return id;
 	}
 	
 	public static void vaciarPartidas() {

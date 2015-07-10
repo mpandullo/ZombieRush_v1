@@ -1,11 +1,13 @@
 package cliente;
 
-import java.io.IOException;
-import java.util.concurrent.Semaphore;
-
 import interfaz.Login;
 import interfaz.PanelCliente;
 import interfaz.VentanaJuego;
+
+import java.io.IOException;
+import java.util.concurrent.Semaphore;
+
+import datosSocket.DatosAbandonarPartida;
 import datosSocket.DatosPartidaEnJuego;
 import datosSocket.DatosPartidas;
 import datosSocket.DatosUnirsePartida;
@@ -28,7 +30,6 @@ public class JuegoCliente {
 		this.panel = new PanelCliente(login, this, usuario);
 		this.clientSocket = login.getClientSocket();
 		this.semUP = login.getSemUP();
-		datosUP.setUsuarioId(usuario.getIdUsuario());
 	}
 
 	// Getters and Setter
@@ -94,6 +95,7 @@ public class JuegoCliente {
 		this.panel = panel;
 		
 		this.datosUP.setPartidaId(id);
+		this.datosUP.setUsuarioId(usuario.getIdUsuario());
 		
 		// Enviamos los datos al server
 		this.clientSocket.enviarObjeto(datosUP);
@@ -116,8 +118,11 @@ public class JuegoCliente {
 	}
 			
 
-	public void abandonarPartida() {
-		
+	public void abandonarPartida() throws IOException {
+		DatosAbandonarPartida datosAP = new DatosAbandonarPartida();
+		datosAP.setPartidaId(this.partidaIniciada);
+		datosAP.setUsuarioId(this.usuario.getIdUsuario());
+		this.clientSocket.enviarObjeto(datosAP);
 	}
 	
 	public void actualizarTablero(DatosPartidaEnJuego datos) {

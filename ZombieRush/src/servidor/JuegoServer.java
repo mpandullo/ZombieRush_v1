@@ -1,11 +1,10 @@
 package servidor;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import datosSocket.DatosAbandonarPartida;
 import datosSocket.DatosCrearPartida;
 import datosSocket.DatosMovimiento;
 import datosSocket.DatosUnirsePartida;
@@ -75,9 +74,9 @@ public class JuegoServer {
 	public DatosCrearPartida crearPartida(DatosCrearPartida datos) throws IOException, InterruptedException {
 		Partida partida = new Partida();
 		datos = partida.crearPartida(datos, broadcast);
-		if (datos.getUsuarioId() > 0) {
+		//if (datos.getUsuarioId() > 0) {
 			this.partidas.add(partida);
-		} 
+		//} 
 		broadcast.broadcastMsgNormal(ConsultasUsuario.cargarTablaPrincipal(), usuarios);
 		broadcast.broadcastMsgAdmin(ConsultasUsuario.cargarTablaPrincipal(), usuariosAdmin);
 		System.out.println("llegue a crear partida");
@@ -88,20 +87,27 @@ public class JuegoServer {
 		int p = 0;
 		int u = 0;
 		
+		
+		
 		for (int i = 0; i < partidas.size(); i++) {
 			if (partidas.get(i).getPartidaId() == partida.getPartidaId()) {
 				p = i;
 			}
 		}
 		
-		for (int i = 0; i <usuarios.size(); i++) {
+		for (int i = 0; i < usuarios.size(); i++) {
 			if (usuarios.get(i).getIdUsuario() == partida.getUsuarioId()) {
 				u = i;
 			}
 		}
 		
+		
 		System.out.println("usuario " + usuarios.get(u).getUsuario() + " uniendose a " + partidas.get(p).getNombre()  );
 		return partidas.get(p).agregarUsuario(usuarios.get(u));
+	}
+	
+	public void abandonarPartida(DatosAbandonarPartida datosAP) {
+		
 	}
 	
 	public void encolarMovimiento(DatosMovimiento dato) {
