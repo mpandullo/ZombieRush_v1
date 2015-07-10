@@ -411,4 +411,28 @@ public static DatosPartidas cargarTablaPrincipal(){
 		}
 		return false;
 	}
+	
+	public static void vaciarPartidas() {
+
+		Conexion con = null;
+		ResultSet rs = null;
+		String sql;
+
+		try {
+			con = new Conexion();
+			sql = "DELETE FROM partida";
+			//System.out.println(sql);
+			con.ejecutarQuery(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.cerrarRs(rs);
+				if (con != null)
+					con.cerrarConexion();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

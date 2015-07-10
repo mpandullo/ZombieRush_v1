@@ -16,6 +16,7 @@ public class JuegoServer {
 	private static JuegoServer INSTANCE = null;
 
 	private JuegoServer() {
+		ConsultasUsuario.vaciarPartidas();
 	}
 
 	private static void createInstance() {
@@ -99,6 +100,7 @@ public class JuegoServer {
 			}
 		}
 		
+		System.out.println("usuario " + usuarios.get(u).getUsuario() + " uniendose a " + partidas.get(p).getNombre()  );
 		return partidas.get(p).agregarUsuario(usuarios.get(u));
 	}
 	

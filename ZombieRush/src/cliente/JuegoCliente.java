@@ -19,7 +19,7 @@ public class JuegoCliente {
 	private SocketsCliente clientSocket = null;
 	private Semaphore semUP = null;
 
-	private DatosUnirsePartida datosUP;
+	private DatosUnirsePartida datosUP = new DatosUnirsePartida();
 	
 	private VentanaJuego ventana;
 
@@ -28,6 +28,7 @@ public class JuegoCliente {
 		this.panel = new PanelCliente(login, this, usuario);
 		this.clientSocket = login.getClientSocket();
 		this.semUP = login.getSemUP();
+		datosUP.setUsuarioId(usuario.getIdUsuario());
 	}
 
 	// Getters and Setter
@@ -79,6 +80,7 @@ public class JuegoCliente {
 
 		for (int i = 0; i < aux.length; i++) {
 			this.partidasId[i] = Integer.parseInt(aux[i][0]);
+			System.out.println(partidasId[i]);
 			lista[i][0] = aux[i][1];
 			lista[i][1] = aux[i][5] + "/" + aux[i][4];
 			lista[i][2] = aux[i][2];
@@ -90,7 +92,9 @@ public class JuegoCliente {
 	public void unirsePartida(int id, PanelCliente panel) throws IOException, InterruptedException {
 		
 		this.panel = panel;
-
+		
+		this.datosUP.setPartidaId(id);
+		
 		// Enviamos los datos al server
 		this.clientSocket.enviarObjeto(datosUP);
 
