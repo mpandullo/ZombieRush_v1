@@ -99,7 +99,7 @@ public class JuegoCliente {
 		
 		// Enviamos los datos al server
 		this.clientSocket.enviarObjeto(datosUP);
-
+		System.out.println("llegue a enviar objeto datosUP");
 		// Ponemos un semaforo para esperar la respuesta
 		this.semUP.acquire();
 		this.semUP.acquire();
