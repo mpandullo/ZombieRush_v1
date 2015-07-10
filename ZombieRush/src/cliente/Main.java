@@ -1,5 +1,6 @@
 package cliente;
 
+import java.io.IOException;
 import java.util.concurrent.Semaphore;
 
 import interfaz.Login;
@@ -13,10 +14,12 @@ public class Main {
 		Login login = new Login(semLogin, semUP);
 		SocketsCliente clientSocket = new SocketsCliente(login, semLogin, semUP);
 		login.setClientSocket(clientSocket);		
-		clientSocket.lanzarConexion();		
+		try {
+			clientSocket.lanzarConexion();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
 		login.setVisible(true);		
-		
-
 	}
 
 }

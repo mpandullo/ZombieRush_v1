@@ -1,5 +1,6 @@
 package servidor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +54,11 @@ public class JuegoServer {
 	// Metodos
 	public void agregarUsuario(UsuarioNormal usuario) {
 		usuarios.add(usuario);
+		try {
+			this.broadcast.broadcastMsgNormal(ConsultasUsuario.cargarTablaPrincipal(), usuarios);
+		} catch (IOException | InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void agregarUsuario(UsuarioAdmin usuario) {

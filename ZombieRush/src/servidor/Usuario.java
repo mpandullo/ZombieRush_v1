@@ -105,25 +105,21 @@ public class Usuario {
 	
 	// Metodos
 	public static DatosLogin login(DatosLogin datos, Socket socket) {
-		/*String usuario = datos.getUsuario();
+		String usuario = datos.getUsuario();
 		String password = datos.getPassword();
-		
 		ConsultasUsuario.login(datos);
-		
 		if (datos.getIdUsuario() == -2 )
 			return datos;
 		
 		if( usuario.compareTo(datos.getUsuario()) == 0 && password.compareTo(datos.getPassword()) == 0) {
-			if (datos.getTipoUsuario() == 0) {
+			if (datos.getTipoUsuario() == 1) {
 				JuegoServer.getInstance().agregarUsuario(new UsuarioNormal(datos, socket));
 			} else {
 				JuegoServer.getInstance().agregarUsuario(new UsuarioAdmin(datos, socket));
 			}
 		} else {
 			datos.setIdUsuario(-1);
-		}				*/
-				
-		datos.setIdUsuario(-1);
+		}				
 		return datos;
 	}
 

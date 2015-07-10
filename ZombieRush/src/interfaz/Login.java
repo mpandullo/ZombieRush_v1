@@ -127,11 +127,19 @@ public class Login extends JFrame {
 	}
 
 	private void login() throws InterruptedException, IOException {
-		// Cambiar el metodo q obtiene la pass
+		
+		String usr = this.txtUsuario.getText().trim();
+		String pass = this.txtPassword.getText().trim();
+		if( usr.isEmpty() || pass.isEmpty()) {
+			JOptionPane.showMessageDialog(this, "Los campos no pueden estar vacios", "error", JOptionPane.ERROR_MESSAGE);
+			vaciarCampos();
+			return;
+		}
 		this.datosLogin = new DatosLogin(this.txtUsuario.getText(),
 				this.txtPassword.getText());
 		this.clientSocket.enviarObjeto(datosLogin);
 		
+		semLogin.acquire();
 		semLogin.acquire();
 		int valor = datosLogin.getIdUsuario();
 
@@ -150,7 +158,7 @@ public class Login extends JFrame {
 			break;
 
 		default:
-			if (datosLogin.getTipoUsuario() == 0) {
+			if (datosLogin.getTipoUsuario() == 1) {
 				UsuarioNormal usuario = new UsuarioNormal(datosLogin);
 				this.setVisible(false);
 				JuegoCliente juego = new JuegoCliente(this, usuario);

@@ -28,9 +28,8 @@ public class ClientSendReceiveThread extends Thread {
 			Login login, Semaphore semLogin, Semaphore semUP,
 			JuegoCliente juegoCliente) throws IOException {
 		this.socketId = socketId;
-		//this.inStream = inStream;
-		//this.outStream = outStream;
-		this.inStream = new ObjectInputStream(this.socketId.getInputStream());
+		this.inStream = inStream;
+		this.outStream = outStream;
 		this.login = login;
 		this.semLogin = semLogin;
 		this.semUP = semUP;
@@ -43,20 +42,23 @@ public class ClientSendReceiveThread extends Thread {
 
 				// Adquiero semaforo para bloquear el metodo login de la class
 				// Login
-				semLogin.acquire();
-				semUP.acquire();
-
+			
+				//semUP.acquire();
+				//semLogin.acquire();
+				
 				// Leo objeto del socket
 				obj = inStream.readObject();
 				
 				switch (obj.getClass().getSimpleName()) {
 
 				// Devolucion de login de usuario desde el server
-				case "DatosLogin":
-					
+				case "DatosLogin":					
 					// debe devolver DatosLogin a la clase Login
 					login.setDatosLogin((DatosLogin) obj);
 					semLogin.release();
+				    semUP.release();
+					//sleep(5000);
+					
 					break;
 
 				case "DatosUnirsePartida":
@@ -80,7 +82,11 @@ public class ClientSendReceiveThread extends Thread {
 				default:
 
 					break;
+				
 				}
+				semLogin.release();
+			    semUP.release();
+				
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

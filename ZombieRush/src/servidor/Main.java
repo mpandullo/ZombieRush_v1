@@ -15,12 +15,6 @@ public class Main {
 		
 		panelServer = new PanelServer(juego, semOutStream);
 		panelServer.setVisible(true);
-		
-		// Ejecutamos todas las sarasas iniciales: 
-		// conexion a base de datos, sockets, etc...
-		
-		
-
 	}
 
 }

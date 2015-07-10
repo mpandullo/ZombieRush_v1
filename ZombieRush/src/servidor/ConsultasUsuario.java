@@ -4,6 +4,8 @@ import interfaz.Login;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -11,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 import datosSocket.DatosCrearPartida;
 import datosSocket.DatosLogin;
+import datosSocket.DatosPartidas;
 import datosSocket.DatosRegistro;
 
 public class ConsultasUsuario {
@@ -21,11 +24,6 @@ public class ConsultasUsuario {
 		Conexion con = null;
 		ResultSet rs = null;
 		String sql;
-		int codUsuario = 0;
-		int tipoUsuario = 0;
-		int preguntaSeguridad = 0;
-		String nickUsuario = null, contraseña = null;
-		String nombre = null, correo = null, respuestaSeguridad = null;
 
 		try {
 			con = new Conexion();
@@ -34,12 +32,13 @@ public class ConsultasUsuario {
 					+ "WHERE nick_usuario='" + usuario.getUsuario() + "'";
 			//System.out.println(sql);
 			rs = con.obtenerRegistros(sql);
-
+			boolean flag = true;
+			
 			if (rs.next()) {
-
+				flag = false;
 				usuario.setIdUsuario(rs.getInt("cod_usuario"));
-				nickUsuario = rs.getString("nick_usuario");
-				contraseña = rs.getString("contraseña");
+				usuario.setUsuario(rs.getString("nick_usuario"));
+				usuario.setPassword(rs.getString("contraseña")); 
 				usuario.setTipoUsuario(rs.getInt("tipo_usuario"));
 				usuario.setNombre(rs.getString("nom_usuario"));
 				usuario.setCorreo(rs.getString("correo"));
@@ -47,7 +46,7 @@ public class ConsultasUsuario {
 				usuario.setRespuestaSeguridad(rs.getString("respuesta_seguridad"));
 			}
 
-			if (nickUsuario == null || contraseña == null) {
+			if (flag) {
 				usuario.setIdUsuario(-2);
 				return usuario;
 			}
@@ -70,18 +69,38 @@ public class ConsultasUsuario {
 	public static boolean registrarse(DatosRegistro datosRegistro) {
 		
 		Conexion con = null;
-		String sql;
+		String sql,sql2;
+		ResultSet rs;
+		String nombre = datosRegistro.getNombre();
+		String correo = datosRegistro.getCorreo();
+		String usuario = datosRegistro.getUsuario();
+		char[] password = datosRegistro.getPassword();
+		String respSecreta = datosRegistro.getRespuesta();
+		int cuenta = 0;
 		
 		try {
 			con = new Conexion();
 			
 			sql = "INSERT INTO usuario (nom_usuario, contraseña, fecha_mod, usuario_mod, nick_usuario, "
-					+ "correo, pregunta_seguridad, partidas_jugadas, total_puntos, fecha_creacion) VALUES ('"+nombre+"','"+password
-					+"',getdate(),'"+usuario+"','"+usuario+"','"+correo+"',0,0,0,"+"getdate()"+");"
+					+ "correo, pregunta_seguridad, partidas_jugadas, total_puntos, fecha_creacion,partidas_ganadas,tipo_usuario,respuesta_seguridad)"
+					+ " VALUES ('"+nombre+"','"+password.toString()
+					+"',getdate(),'"+usuario+"','"+usuario+"','"+correo+"',0,0,0,"+"getdate()"+",0,1,'"+respSecreta+"');"
 			  		+"INSERT INTO ranking (cod_usuario, puntos) VALUES ('"+usuario+"',0);";
 					
+			sql2 = "SELECT COUNT(*) cuenta FROM usuario WHERE nick_usuario='"+datosRegistro.getUsuario()+"'";
+			
+			//System.out.println(sql2);
+			//System.out.println();
+			rs= con.obtenerRegistros(sql2);
+			if (rs.next()) {
+				cuenta= rs.getInt("cuenta");
+			}
+			
 			//System.out.println(sql);
-			return con.ejecutarQuery(sql);
+			if(cuenta>0)
+				return false;
+			else
+				return con.ejecutarQuery(sql);
 			
 		}catch(SQLException e){
 			e.printStackTrace();
@@ -93,6 +112,7 @@ public class ConsultasUsuario {
 				e.printStackTrace();
 			}
 		}
+		return false;
 	}
 	
 	//PARA EL PERFIL SE PODRIA USAR EL METODO ANTERIOR
@@ -262,13 +282,13 @@ public class ConsultasUsuario {
 	public static int crearPartida(DatosCrearPartida datosCrearPartida) {
 		
 		Conexion con = null;
-		String sql;
+		String sql,sql2;
 		
-		String nombre= datosCrearPartida.nombre;
-		int min= datosCrearPartida.cantMin;
-		int max= datosCrearPartida.cantMax;
+		String nombre= datosCrearPartida.getNombre();
+		int min= datosCrearPartida.getCantMin();
+		int max= datosCrearPartida.getCantMax();
 		String estadoIni= "En Espera";
-		String usuario= IdUsuario;
+		int usuario= datosCrearPartida.getUsuarioId();
 		ResultSet rs;
 		int cod_partida=0;
 		
@@ -301,5 +321,91 @@ public class ConsultasUsuario {
 			}
 		}
 		return -1;
+	}
+	
+public static DatosPartidas cargarTablaPrincipal(){
+		
+		Conexion con = null;
+		ResultSet rs = null;
+		String sql;
+		List<String[]> lista = new ArrayList<String[]>();
+		String[] registro = new String[8];
+		
+		DatosPartidas datos = null;
+		
+		try {
+			con = new Conexion();
+			sql = "select *  FROM partida ORDER BY cod_partida";
+			//System.out.println(sql);
+			rs = con.obtenerRegistros(sql);
+			
+			while(rs.next()) {
+				registro[0] = rs.getString("cod_partida");
+				registro[1] = rs.getString("nom_partida");
+				registro[2] = rs.getString("estado");
+				registro[3] = rs.getString("min_jugadores");
+				registro[4] = rs.getString("max_jugadores");
+				registro[5] = rs.getString("cant_jugadores");
+				registro[6] = rs.getString("puntos");
+				registro[7] = rs.getString("fecha_mod");
+				lista.add(registro);
+			}
+			
+			String[][] aux = new String[lista.size()][8];
+			for (int i = 0; i < lista.size(); i++) {
+				aux[i] = lista.get(i);				
+			}
+			datos = new DatosPartidas(aux);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.cerrarRs(rs);
+				if (con != null)
+					con.cerrarConexion();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return datos;
+	}
+	
+	private static String[] getColumnasPrincipal()
+    {
+          String columna[]=new String[]{"","Partida","Participantes", "Estado"};
+          return columna;
+    }
+	
+	public static boolean unirseAPartida(int codPartida,int codUsuario){
+		
+		Conexion con = null;
+		String sql;
+		
+		try {
+			con = new Conexion();
+			sql = "INSERT INTO historial_partidas (cod_partida, cod_usuario, puntos_usu_x_partida,fecha_mod) VALUES ("+codPartida+
+					","+codUsuario+",0,getdate()); "
+							+ "UPDATE usuario SET partidas_jugadas= partidas_jugadas+1 WHERE cod_usuario= "+codUsuario+"; "
+							+ "UPDATE partida SET cant_jugadores = cant_jugadores+1 WHERE cod_partida= "+codPartida+";";
+					
+			//System.out.println(sql);
+			if (con.ejecutarQuery(sql)== true)
+				return true;
+			else
+				return false;
+	
+		}catch(SQLException e){
+			e.printStackTrace();
+		}finally {
+			try {
+				if (con != null)
+					con.cerrarConexion();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return false;
 	}
 }
