@@ -1,8 +1,9 @@
 package servidor;
 
+import java.io.Serializable;
 import java.net.Socket;
 
-public class Jugador {
+public class Jugador implements Serializable {
 	
 	private int usuarioId;
 	private String nombre;
@@ -10,12 +11,12 @@ public class Jugador {
 	private int tipo;
 	private boolean fueZombie = false;
 	
-	private Socket socket;
+	//private Socket socket;
 	
 	public Jugador(UsuarioNormal usuario) {
 		this.usuarioId = usuario.getIdUsuario();
 		this.nombre = usuario.getUsuario();
-		this.socket = usuario.getSocket();
+		//this.socket = usuario.getSocket();
 	}
 
 	public int getUsuarioId() {
@@ -58,8 +59,8 @@ public class Jugador {
 		this.fueZombie = fueZombie;
 	}
 	
-	public Socket getSocket() {
+	/*public Socket getSocket() {
 		return this.socket;
-	}
+	}*/
 
 }

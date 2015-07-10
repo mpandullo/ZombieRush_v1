@@ -85,9 +85,7 @@ public class JuegoServer {
 
 	public DatosUnirsePartida unirsePartida(DatosUnirsePartida partida) {
 		int p = 0;
-		int u = 0;
-		
-		
+		int u = 0;		
 		
 		for (int i = 0; i < partidas.size(); i++) {
 			if (partidas.get(i).getPartidaId() == partida.getPartidaId()) {
@@ -99,11 +97,11 @@ public class JuegoServer {
 			if (usuarios.get(i).getIdUsuario() == partida.getUsuarioId()) {
 				u = i;
 			}
-		}
+		}	
 		
-		
-		System.out.println("usuario " + usuarios.get(u).getUsuario() + " uniendose a " + partidas.get(p).getNombre()  );
-		return partidas.get(p).agregarUsuario(usuarios.get(u));
+		System.out.println("usuario " + usuarios.get(u).getUsuario() + " uniendose a " + partidas.get(p).getNombre());
+		DatosUnirsePartida d = partidas.get(p).agregarUsuario(usuarios.get(u));
+		return d;
 	}
 	
 	public void abandonarPartida(DatosAbandonarPartida datosAP) {

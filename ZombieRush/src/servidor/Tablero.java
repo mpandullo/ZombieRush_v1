@@ -8,7 +8,7 @@ import datosSocket.DatosMovimiento;
 
 public class Tablero {
 	
-	private List<Jugador> jugadores = new ArrayList<Jugador>();
+	private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
 	
 	private int ancho = 20;
 	private int alto = 15;
@@ -30,7 +30,7 @@ public class Tablero {
 	
 	
 	//Getters and Setters
-	public List<Jugador> getJugadores() {
+	public ArrayList<Jugador> getJugadores() {
 		return this.jugadores;
 	}
 	

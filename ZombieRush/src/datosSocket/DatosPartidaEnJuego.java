@@ -1,6 +1,7 @@
 package datosSocket;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import servidor.Jugador;
@@ -8,9 +9,9 @@ import servidor.Jugador;
 public class DatosPartidaEnJuego implements Serializable {
 
 	private int[][] matriz;
-	private List<Jugador> jugadores;
+	private ArrayList<Jugador> jugadores;
 
-	public DatosPartidaEnJuego(int[][] matriz, List<Jugador> jugadores) {
+	public DatosPartidaEnJuego(int[][] matriz, ArrayList<Jugador> jugadores) {
 		this.matriz = matriz;
 		this.jugadores = jugadores;
 	}
@@ -23,11 +24,11 @@ public class DatosPartidaEnJuego implements Serializable {
 		this.matriz = matriz;
 	}
 
-	public List<Jugador> getJugadores() {
+	public ArrayList<Jugador> getJugadores() {
 		return jugadores;
 	}
 
-	public void setJugadores(List<Jugador> jugadores) {
+	public void setJugadores(ArrayList<Jugador> jugadores) {
 		this.jugadores = jugadores;
 	}
 }

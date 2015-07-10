@@ -70,7 +70,7 @@ public class JuegoCliente {
 	}
 
 	public void setDatosUP(DatosUnirsePartida datosUP) {
-		this.datosUP = datosUP;
+		this.datosUP = new DatosUnirsePartida(datosUP);		
 	}
 
 	public String[][] obtenerPartidas() {
@@ -104,6 +104,7 @@ public class JuegoCliente {
 		this.semUP.acquire();
 		this.semUP.acquire();
 		
+		System.out.println("leyendo la respuesta de unirse");
 		if (this.datosUP.getEstadoPartida() == -1)
 			panel.mensajeErrorUnirse();
 		else {
