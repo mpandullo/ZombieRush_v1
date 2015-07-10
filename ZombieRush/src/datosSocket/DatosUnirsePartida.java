@@ -1,23 +1,34 @@
 package datosSocket;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import servidor.Jugador;
 
 public class DatosUnirsePartida implements Serializable {
 
-	private int usuarioId;
-	private int partidaId;
-	private int estadoPartida;
-	private String nombrePartida;
-	private int tipoJugador;
+	private int usuarioId = -1;
+	private int partidaId = -1;
+	private int estadoPartida = -1;
+	private String nombrePartida = "";
+	private int tipoJugador = -1;
 
-	private int matriz[][];
-	private List<Jugador> jugadores;
+	private int matriz[][] = null;
+	private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
 
 	public DatosUnirsePartida() {
 
+	}
+	
+	public DatosUnirsePartida(DatosUnirsePartida datos) {
+		this.usuarioId = datos.getUsuarioId();
+		this.partidaId = datos.getPartidaId();
+		this.estadoPartida = datos.getEstadoPartida();
+		this.nombrePartida = datos.getNombrePartida();
+		this.tipoJugador = datos.getTipoJugador();
+		this.matriz = datos.getMatriz();
+		this.jugadores = datos.getJugadores();
 	}
 
 	public DatosUnirsePartida(int usuarioId, int partidaId) {
@@ -57,11 +68,11 @@ public class DatosUnirsePartida implements Serializable {
 		this.matriz = matriz;
 	}
 
-	public List<Jugador> getJugadores() {
+	public ArrayList<Jugador> getJugadores() {
 		return jugadores;
 	}
 
-	public void setJugadores(List<Jugador> jugadores) {
+	public void setJugadores(ArrayList<Jugador> jugadores) {
 		this.jugadores = jugadores;
 	}
 

@@ -5,7 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
-import java.util.List;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -20,7 +20,7 @@ public class TableroJuego extends JPanel  {
 	private Image humano;
 	
 	private int[][] matriz;	
-	private List<Jugador> jugadores;
+	private ArrayList<Jugador> jugadores;
 	
 	// 0 -> Humano / 1 -> Zombie
 	private int tipoPersonaje = 0;
@@ -96,6 +96,14 @@ public class TableroJuego extends JPanel  {
 		}
 		
 		return pos;
+	}
+
+	public ArrayList<Jugador> getJugadores() {
+		return jugadores;
+	}
+
+	public void setJugadores(ArrayList<Jugador> jugadores) {
+		this.jugadores = jugadores;
 	}
 }
 
