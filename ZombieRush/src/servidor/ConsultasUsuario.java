@@ -4,7 +4,7 @@ import interfaz.Login;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -328,32 +328,35 @@ public static DatosPartidas cargarTablaPrincipal(){
 		Conexion con = null;
 		ResultSet rs = null;
 		String sql;
-		List<String[]> lista = new ArrayList<String[]>();
-		String[] registro = new String[8];
+		String[][] registro = new String[10][8];
 		
 		DatosPartidas datos = null;
 		
 		try {
 			con = new Conexion();
-			sql = "select *  FROM partida ORDER BY cod_partida";
+			sql = "select * FROM partida";
 			//System.out.println(sql);
 			rs = con.obtenerRegistros(sql);
-			
+		
+			int k = 0;
 			while(rs.next()) {
-				registro[0] = rs.getString("cod_partida");
-				registro[1] = rs.getString("nom_partida");
-				registro[2] = rs.getString("estado");
-				registro[3] = rs.getString("min_jugadores");
-				registro[4] = rs.getString("max_jugadores");
-				registro[5] = rs.getString("cant_jugadores");
-				registro[6] = rs.getString("puntos");
-				registro[7] = rs.getString("fecha_mod");
-				lista.add(registro);
+				registro[k][0] = rs.getString("cod_partida");
+				registro[k][1] = rs.getString("nom_partida");
+				registro[k][2] = rs.getString("estado");
+				registro[k][3] = rs.getString("min_jugadores");
+				registro[k][4] = rs.getString("max_jugadores");
+				registro[k][5] = rs.getString("cant_jugadores");
+				registro[k][6] = rs.getString("puntos");
+				registro[k][7] = rs.getString("fecha_mod");
+				k++;
 			}
 			
-			String[][] aux = new String[lista.size()][8];
-			for (int i = 0; i < lista.size(); i++) {
-				aux[i] = lista.get(i);				
+			String[][] aux = new String[k][8];
+			
+			for (int i = 0; i < aux.length; i++) {
+				for (int j = 0; j < registro[0].length; j++) {
+					aux[i][j] = registro[i][j];
+				}
 			}
 			datos = new DatosPartidas(aux);
 			

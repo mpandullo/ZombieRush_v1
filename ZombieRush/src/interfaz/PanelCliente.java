@@ -144,6 +144,15 @@ public class PanelCliente extends JDialog {
 		scrollPane.setViewportView(table);
 		table.setShowVerticalLines(false);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		
+		JButton btnActualizar = new JButton("Actualizar");
+		btnActualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cargarDatosTabla();
+			}
+		});
+		btnActualizar.setBounds(336, 149, 113, 23);
+		contentPane.add(btnActualizar);
 		// Cargamos los datos de la tabla
 		this.cargarDatosTabla();
 		table.getColumnModel().getColumn(0).setPreferredWidth(116);

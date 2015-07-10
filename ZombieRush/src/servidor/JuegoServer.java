@@ -78,6 +78,7 @@ public class JuegoServer {
 			this.partidas.add(partida);
 		} 
 		broadcast.broadcastMsgNormal(ConsultasUsuario.cargarTablaPrincipal(), usuarios);
+		broadcast.broadcastMsgAdmin(ConsultasUsuario.cargarTablaPrincipal(), usuariosAdmin);
 		System.out.println("llegue a crear partida");
 		return datos;
 	}

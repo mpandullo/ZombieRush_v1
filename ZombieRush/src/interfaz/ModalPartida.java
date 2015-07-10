@@ -26,11 +26,13 @@ public class ModalPartida extends JDialog {
 	private JTextField textMaxJug;
 	
 	private JuegoAdmin juego;
+	private PanelAdmin panel;
 	
 	// Constructor
 	public ModalPartida(PanelAdmin p, JuegoAdmin juego) {	
 		// Le decimos al contructor q es una clase hija de PanelAdmin
 		super(p, true);
+		this.panel = p;
 		this.juego = juego;
 		
 		setTitle("Crear Partida");
@@ -145,6 +147,7 @@ public class ModalPartida extends JDialog {
 		
 		if (respuesta == 1) {
 			JOptionPane.showMessageDialog(this, "Partida Creada", "Nueva Partida", JOptionPane.INFORMATION_MESSAGE);
+			this.panel.cargarPartidas();
 			this.dispose();
 		}
 	}
