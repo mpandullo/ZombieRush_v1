@@ -1,18 +1,24 @@
 package cliente;
 
+import java.io.IOException;
+
+import datosSocket.DatosCrearPartida;
 import datosSocket.DatosPartidas;
 import interfaz.Login;
 import interfaz.PanelAdmin;
 
 public class JuegoAdmin {
-	
+
 	private UsuarioAdmin usuario;
 	private PanelAdmin panel;
 	private int[] partidasId;
-	
+
+	private SocketsCliente clientSocket;
+
 	public JuegoAdmin(Login login, UsuarioAdmin usuario) {
 		this.usuario = usuario;
 		this.panel = new PanelAdmin(login, this, usuario);
+		this.clientSocket = login.getClientSocket();
 	}
 
 	public String[][] obtenerPartidas() {
@@ -20,7 +26,7 @@ public class JuegoAdmin {
 		String aux[][] = datos.getPartidas();
 		String[][] lista = new String[aux.length][7];
 		this.partidasId = new int[aux.length];
-		
+
 		for (int i = 0; i < aux.length; i++) {
 			lista[i][0] = aux[i][1];
 			lista[i][1] = aux[i][2];
@@ -31,30 +37,42 @@ public class JuegoAdmin {
 			lista[i][6] = aux[i][7];
 			this.partidasId[i] = Integer.parseInt(aux[i][0]);
 		}
-		
+
 		return lista;
 	}
-	
-	public int agregarPartida(String nombre, String min, String max) {
+
+	public int agregarPartida(String nombre, String min, String max)
+			throws IOException {
 		nombre = nombre.trim();
 		min = min.trim();
 		max = max.trim();
-		
+
 		int minimo;
 		int maximo;
-		
-		if (nombre.isEmpty() || min.isEmpty() || max.isEmpty()) 
+
+		if (nombre.isEmpty() || min.isEmpty() || max.isEmpty())
 			return -2;
-		
+
 		try {
 			minimo = Integer.parseInt(min);
 			maximo = Integer.parseInt(max);
 		} catch (Exception e) {
 			return -1;
 		}
-		
-		//Envio la info por socket
-		
-		return 1;		
+
+		// Envio la info por socket
+		DatosCrearPartida datosCrearPartida = new DatosCrearPartida(minimo,
+				maximo, nombre, 0);
+		this.clientSocket.enviarObjeto(datosCrearPartida);
+
+		return 1;
+	}
+
+	public SocketsCliente getClientSocket() {
+		return clientSocket;
+	}
+
+	public void setClientSocket(SocketsCliente clientSocket) {
+		this.clientSocket = clientSocket;
 	}
 }

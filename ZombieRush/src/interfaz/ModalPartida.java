@@ -3,6 +3,7 @@ package interfaz;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -64,7 +65,12 @@ public class ModalPartida extends JDialog {
 		JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				agregarPartida();
+				try {
+					agregarPartida();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		
@@ -126,7 +132,7 @@ public class ModalPartida extends JDialog {
 		contentPane.setLayout(gl_contentPane);
 	}
 	
-	private void agregarPartida() {
+	private void agregarPartida() throws IOException {
 		int respuesta = this.juego.agregarPartida(this.textNombre.getText(), this.textMinJug.getText(), this.textMaxJug.getText());
 		
 		if (respuesta == -2) {

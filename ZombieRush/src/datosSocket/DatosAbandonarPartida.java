@@ -1,5 +1,7 @@
 package datosSocket;
 
-public class DatosAbandonarPartida {
+import java.io.Serializable;
+
+public class DatosAbandonarPartida implements Serializable{
 
 }

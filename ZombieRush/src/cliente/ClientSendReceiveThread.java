@@ -39,16 +39,12 @@ public class ClientSendReceiveThread extends Thread {
 	public void run() {
 		try {
 			while (true) {
-
-				// Adquiero semaforo para bloquear el metodo login de la class
-				// Login
-			
-				//semUP.acquire();
-				//semLogin.acquire();
 				
 				// Leo objeto del socket
+				System.out.println("llegue thread");
 				obj = inStream.readObject();
-				
+				System.out.println("llegue lei desde cliente");
+				System.out.println(obj.getClass().getSimpleName());
 				switch (obj.getClass().getSimpleName()) {
 
 				// Devolucion de login de usuario desde el server
@@ -56,7 +52,7 @@ public class ClientSendReceiveThread extends Thread {
 					// debe devolver DatosLogin a la clase Login
 					login.setDatosLogin((DatosLogin) obj);
 					semLogin.release();
-				    semUP.release();
+					System.out.println("llegue login");
 					//sleep(5000);
 					
 					break;
@@ -64,6 +60,7 @@ public class ClientSendReceiveThread extends Thread {
 				case "DatosUnirsePartida":
 					juegoCliente.setDatosUP((DatosUnirsePartida) obj);
 					semUP.release();
+					System.out.println("llegue unirse partida");
 					break;
 
 				case "DatosPartidaEnJuego":
@@ -72,6 +69,7 @@ public class ClientSendReceiveThread extends Thread {
 
 				case "DatosPartidas":
 					Datos.setDatosPartidas((DatosPartidas) obj);
+					System.out.println("llegue partidas");
 					break;
 
 				case "DatosCrearPartida":
@@ -83,10 +81,7 @@ public class ClientSendReceiveThread extends Thread {
 
 					break;
 				
-				}
-				semLogin.release();
-			    semUP.release();
-				
+				}				
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

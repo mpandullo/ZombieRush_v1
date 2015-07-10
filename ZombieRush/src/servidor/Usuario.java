@@ -1,5 +1,7 @@
 package servidor;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import datosSocket.DatosLogin;
@@ -14,11 +16,14 @@ public class Usuario {
 	private String correo;
 	private int preguntaSeguridad;
 	private String respuestaSeguridad;
-	
+
 	private Socket socket;
+	private ObjectOutputStream outStream;
+	private ObjectInputStream inStream;
 
 	// Constructor
-	public Usuario(DatosLogin datos, Socket socket) {
+	public Usuario(DatosLogin datos, Socket socket,
+			ObjectOutputStream outStream, ObjectInputStream inStream) {
 		this.idUsuario = datos.getIdUsuario();
 		this.tipoUsuario = datos.getTipoUsuario();
 		this.usuario = datos.getUsuario();
@@ -28,6 +33,8 @@ public class Usuario {
 		this.preguntaSeguridad = datos.getPreguntaSeguridad();
 		this.respuestaSeguridad = datos.getRespuestaSeguridad();
 		this.socket = socket;
+		this.outStream = outStream;
+		this.inStream = inStream;
 	}
 
 	// Getters and Setters
@@ -94,32 +101,47 @@ public class Usuario {
 	public void setRespuestaSeguridad(String respuestaSeguridad) {
 		this.respuestaSeguridad = respuestaSeguridad;
 	}
-	
+
 	public Socket getSocket() {
 		return this.socket;
 	}
-	
+
 	public void setSocket(Socket socket) {
 		this.socket = socket;
 	}
-	
+
+	public ObjectOutputStream getOutStream() {
+		return outStream;
+	}
+
+	public ObjectInputStream getInStream() {
+		return inStream;
+	}
+
 	// Metodos
-	public static DatosLogin login(DatosLogin datos, Socket socket) {
+	public static DatosLogin login(DatosLogin datos, Socket socket,
+			ObjectOutputStream outStream, ObjectInputStream inStream) {
 		String usuario = datos.getUsuario();
 		String password = datos.getPassword();
+
 		ConsultasUsuario.login(datos);
-		if (datos.getIdUsuario() == -2 )
+		if (datos.getIdUsuario() == -2)
 			return datos;
-		
-		if( usuario.compareTo(datos.getUsuario()) == 0 && password.compareTo(datos.getPassword()) == 0) {
+
+		if (usuario.compareTo(datos.getUsuario()) == 0
+				&& password.compareTo(datos.getPassword()) == 0) {
 			if (datos.getTipoUsuario() == 1) {
-				JuegoServer.getInstance().agregarUsuario(new UsuarioNormal(datos, socket));
+				JuegoServer.getInstance().agregarUsuario(
+						new UsuarioNormal(datos, socket, outStream, inStream));
 			} else {
-				JuegoServer.getInstance().agregarUsuario(new UsuarioAdmin(datos, socket));
+				JuegoServer.getInstance().agregarUsuario(
+						new UsuarioAdmin(datos, socket, outStream, inStream));
 			}
 		} else {
 			datos.setIdUsuario(-1);
-		}				
+		}
+		// datos.setIdUsuario(2);
+		// datos.setTipoUsuario(1);
 		return datos;
 	}
 

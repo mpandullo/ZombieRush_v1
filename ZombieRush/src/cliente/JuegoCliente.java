@@ -96,6 +96,7 @@ public class JuegoCliente {
 
 		// Ponemos un semaforo para esperar la respuesta
 		this.semUP.acquire();
+		this.semUP.acquire();
 		
 		if (this.datosUP.getEstadoPartida() == -1)
 			panel.mensajeErrorUnirse();

@@ -1,6 +1,8 @@
 package servidor;
 
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,25 +56,30 @@ public class JuegoServer {
 	// Metodos
 	public void agregarUsuario(UsuarioNormal usuario) {
 		usuarios.add(usuario);
+		/*
 		try {
-			this.broadcast.broadcastMsgNormal(ConsultasUsuario.cargarTablaPrincipal(), usuarios);
-		} catch (IOException | InterruptedException e) {
+			ObjectOutputStream outStream = new ObjectOutputStream(usuario.getSocket().getOutputStream());
+			outStream.writeObject(ConsultasUsuario.cargarTablaPrincipal());
+			outStream.flush();
+			System.out.println("llegue a mandar partidas");
+		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	public void agregarUsuario(UsuarioAdmin usuario) {
 		usuariosAdmin.add(usuario);
 	}
 	
-	public DatosCrearPartida crearPartida(DatosCrearPartida datos) {
+	public DatosCrearPartida crearPartida(DatosCrearPartida datos) throws IOException, InterruptedException {
 		Partida partida = new Partida();
 		datos = partida.crearPartida(datos, broadcast);
 		if (datos.getUsuarioId() > 0) {
 			this.partidas.add(partida);
 		} 
-		
-		return datos;			
+		broadcast.broadcastMsgNormal(ConsultasUsuario.cargarTablaPrincipal(), usuarios);
+		System.out.println("llegue a crear partida");
+		return datos;
 	}
 
 	public DatosUnirsePartida unirsePartida(DatosUnirsePartida partida) {

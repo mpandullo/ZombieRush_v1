@@ -1,6 +1,8 @@
 package datosSocket;
 
-public class DatosCrearPartida {
+import java.io.Serializable;
+
+public class DatosCrearPartida implements Serializable {
 	private int cantMin;
 	private int cantMax;
 	private String nombre;

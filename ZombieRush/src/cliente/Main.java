@@ -7,7 +7,7 @@ import interfaz.Login;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		Semaphore semLogin = new Semaphore(1);
 		Semaphore semUP = new Semaphore(1);
 		
@@ -18,7 +18,8 @@ public class Main {
 			clientSocket.lanzarConexion();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}		
+		}
+		//clientSocket.enviarObjeto(Datos.getDatosPartidas());
 		login.setVisible(true);		
 	}
 

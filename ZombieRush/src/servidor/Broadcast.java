@@ -17,12 +17,10 @@ public class Broadcast {
 			throws IOException, InterruptedException {
 
 		for (Usuario usuario : listaUsuarios) {
-			ObjectOutputStream outStream = new ObjectOutputStream(usuario
-					.getSocket().getOutputStream());
 
 			semOutStream.acquire();
-			outStream.writeObject(obj);
-			outStream.flush();
+			usuario.getOutStream().writeObject(obj);
+			usuario.getOutStream().flush();
 			semOutStream.release();
 		}
 	}
@@ -31,12 +29,9 @@ public class Broadcast {
 			throws IOException, InterruptedException {
 
 		for (Usuario usuario : listaUsuarios) {
-			ObjectOutputStream outStream = new ObjectOutputStream(usuario
-					.getSocket().getOutputStream());
-
 			semOutStream.acquire();
-			outStream.writeObject(obj);
-			outStream.flush();
+			usuario.getOutStream().writeObject(obj);
+			usuario.getOutStream().flush();
 			semOutStream.release();
 		}
 

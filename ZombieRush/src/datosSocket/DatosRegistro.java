@@ -1,6 +1,8 @@
 package datosSocket;
 
-public class DatosRegistro {
+import java.io.Serializable;
+
+public class DatosRegistro implements Serializable {
 
 	private String usuario;
 	private String nombre;

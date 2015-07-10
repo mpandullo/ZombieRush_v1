@@ -14,6 +14,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import servidor.ConsultasUsuario;
 import cliente.JuegoAdmin;
 import cliente.JuegoCliente;
 import cliente.SocketsCliente;
@@ -142,6 +143,9 @@ public class Login extends JFrame {
 		semLogin.acquire();
 		semLogin.acquire();
 		int valor = datosLogin.getIdUsuario();
+		
+		// VERRRRR
+		//ConsultasUsuario.cargarTablaPrincipal();
 
 		switch (valor) {
 		case -1:
