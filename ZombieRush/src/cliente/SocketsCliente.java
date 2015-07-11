@@ -17,6 +17,7 @@ public class SocketsCliente {
 	Semaphore semLogin = null;
 	Semaphore semUP = null;
 	JuegoCliente juegoCliente = null;
+	ClientSendReceiveThread sendReceive = null;
 
 	public SocketsCliente(Login login, Semaphore semLogin, Semaphore semUP) {
 		try {
@@ -37,7 +38,7 @@ public class SocketsCliente {
 
 	public boolean lanzarConexion() throws IOException {
 		if (this.socketId.isConnected()) {
-			ClientSendReceiveThread sendReceive = new ClientSendReceiveThread(
+			this.sendReceive = new ClientSendReceiveThread(
 					socketId, outStream, inStream, login, semLogin, semUP, juegoCliente);
 			Thread sendReceiveThread = new Thread(sendReceive);
 			sendReceiveThread.start();
@@ -54,6 +55,10 @@ public class SocketsCliente {
 
 	public void setJuegoCliente(JuegoCliente juegoCliente) {
 		this.juegoCliente = juegoCliente;
+	}
+	
+	public void setJuegoClientThread(JuegoCliente juegoCliente){
+		this.sendReceive.setJuegoCliente(juegoCliente);
 	}
 
 }

@@ -36,6 +36,10 @@ public class ClientSendReceiveThread extends Thread {
 		this.juegoCliente = juegoCliente;
 	}
 
+	public void setJuegoCliente(JuegoCliente juegoCliente) {
+		this.juegoCliente = juegoCliente;
+	}
+
 	public void run() {
 		try {
 			while (true) {
@@ -59,12 +63,14 @@ public class ClientSendReceiveThread extends Thread {
 
 				case "DatosUnirsePartida":
 					DatosUnirsePartida datos = (DatosUnirsePartida) obj;
-					//juegoCliente.setDatosUP(datos);
+					//System.out.println(datos.getEstadoPartida()+datos.getNombrePartida()+datos.getPartidaId()+datos.getTipoJugador()+datos.getUsuarioId());
+					juegoCliente.setDatosUP((DatosUnirsePartida) obj);
 					semUP.release();
 					System.out.println("llegue unirse partida");
 					break;
 
 				case "DatosPartidaEnJuego":
+					
 					juegoCliente.actualizarTablero((DatosPartidaEnJuego) obj);
 					break;
 
