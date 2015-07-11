@@ -33,6 +33,7 @@ public class PanelCliente extends JDialog {
 	private JuegoCliente juego;
 	
 	private PartidaEnEspera espera;
+	private ModalIniciandoPartida iniciar;
 	
 	// Constructor
 	public PanelCliente(Login login, JuegoCliente juego, UsuarioNormal usuario) {
@@ -202,8 +203,17 @@ public class PanelCliente extends JDialog {
 		espera.setVisible(true);
 	}
 	
+	public void modalIniciando() {
+		this.iniciar = new ModalIniciandoPartida(this);
+		this.iniciar.setVisible(true);
+	}
+	
 	public PartidaEnEspera getEspera() {
 		return this.espera;
+	}
+	
+	public ModalIniciandoPartida getInciando() {
+		return this.iniciar;
 	}
 	
 	public void abandonar() {

@@ -116,7 +116,7 @@ public class JuegoCliente {
 			if (this.datosUP.getEstadoPartida() == 0)
 				panel.enEspera();
 			else
-				panel.enEspera(); // cambiar por uniendose...
+				panel.modalIniciando(); 
 		}
 		this.semUP.release();
 	}
@@ -136,9 +136,9 @@ public class JuegoCliente {
 			this.ventana = new VentanaJuego(panel, this);
 			this.ventana.actualizarTablero(datos);
 			this.panel.getEspera().dispose();
+			this.panel.getInciando().dispose();
 			this.ventana.setVisible(true);
-		} else {
-			this.panel.getEspera().dispose(); // Cambiar por cerrar uniendose...
+		} else {			
 			this.ventana.actualizarTablero(datos);
 		}
 	}

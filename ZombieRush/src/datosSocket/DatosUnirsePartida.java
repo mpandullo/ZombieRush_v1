@@ -16,6 +16,7 @@ public class DatosUnirsePartida implements Serializable {
 	private int estadoPartida = -1;
 	private String nombrePartida = "";
 	private int tipoJugador = -1;
+	private int iniciar = 0;
 
 	private int matriz[][] = null;
 	private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
@@ -94,6 +95,14 @@ public class DatosUnirsePartida implements Serializable {
 
 	public void setTipoJugador(int tipoJugador) {
 		this.tipoJugador = tipoJugador;
+	}
+	
+	public int getIniciar() {
+		return iniciar;
+	}
+
+	public void setIniciar(int iniciar) {
+		this.iniciar = iniciar;
 	}
 
 }

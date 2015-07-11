@@ -104,6 +104,14 @@ public class JuegoServer {
 		return d;
 	}
 	
+	public void iniciarPartida(int idPartida) {
+		for (int i = 0; i < partidas.size(); i++) {
+			if (partidas.get(i).getPartidaId() == idPartida) {
+				partidas.get(i).iniciarPartida();
+			}
+		}
+	}
+	
 	public void abandonarPartida(DatosAbandonarPartida datosAP) {
 		
 	}
