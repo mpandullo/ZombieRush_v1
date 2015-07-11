@@ -71,8 +71,13 @@ public class JuegoCliente {
 		return datosUP;
 	}
 
+<<<<<<< HEAD
 	public void setDatosUP(DatosUnirsePartida datos) {
 		this.datosUP = datos;
+=======
+	public void setDatosUP(DatosUnirsePartida datosUP) {
+		this.datosUP = datosUP;
+>>>>>>> refs/remotes/origin/master
 	}
 
 	public String[][] obtenerPartidas() {
@@ -98,7 +103,6 @@ public class JuegoCliente {
 		
 		this.datosUP.setPartidaId(id);
 		this.datosUP.setUsuarioId(usuario.getIdUsuario());
-		this.datosUP.setEstadoPartida(0);
 		
 		// Enviamos los datos al server
 		this.clientSocket.enviarObjeto(datosUP);
@@ -130,8 +134,9 @@ public class JuegoCliente {
 	}
 	
 	public void actualizarTablero(DatosPartidaEnJuego datos) {
+		System.out.println("llegue a actualizar tablero");
 		if (this.getDatosUP().getEstadoPartida() == 0) {
-			System.out.println("llegue a actualizar tablero");
+			
 			this.datosUP.setEstadoPartida(1);
 			this.ventana = new VentanaJuego(panel, this);
 			this.ventana.actualizarTablero(datos);
