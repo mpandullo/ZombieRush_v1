@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -17,6 +18,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import cliente.JuegoCliente;
+import datosSocket.DatosMovimiento;
 import datosSocket.DatosPartidaEnJuego;
 
 public class VentanaJuego extends JDialog {
@@ -170,19 +172,19 @@ public class VentanaJuego extends JDialog {
 	
 	// Movimientos
 	private void izquierda() {
-		//Envio por socket el movimiento
+		this.juego.mover('l');
 	}
 	
 	private void derecha() {
-		//Envio por socket el movimiento
+		this.juego.mover('r');
 	}
 	
 	private void arriba() {
-		//Envio por socket el movimiento
+		this.juego.mover('u');
 	}
 	
 	private void abajo() {
-		//Envio por socket el movimiento
+		this.juego.mover('d');
 	}
 	
 	public void actualizarTablero(DatosPartidaEnJuego datos) {

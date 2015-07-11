@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.concurrent.Semaphore;
 
 import datosSocket.DatosAbandonarPartida;
+import datosSocket.DatosMovimiento;
 import datosSocket.DatosPartidaEnJuego;
 import datosSocket.DatosPartidas;
 import datosSocket.DatosUnirsePartida;
@@ -21,7 +22,7 @@ public class JuegoCliente {
 	private SocketsCliente clientSocket = null;
 	private Semaphore semUP = null;
 
-	private DatosUnirsePartida datosUP = new DatosUnirsePartida();
+	private DatosUnirsePartida datosUP;
 	
 	private VentanaJuego ventana;
 
@@ -30,6 +31,7 @@ public class JuegoCliente {
 		this.panel = new PanelCliente(login, this, usuario);
 		this.clientSocket = login.getClientSocket();
 		this.semUP = login.getSemUP();
+		this.datosUP = new DatosUnirsePartida();
 	}
 
 	// Getters and Setter
@@ -69,9 +71,8 @@ public class JuegoCliente {
 		return datosUP;
 	}
 
-	public void setDatosUP(DatosUnirsePartida datosUP) {
-		this.datosUP.setEstadoPartida(datosUP.getEstadoPartida());
-		this.datosUP.setNombrePartida(datosUP.getNombrePartida());
+	public void setDatosUP(DatosUnirsePartida datos) {
+		this.datosUP = datos;
 	}
 
 	public String[][] obtenerPartidas() {
@@ -139,6 +140,15 @@ public class JuegoCliente {
 		} else {
 			this.panel.getEspera().dispose(); // Cambiar por cerrar uniendose...
 			this.ventana.actualizarTablero(datos);
+		}
+	}
+	
+	public void mover(char m) {
+		DatosMovimiento datos = new DatosMovimiento(this.partidaIniciada, this.usuario.getIdUsuario(), m);
+		try {
+			this.clientSocket.enviarObjeto(datos);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

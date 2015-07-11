@@ -129,26 +129,7 @@ public class Partida {
 		
 		return datos;
 	}
-	
-	public void iniciar() {
-		List<Jugador> jugadores = this.tablero.getJugadores();
-		boolean flag = true;
-		
-		for (int i = 0; i < jugadores.size(); i++) {
-			if (!jugadores.get(i).getFueZombie()) {
-				flag = false;
-				jugadores.get(i).setFueZombie(true);
-			}
-		}
-		
-		if (flag) {
-			for (int i = 0; i < jugadores.size(); i++) {
-				jugadores.get(i).setFueZombie(false);
-			}
-			jugadores.get(0).setFueZombie(true);
-		}
-	}	
-	
+
 	public void encolarMovimiento(DatosMovimiento datos) {
 		this.cola.add(datos);
 	}

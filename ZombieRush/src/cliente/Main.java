@@ -12,6 +12,7 @@ public class Main {
 		Semaphore semUP = new Semaphore(1);
 		
 		Login login = new Login(semLogin, semUP);
+		
 		SocketsCliente clientSocket = new SocketsCliente(login, semLogin, semUP);
 		login.setClientSocket(clientSocket);		
 		try {
