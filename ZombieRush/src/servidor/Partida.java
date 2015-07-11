@@ -94,7 +94,7 @@ public class Partida {
 	}
 
 	public List<UsuarioNormal> getUsuarios() {
-		return usuarios;
+		return this.usuarios;
 	}
 
 	public void setUsuarios(List<UsuarioNormal> usuarios) {
@@ -113,6 +113,8 @@ public class Partida {
 			datos.setEstadoPartida(-1);
 			return datos;
 		}
+		
+		this.usuarios.add(usuario);
 
 		if (this.cantJugadores >= this.minJugadores && this.estado == 0) {
 			this.estado = 1;

@@ -130,6 +130,7 @@ public class JuegoCliente {
 	
 	public void actualizarTablero(DatosPartidaEnJuego datos) {
 		if (this.getDatosUP().getEstadoPartida() == 0) {
+			System.out.println("llegue a actualizar tablero");
 			this.datosUP.setEstadoPartida(1);
 			this.ventana = new VentanaJuego(panel, this);
 			this.ventana.actualizarTablero(datos);

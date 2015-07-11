@@ -24,14 +24,15 @@ public class PartidaThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			
 
 			while (enJuego) {
 				// Proceso todos los movimientos y hago el broadcast
+				System.out.println(this.partida.getUsuarios().get(0)
+						.getNombre());
 				this.datosPartidaEnJuego = this.partida.procesarMovimientos();
-				broadcast.broadcastMsgNormal(datosPartidaEnJuego,
-						partida.getUsuarios());
-				
+				// broadcast.broadcastMsgNormal(this.datosPartidaEnJuego,partida.getUsuarios());
+				this.partida.getBroadcast().broadcastMsgNormal(
+						this.datosPartidaEnJuego, this.partida.getUsuarios());
 				// Espero 5 segundos para volver a procesar
 				sleep(5000);
 			}
