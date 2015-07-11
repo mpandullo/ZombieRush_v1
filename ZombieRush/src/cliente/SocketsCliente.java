@@ -38,11 +38,9 @@ public class SocketsCliente {
 
 	public boolean lanzarConexion() throws IOException {
 		if (this.socketId.isConnected()) {
-<<<<<<< HEAD
-			sendReceive = new ClientSendReceiveThread(
-=======
+
 			this.sendReceive = new ClientSendReceiveThread(
->>>>>>> refs/remotes/origin/master
+
 					socketId, outStream, inStream, login, semLogin, semUP, juegoCliente);
 			Thread sendReceiveThread = new Thread(sendReceive);
 			sendReceiveThread.start();
@@ -61,9 +59,4 @@ public class SocketsCliente {
 		this.juegoCliente = juegoCliente;
 		this.sendReceive.setJuego(this.juegoCliente);		
 	}
-	
-	public void setJuegoClientThread(JuegoCliente juegoCliente){
-		this.sendReceive.setJuegoCliente(juegoCliente);
-	}
-
 }

@@ -71,13 +71,10 @@ public class JuegoCliente {
 		return datosUP;
 	}
 
-<<<<<<< HEAD
-	public void setDatosUP(DatosUnirsePartida datos) {
-		this.datosUP = datos;
-=======
+
 	public void setDatosUP(DatosUnirsePartida datosUP) {
 		this.datosUP = datosUP;
->>>>>>> refs/remotes/origin/master
+
 	}
 
 	public String[][] obtenerPartidas() {

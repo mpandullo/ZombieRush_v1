@@ -167,7 +167,6 @@ public class Login extends JFrame {
 				this.setVisible(false);
 				JuegoCliente juego = new JuegoCliente(this, usuario);
 				this.clientSocket.setJuegoCliente(juego);
-				this.clientSocket.setJuegoClientThread(juego);
 			} else {
 				UsuarioAdmin usuario = new UsuarioAdmin(datosLogin);
 				this.setVisible(false);
