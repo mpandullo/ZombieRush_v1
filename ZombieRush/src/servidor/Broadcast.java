@@ -17,27 +17,25 @@ public class Broadcast {
 	public void broadcastMsgNormal(Object obj, List<UsuarioNormal> listaUsuarios)
 			throws IOException, InterruptedException {
 
+		semOutStream.acquire();
 		for (Usuario usuario : listaUsuarios) {
-
-			semOutStream.acquire();
 			usuario.getOutStream().reset();
 			usuario.getOutStream().writeUnshared(obj);
 			usuario.getOutStream().flush();
-			semOutStream.release();
 		}
+		semOutStream.release();
 	}
 
 	public void broadcastMsgAdmin(Object obj, List<UsuarioAdmin> listaUsuarios)
 			throws IOException, InterruptedException {
 
-		for (Usuario usuario : listaUsuarios) {
-			semOutStream.acquire();
+		semOutStream.acquire();
+		for (Usuario usuario : listaUsuarios) {			
 			usuario.getOutStream().reset();
 			usuario.getOutStream().writeUnshared(obj);
 			usuario.getOutStream().flush();
-			semOutStream.release();
 		}
-
+		semOutStream.release();
 	}
 }
 

@@ -44,7 +44,7 @@ public class TableroJuego extends JPanel  {
 		Graphics2D g2 = (Graphics2D) g;
 		
 		for (int i = 0; i < matriz.length; i++) {
-			for (int j = 0; j < matriz.length; j++) {
+			for (int j = 0; j < matriz[0].length; j++) {
 				if (matriz[i][j] == usuarioId) {
 					pos[0] = j;
 					pos[1] = i;
@@ -59,24 +59,36 @@ public class TableroJuego extends JPanel  {
 			g2.drawImage(background, 0, 0, null);
 		} else {
 			// Limitamos la vista para el humano segun sus coordenadas
-			int bdistx1 = pos[0] - 30;
-			int bdistx2 = pos[0] + 60;
-			int bdisty1 = pos[1] - 30;
-			int bdisty2 = pos[1] + 60;		
+			int bdistx1 = (pos[0]*30) - 30;
+			int bdistx2 = (pos[0]*30) + 60;
+			int bdisty1 = (pos[1]*30) - 30;
+			int bdisty2 = (pos[1]*30) + 60;		
 			g2.drawImage(background, bdistx1, bdisty1, bdistx2, bdisty2, bdistx1, bdisty1, bdistx2, bdisty2, null);
 		}
 		
+	
 		for (int i = 0; i < matriz.length; i++) {
 			for (int j = 0; j < matriz[0].length; j++) {
 				if (matriz[i][j] > 0) {
-					if (this.jugadores.get(buscar(matriz[i][j])).getTipo() == 0 )
-						g2.drawImage(humano, j*30, i*30, null);
-					else
-						g2.drawImage(zombie, j*30, i*30, null);
+					if ( this.tipoPersonaje == 1 ) {
+						if (this.jugadores.get(buscar(matriz[i][j])).getTipo() == 0 )
+							g2.drawImage(humano, j*30, i*30, null);
+						else
+							g2.drawImage(zombie, j*30, i*30, null);
+					} else {
+						if (i == pos[0]-1 && j == pos[1]+1 || i == pos[0] && j == pos[1]+1 || i == pos[0]+1 && j == pos[1]+1 || 
+							i == pos[0]-1 && j == pos[1]   || i == pos[0] && j == pos[1]   || i == pos[0]+1 && j == pos[1]   ||
+							i == pos[0]-1 && j == pos[1]-1 || i == pos[0] && j == pos[1]-1 || i == pos[0]+1 && j == pos[1]-1) {
+							if (this.jugadores.get(buscar(matriz[i][j])).getTipo() == 0 )
+								g2.drawImage(humano, j*30, i*30, null);
+							else
+								g2.drawImage(zombie, j*30, i*30, null);
+						}
+					}
 				}
 			}
-		}
-		
+		}		
+				
 		Toolkit.getDefaultToolkit().sync();
 		g.dispose();
 	}

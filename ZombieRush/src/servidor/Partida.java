@@ -18,10 +18,10 @@ public class Partida {
 	private int maxJugadores = 0;
 	private int cantJugadores = 0;
 	private int estado = 0; // 0 en espera - 1 activo
-	private static int cantZombies = 1;
+	private int cantZombies = 1;
 	
 	private List<UsuarioNormal> usuarios = new ArrayList<UsuarioNormal>();
-	private Tablero tablero = new Tablero();
+	private Tablero tablero = new Tablero(this);
 	
 	private Queue<DatosMovimiento> cola = new LinkedList<DatosMovimiento>();
 	
@@ -123,15 +123,14 @@ public class Partida {
 		
 		this.usuarios.add(usuario);
 
+		System.out.println("aca llega " + this.usuarios.get(0).getUsuario());
 		if (this.cantJugadores >= this.minJugadores && this.estado == 0) {
 			this.estado = 1;
-		//	datos.setIniciar(1);
 			this.iniciarPartida();
 		} 
 		
+		
 		datos.setEstadoPartida(estado);
-		//datos.setMatriz(tablero.getMapa());
-		//datos.setJugadores(tablero.getJugadores());
 		datos.setNombrePartida(this.nombre);
 		datos.setTipoJugador(0);
 		
@@ -150,12 +149,10 @@ public class Partida {
 		}
 		
 		DatosPartidaEnJuego datosJuego = new DatosPartidaEnJuego(this.tablero.getMapa(), this.tablero.getJugadores());
-		/*for (int i = 0; i <datosJuego.getMatriz().length; i++) {
-			for (int j = 0; j < datosJuego.getMatriz()[0].length; j++) {
-				System.out.print(datosJuego.getMatriz()[i][j] + " ");
-			}
-			System.out.println();		
-		}*/
+		if (this.cantZombies == this.cantJugadores-1) {
+			// parar juego
+		}
+		
 		return datosJuego;
 	}
 	
@@ -184,17 +181,13 @@ public class Partida {
 		this.partidaRun.start();
 	}
 	
-	public static void incremetarZombie() {
+	public void incremetarZombie() {
 		cantZombies++;
 	}
 	
 	private void pararPartida() {
 		if (this.cantZombies == this.cantJugadores-1) {
 			this.partidaRun.stop();
-		}
-		
-		if (this.estado == 1) {
-			
 		}
 	}
 

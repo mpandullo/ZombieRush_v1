@@ -102,10 +102,8 @@ public class ServerSendReceiveThread extends Thread {
 						outStream.writeObject(datosUnirsePartida);
 						outStream.flush();
 						this.semOutStream.release();
-//						if (datosUnirsePartida.getIniciar() == 1) {
-//							this.juegoServer.iniciarPartida(idPartida);
-//							System.out.println(idPartida);
-//						}
+						this.juegoServer.getBroadcast().broadcastMsgNormal(ConsultasUsuario.cargarTablaPrincipal(),this.juegoServer.getUsuarios());
+						this.juegoServer.getBroadcast().broadcastMsgAdmin(ConsultasUsuario.cargarTablaPrincipal(), this.juegoServer.getUsuariosAdmin());
 						break;
 
 					case "DatosAbandonarPartida":

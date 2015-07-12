@@ -28,6 +28,11 @@ public class VentanaJuego extends JDialog {
 	private TableroJuego tablero;
 	private JuegoCliente juego;
 	
+	private JButton btnUp;
+	private JButton btnDown;
+	private JButton btnLeft;
+	private JButton btnRight;
+	
 	// Constructor
 	public VentanaJuego(PanelCliente p, JuegoCliente juego) {
 		
@@ -79,7 +84,7 @@ public class VentanaJuego extends JDialog {
 		ImageIcon iconUp = new ImageIcon(VentanaJuego.class.getResource("/img/arriba.png"));
 		ImageIcon iconUpHover = new ImageIcon(VentanaJuego.class.getResource("/img/arribaHover.png"));
 		ImageIcon iconUpActive = new ImageIcon(VentanaJuego.class.getResource("/img/arribaActive.png"));
-		JButton btnUp = new JButton("");
+		btnUp = new JButton("");
 		btnUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				arriba();
@@ -101,7 +106,7 @@ public class VentanaJuego extends JDialog {
 		ImageIcon iconDown = new ImageIcon(VentanaJuego.class.getResource("/img/abajo.png"));
 		ImageIcon iconDownHover = new ImageIcon(VentanaJuego.class.getResource("/img/abajoHover.png"));
 		ImageIcon iconDownActive = new ImageIcon(VentanaJuego.class.getResource("/img/abajoActive.png"));
-		JButton btnDown = new JButton("");
+		btnDown = new JButton("");
 		btnDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				abajo();
@@ -123,7 +128,7 @@ public class VentanaJuego extends JDialog {
 		ImageIcon iconLeft = new ImageIcon(VentanaJuego.class.getResource("/img/izquierda.png"));
 		ImageIcon iconLeftHover = new ImageIcon(VentanaJuego.class.getResource("/img/izquierdaHover.png"));
 		ImageIcon iconLeftActive = new ImageIcon(VentanaJuego.class.getResource("/img/izquierdaActive.png"));
-		JButton btnLeft = new JButton("");
+		btnLeft = new JButton("");
 		btnLeft.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				izquierda();
@@ -145,7 +150,7 @@ public class VentanaJuego extends JDialog {
 		ImageIcon iconRight = new ImageIcon(VentanaJuego.class.getResource("/img/derecha.png"));
 		ImageIcon iconRightHover = new ImageIcon(VentanaJuego.class.getResource("/img/derechaHover.png"));
 		ImageIcon iconRightActive = new ImageIcon(VentanaJuego.class.getResource("/img/derechaActive.png"));
-		JButton btnRight = new JButton("");
+		btnRight = new JButton("");
 		btnRight.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				derecha();
@@ -185,23 +190,42 @@ public class VentanaJuego extends JDialog {
 	
 	// Movimientos
 	private void izquierda() {
+		this.bloquearTeclado();
 		this.juego.mover('l');
 	}
 	
 	private void derecha() {
+		this.bloquearTeclado();
 		this.juego.mover('r');
 	}
 	
 	private void arriba() {
+		this.bloquearTeclado();
 		this.juego.mover('u');
 	}
 	
 	private void abajo() {
+		this.bloquearTeclado();
 		this.juego.mover('d');
+	}
+	
+	private void bloquearTeclado() {
+		this.btnDown.setEnabled(false);
+		this.btnLeft.setEnabled(false);
+		this.btnRight.setEnabled(false);
+		this.btnUp.setEnabled(false);
+	}
+	
+	private void activarTeclado() {
+		this.btnDown.setEnabled(true);
+		this.btnLeft.setEnabled(true);
+		this.btnRight.setEnabled(true);
+		this.btnUp.setEnabled(true);
 	}
 	
 	public void actualizarTablero(DatosPartidaEnJuego datos) {
 		this.tablero.actualizar(datos);
+		this.activarTeclado();
 	}
 }
 

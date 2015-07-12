@@ -8,6 +8,8 @@ import datosSocket.DatosMovimiento;
 
 public class Tablero {
 	
+	private Partida partida;
+	
 	private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
 	
 	private int ancho = 20;
@@ -29,6 +31,10 @@ public class Tablero {
 							  {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}};
 	
 	
+	public Tablero(Partida partida) {
+		this.partida = partida;
+	}
+	
 	//Getters and Setters
 	public ArrayList<Jugador> getJugadores() {
 		return this.jugadores;
@@ -43,12 +49,12 @@ public class Tablero {
 		this.jugadores.add(jugador);
 		
 		Random r = new Random();
-		int x = r.nextInt(ancho);
-		int y = r.nextInt(alto);
+		int x = r.nextInt(alto);
+		int y = r.nextInt(ancho);
 		
 		while(matriz[x][y] != 0) {
-			x = r.nextInt(ancho);
-			y = r.nextInt(alto);
+			x = r.nextInt(alto);
+			y = r.nextInt(ancho);
 		}
 		
 		matriz[x][y] = jugador.getUsuarioId();
@@ -148,10 +154,12 @@ public class Tablero {
 		
 		if (jugadores.get(jugOrigen).getTipo() == 0 && jugadores.get(jugDestino).getTipo() == 1) {
 			jugadores.get(jugOrigen).setTipo(1);
+			this.partida.incremetarZombie();			
 		}
 		
 		if (jugadores.get(jugOrigen).getTipo() == 1 && jugadores.get(jugDestino).getTipo() == 0) {
 			jugadores.get(jugDestino).setTipo(1);
+			this.partida.incremetarZombie();	
 		}		
 	}
 }

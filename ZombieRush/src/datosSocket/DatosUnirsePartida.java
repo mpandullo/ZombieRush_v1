@@ -7,9 +7,6 @@ import servidor.Jugador;
 
 public class DatosUnirsePartida implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private int usuarioId = -1;
 	private int partidaId = -1;

@@ -24,7 +24,7 @@ public class PartidaThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			sleep(2000);
+			sleep(5000);
 			while (enJuego) {				
 				// Proceso todos los movimientos y hago el broadcast
 				System.out.println(this.partida.getUsuarios().get(0)
