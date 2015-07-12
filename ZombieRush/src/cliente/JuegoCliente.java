@@ -21,6 +21,7 @@ public class JuegoCliente {
 	private int partidaIniciada;
 	private SocketsCliente clientSocket = null;
 	private Semaphore semUP = null;
+	private boolean iniciada = false;
 
 	private DatosUnirsePartida datosUP;
 	
@@ -98,7 +99,7 @@ public class JuegoCliente {
 		
 		this.panel = panel;
 		
-		this.datosUP.setPartidaId(id);
+		this.datosUP.setPartidaId(this.partidasId[id]);
 		this.datosUP.setUsuarioId(usuario.getIdUsuario());
 		
 		// Enviamos los datos al server
@@ -114,14 +115,11 @@ public class JuegoCliente {
 		else {
 			this.partidaIniciada = this.partidasId[id];
 
-			if (this.datosUP.getEstadoPartida() == 0)
+			if (this.datosUP.getEstadoPartida() != -1)
 				panel.enEspera();
-			else
-				panel.modalIniciando(); 
 		}
 		this.semUP.release();
 	}
-			
 
 	public void abandonarPartida() throws IOException {
 		DatosAbandonarPartida datosAP = new DatosAbandonarPartida();
@@ -132,15 +130,23 @@ public class JuegoCliente {
 	
 	public void actualizarTablero(DatosPartidaEnJuego datos) {
 		System.out.println("llegue a actualizar tablero");
-		if (this.getDatosUP().getEstadoPartida() == 0) {
-			
+		for (int i = 0; i < datos.getJugadores().size(); i++) {
+			System.out.println(datos.getJugadores().get(i).getNombre() + " " + datos.getJugadores().get(i).getTipo());
+		}
+		if (!this.iniciada) {			
 			this.datosUP.setEstadoPartida(1);
 			this.ventana = new VentanaJuego(panel, this);
 			this.ventana.actualizarTablero(datos);
 			this.panel.getEspera().dispose();
-			this.panel.getInciando().dispose();
 			this.ventana.setVisible(true);
+			this.iniciada = true;
 		} else {			
+			/*for (int i = 0; i < datos.getMatriz().length; i++) {
+				for (int j = 0; j < datos.getMatriz()[0].length; j++) {
+					System.out.print(datos.getMatriz()[i][j] + " ");
+				}
+				System.out.println();
+			}*/
 			this.ventana.actualizarTablero(datos);
 		}
 	}

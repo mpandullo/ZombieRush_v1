@@ -12,11 +12,11 @@ import datosSocket.DatosUnirsePartida;
 
 public class Partida {
 
-	private int partidaId;
+	private int partidaId = 0;
 	private String nombre;
-	private int minJugadores;
-	private int maxJugadores;
-	private int cantJugadores;
+	private int minJugadores = 0;
+	private int maxJugadores = 0;
+	private int cantJugadores = 0;
 	private int estado = 0; // 0 en espera - 1 activo
 	private static int cantZombies = 1;
 	
@@ -25,29 +25,15 @@ public class Partida {
 	
 	private Queue<DatosMovimiento> cola = new LinkedList<DatosMovimiento>();
 	
-	private PartidaThread partidaThread = new PartidaThread(this);
-	private Thread partidaRun = new Thread(partidaThread);
+	private PartidaThread partidaThread;
+	private Thread partidaRun ;
 	private Broadcast broadcast;
 	
-	public DatosCrearPartida crearPartida(DatosCrearPartida datos, Broadcast broadcast) {
-		ConsultasUsuario.crearPartida(datos);
-		int id = ConsultasUsuario.obtenerIdPartida(datos.getNombre());
-		if (id > 0) {
-			this.partidaId = id;
-			this.nombre = datos.getNombre();
-			this.minJugadores = datos.getCantMin();
-			this.maxJugadores = datos.getCantMax();
-			this.cantJugadores = 0;
-			this.broadcast = broadcast;
-			datos.setUsuarioId(1);
-			
-			return datos;
-		} else {
-			datos.setUsuarioId(-1);
-			return datos;
-		}
+	public Partida() {
+		this.partidaThread = new PartidaThread(this);
+		this.partidaRun = new Thread(partidaThread);
 	}
-
+	
 	// Getters And Setters
 	public int getPartidaId() {
 		return partidaId;
@@ -102,9 +88,29 @@ public class Partida {
 	}
 
 	// Metodos
+	public DatosCrearPartida crearPartida(DatosCrearPartida datos, Broadcast broadcast) {
+		ConsultasUsuario.crearPartida(datos);
+		int id = ConsultasUsuario.obtenerIdPartida(datos.getNombre());
+		if (id > 0) {
+			this.partidaId = id;
+			this.nombre = datos.getNombre();
+			this.minJugadores = datos.getCantMin();
+			this.maxJugadores = datos.getCantMax();
+			this.cantJugadores = 0;
+			this.broadcast = broadcast;
+			datos.setUsuarioId(1);
+			
+			return datos;
+		} else {
+			datos.setUsuarioId(-1);
+			return datos;
+		}
+	}
+	
 	public DatosUnirsePartida agregarUsuario(UsuarioNormal usuario) {
 		
 		DatosUnirsePartida datos = new DatosUnirsePartida();
+		System.out.println("cantidad Jugadores: " + this.cantJugadores + " - maximo: " + this.maxJugadores);
 		
 		if (this.cantJugadores != this.maxJugadores) {
 			this.tablero.agregarJugador(new Jugador(usuario));
@@ -118,12 +124,13 @@ public class Partida {
 
 		if (this.cantJugadores >= this.minJugadores && this.estado == 0) {
 			this.estado = 1;
-			datos.setIniciar(1);
+		//	datos.setIniciar(1);
+			this.iniciarPartida();
 		} 
 		
 		datos.setEstadoPartida(estado);
-		datos.setMatriz(tablero.getMapa());
-		datos.setJugadores(tablero.getJugadores());
+		//datos.setMatriz(tablero.getMapa());
+		//datos.setJugadores(tablero.getJugadores());
 		datos.setNombrePartida(this.nombre);
 		datos.setTipoJugador(0);
 		
@@ -141,17 +148,25 @@ public class Partida {
 			this.tablero.mover(movimiento);			
 		}
 		
-		return new DatosPartidaEnJuego(this.tablero.getMapa(), this.tablero.getJugadores());
+		DatosPartidaEnJuego datosJuego = new DatosPartidaEnJuego(this.tablero.getMapa(), this.tablero.getJugadores());
+		/*for (int i = 0; i <datosJuego.getMatriz().length; i++) {
+			for (int j = 0; j < datosJuego.getMatriz()[0].length; j++) {
+				System.out.print(datosJuego.getMatriz()[i][j] + " ");
+			}
+			System.out.println();		
+		}*/
+		return datosJuego;
 	}
 	
 	public void iniciarPartida() {
 		List<Jugador> jugadores = this.tablero.getJugadores();
 		boolean flag = true;
 		
-		for (int i = 0; i < jugadores.size(); i++) {
+		for (int i = 0; i < jugadores.size() && flag; i++) {
 			if (!jugadores.get(i).getFueZombie()) {
 				flag = false;
 				jugadores.get(i).setFueZombie(true);
+				jugadores.get(i).setTipo(1);
 			}
 		}
 		
@@ -160,6 +175,7 @@ public class Partida {
 				jugadores.get(i).setFueZombie(false);
 			}
 			jugadores.get(0).setFueZombie(true);
+			jugadores.get(0).setTipo(1);
 		}
 		
 	System.out.println("iniciando partida");

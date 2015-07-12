@@ -18,8 +18,8 @@ public class DatosUnirsePartida implements Serializable {
 	private int tipoJugador = -1;
 	private int iniciar = 0;
 
-	private int matriz[][] = null;
-	private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
+/*	private int matriz[][] = null;
+	private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();*/
 
 	public DatosUnirsePartida() {
 
@@ -31,8 +31,8 @@ public class DatosUnirsePartida implements Serializable {
 		this.estadoPartida = datos.getEstadoPartida();
 		this.nombrePartida = datos.getNombrePartida();
 		this.tipoJugador = datos.getTipoJugador();
-		this.matriz = datos.getMatriz();
-		this.jugadores = datos.getJugadores();
+		/*this.matriz = datos.getMatriz();
+		this.jugadores = datos.getJugadores();*/
 	}
 	
 
@@ -65,7 +65,7 @@ public class DatosUnirsePartida implements Serializable {
 		this.estadoPartida = estadoPartida;
 	}
 
-	public int[][] getMatriz() {
+	/*public int[][] getMatriz() {
 		return matriz;
 	}
 
@@ -79,7 +79,7 @@ public class DatosUnirsePartida implements Serializable {
 
 	public void setJugadores(ArrayList<Jugador> jugadores) {
 		this.jugadores = jugadores;
-	}
+	}*/
 
 	public String getNombrePartida() {
 		return nombrePartida;

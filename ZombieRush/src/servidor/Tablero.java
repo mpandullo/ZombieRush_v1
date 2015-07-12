@@ -46,7 +46,7 @@ public class Tablero {
 		int x = r.nextInt(ancho);
 		int y = r.nextInt(alto);
 		
-		while(x != 0 && y != 0) {
+		while(matriz[x][y] != 0) {
 			x = r.nextInt(ancho);
 			y = r.nextInt(alto);
 		}
@@ -76,10 +76,12 @@ public class Tablero {
 	}
 	
 	public void mover(DatosMovimiento m) {
+		System.out.println("procesando movimiento " + m.getUsuarioId());
 		int[] pos = buscar(m.getUsuarioId());
 		
 		switch (m.getMovimiento()) {
 		case 'l':
+			System.out.println("movimiento izquierda");
 			if (matriz[pos[0]-1][pos[1]] != -1) {
 				if (matriz[pos[0]-1][pos[1]] != 0) {
 					convertir(pos, pos[0]-1, pos[1]);
@@ -91,6 +93,7 @@ public class Tablero {
 			break;
 			
 		case 'r':
+			System.out.println("movimiento derecha");
 			if (matriz[pos[0]+1][pos[1]] != -1) {
 				if (matriz[pos[0]+1][pos[1]] != 0) {
 					convertir(pos, pos[0]+1, pos[1]);
@@ -102,6 +105,7 @@ public class Tablero {
 			break;
 			
 		case 'u':
+			System.out.println("movimiento arriba");
 			if (matriz[pos[0]][pos[1]+1] != -1) {
 				if (matriz[pos[0]][pos[1]+1] != 0) {
 					convertir(pos, pos[0], pos[1]+1);
@@ -113,6 +117,7 @@ public class Tablero {
 			break;
 			
 		case 'd':
+			System.out.println("movimiento abajo");
 			if (matriz[pos[0]][pos[1]-1] != -1) {
 				if (matriz[pos[0]][pos[1]-1] != 0) {
 					convertir(pos, pos[0], pos[1]-1);

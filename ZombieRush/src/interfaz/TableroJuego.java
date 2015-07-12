@@ -19,7 +19,7 @@ public class TableroJuego extends JPanel  {
 	private Image zombie;
 	private Image humano;
 	
-	private int[][] matriz;	
+	private int[][] matriz = new int[15][20];	
 	private ArrayList<Jugador> jugadores;
 	
 	// 0 -> Humano / 1 -> Zombie
@@ -106,4 +106,5 @@ public class TableroJuego extends JPanel  {
 		this.jugadores = jugadores;
 	}
 }
+
 

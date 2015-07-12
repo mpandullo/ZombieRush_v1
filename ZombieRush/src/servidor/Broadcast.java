@@ -1,9 +1,10 @@
 package servidor;
 
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.concurrent.Semaphore;
+
+import datosSocket.DatosPartidaEnJuego;
 
 public class Broadcast {
 
@@ -19,6 +20,15 @@ public class Broadcast {
 		for (Usuario usuario : listaUsuarios) {
 
 			semOutStream.acquire();
+			if (obj.getClass().getSimpleName().compareTo("DatosPartidaEnJuego") == 0) {
+				DatosPartidaEnJuego datos = (DatosPartidaEnJuego) obj;
+				for (int i = 0; i < datos.getMatriz().length; i++) {
+					for (int j = 0; j < datos.getMatriz()[0].length; j++) {
+						System.out.print(datos.getMatriz()[i][j] + " ");
+					}
+					System.out.println();
+				}
+			}
 			usuario.getOutStream().writeObject(obj);
 			usuario.getOutStream().flush();
 			semOutStream.release();

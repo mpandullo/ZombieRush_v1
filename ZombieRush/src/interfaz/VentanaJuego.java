@@ -33,7 +33,7 @@ public class VentanaJuego extends JDialog {
 		
 		super(p);
 		this.juego = juego;
-		this.tablero = new TableroJuego(juego.getUsuario().getIdUsuario());
+		
 		
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
@@ -42,6 +42,8 @@ public class VentanaJuego extends JDialog {
 				cerrar();
 			}
 		});
+		
+		this.crearTablero();
 		
 		setTitle(juego.getDatosUP().getNombrePartida());
 		setBounds(100, 100, 625, 627);
@@ -160,6 +162,8 @@ public class VentanaJuego extends JDialog {
 						
 		btnRight.setBounds(326, 518, 36, 38);
 		contentPane.add(btnRight);
+		
+		
 	}
 	
 	// Cerrar ventana
@@ -168,6 +172,10 @@ public class VentanaJuego extends JDialog {
 		if( opcion == JOptionPane.YES_OPTION) {
 			this.dispose();
 		} 
+	}
+	
+	private void crearTablero(){
+		this.tablero = new TableroJuego(juego.getUsuario().getIdUsuario());
 	}
 	
 	// Movimientos
@@ -191,4 +199,5 @@ public class VentanaJuego extends JDialog {
 		this.tablero.actualizar(datos);
 	}
 }
+
 

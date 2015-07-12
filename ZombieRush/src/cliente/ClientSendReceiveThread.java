@@ -74,7 +74,14 @@ public class ClientSendReceiveThread extends Thread {
 					break;
 
 				case "DatosPartidaEnJuego":
-					
+					System.out.println(this.juegoCliente.getUsuario().getNombre() + " recibiendo mapa");
+					DatosPartidaEnJuego datosJuego = (DatosPartidaEnJuego) obj;
+					for (int i = 0; i <datosJuego.getMatriz().length; i++) {
+						for (int j = 0; j < datosJuego.getMatriz()[0].length; j++) {
+							System.out.print(datosJuego.getMatriz()[i][j] + " ");
+						}
+						System.out.println();		
+					}
 					juegoCliente.actualizarTablero((DatosPartidaEnJuego) obj);
 					break;
 

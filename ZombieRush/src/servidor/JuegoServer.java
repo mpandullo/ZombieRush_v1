@@ -107,6 +107,7 @@ public class JuegoServer {
 	public void iniciarPartida(int idPartida) {
 		for (int i = 0; i < partidas.size(); i++) {
 			if (partidas.get(i).getPartidaId() == idPartida) {
+				System.out.println("Metodo iniciar partida");
 				partidas.get(i).iniciarPartida();
 			}
 		}

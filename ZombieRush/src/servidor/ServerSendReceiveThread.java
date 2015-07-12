@@ -88,16 +88,17 @@ public class ServerSendReceiveThread extends Thread {
 
 					case "DatosUnirsePartida":
 						DatosUnirsePartida datosUnirsePartida = (DatosUnirsePartida) obj;
-						int idPartida = datosUnirsePartida.getPartidaId();
+						//int idPartida = datosUnirsePartida.getPartidaId();
 						datosUnirsePartida = this.juegoServer.unirsePartida(datosUnirsePartida);
 						System.out.println("llegue a enviar unirse partida");
 						this.semOutStream.acquire();
 						outStream.writeObject(datosUnirsePartida);
 						outStream.flush();
 						this.semOutStream.release();
-						if (datosUnirsePartida.getIniciar() == 1) {
-							this.juegoServer.iniciarPartida(idPartida);
-						}
+//						if (datosUnirsePartida.getIniciar() == 1) {
+//							this.juegoServer.iniciarPartida(idPartida);
+//							System.out.println(idPartida);
+//						}
 						break;
 
 					case "DatosAbandonarPartida":
@@ -106,6 +107,7 @@ public class ServerSendReceiveThread extends Thread {
 						break;
 
 					case "DatosMovimiento":
+						System.out.println("llego datos mov");
 						DatosMovimiento datosMov = (DatosMovimiento) obj;
 						this.juegoServer.encolarMovimiento(datosMov);
 						break;
@@ -122,3 +124,4 @@ public class ServerSendReceiveThread extends Thread {
 		}
 	}
 }
+
