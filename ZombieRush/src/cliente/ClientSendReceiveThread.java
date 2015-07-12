@@ -78,7 +78,10 @@ public class ClientSendReceiveThread extends Thread {
 					DatosPartidaEnJuego datosJuego = (DatosPartidaEnJuego) obj;
 					for (int i = 0; i <datosJuego.getMatriz().length; i++) {
 						for (int j = 0; j < datosJuego.getMatriz()[0].length; j++) {
-							System.out.print(datosJuego.getMatriz()[i][j] + " ");
+							if (datosJuego.getMatriz()[i][j] == 0)
+								System.out.print(datosJuego.getMatriz()[i][j] + " ");
+							else
+								System.out.print(datosJuego.getMatriz()[i][j]);
 						}
 						System.out.println();		
 					}

@@ -24,7 +24,10 @@ public class Broadcast {
 				DatosPartidaEnJuego datos = (DatosPartidaEnJuego) obj;
 				for (int i = 0; i < datos.getMatriz().length; i++) {
 					for (int j = 0; j < datos.getMatriz()[0].length; j++) {
-						System.out.print(datos.getMatriz()[i][j] + " ");
+						if (datos.getMatriz()[i][j] == 0)
+							System.out.print(datos.getMatriz()[i][j] + " ");
+						else
+							System.out.print(datos.getMatriz()[i][j]);
 					}
 					System.out.println();
 				}
