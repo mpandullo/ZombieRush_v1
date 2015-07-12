@@ -103,7 +103,7 @@ public class ServerSendReceiveThread extends Thread {
 						outStream.flush();
 						this.semOutStream.release();
 						this.juegoServer.getBroadcast().broadcastMsgNormal(ConsultasUsuario.cargarTablaPrincipal(),this.juegoServer.getUsuarios());
-						//this.juegoServer.getBroadcast().broadcastMsgAdmin(ConsultasUsuario.cargarTablaPrincipal(), this.juegoServer.getUsuariosAdmin());
+						this.juegoServer.getBroadcast().broadcastMsgAdmin(ConsultasUsuario.cargarTablaPrincipal(), this.juegoServer.getUsuariosAdmin());
 						break;
 
 					case "DatosAbandonarPartida":
