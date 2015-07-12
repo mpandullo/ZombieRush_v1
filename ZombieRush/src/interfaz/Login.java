@@ -14,13 +14,13 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import servidor.ConsultasUsuario;
 import cliente.JuegoAdmin;
 import cliente.JuegoCliente;
 import cliente.SocketsCliente;
 import cliente.UsuarioAdmin;
 import cliente.UsuarioNormal;
 import datosSocket.DatosLogin;
+import datosSocket.DatosRegistro;
 
 @SuppressWarnings("serial")
 public class Login extends JFrame {
@@ -30,15 +30,18 @@ public class Login extends JFrame {
 	private JPasswordField txtPassword;
 	private Semaphore semLogin = null;
 	private Semaphore semUP = null;
+	private Semaphore semReg = null;
 	private SocketsCliente clientSocket = null;
 
 	private DatosLogin datosLogin;
+	private ModalRegistro ventanaRZR;
 
 	// Constructor
-	public Login(Semaphore semLogin, Semaphore semUP) {
+	public Login(Semaphore semLogin, Semaphore semUP, Semaphore semReg) {
 
 		this.semLogin = semLogin;
 		this.semUP = semUP;
+		this.semReg = semReg;
 
 		setTitle("Zombie Rush");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -111,7 +114,7 @@ public class Login extends JFrame {
 	// Abrimos la ventana de registro
 	private void abrirVentanaRegistro() {
 		try {
-			ModalRegistro ventanaRZR = new ModalRegistro(this);
+			ventanaRZR = new ModalRegistro(this, this.clientSocket, this.semReg);
 			ventanaRZR.setVisible(true);
 		} catch (Exception e2) {
 			e2.printStackTrace();
@@ -143,9 +146,6 @@ public class Login extends JFrame {
 		semLogin.acquire();
 		semLogin.acquire();
 		int valor = datosLogin.getIdUsuario();
-		
-		// VERRRRR
-		//ConsultasUsuario.cargarTablaPrincipal();
 
 		switch (valor) {
 		case -1:
@@ -192,5 +192,13 @@ public class Login extends JFrame {
 
 	public Semaphore getSemUP() {
 		return semUP;
+	}
+	
+	public Semaphore getSemLogin() {
+		return this.semLogin;
+	}
+	
+	public void setDatosRegistro(DatosRegistro datos) {
+		this.ventanaRZR.setDatosRegistro(datos);
 	}
 }

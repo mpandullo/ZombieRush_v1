@@ -16,10 +16,11 @@ public class SocketsCliente {
 	Login login = null;
 	Semaphore semLogin = null;
 	Semaphore semUP = null;
+	Semaphore semReg = null;
 	JuegoCliente juegoCliente = null;
 	ClientSendReceiveThread sendReceive = null;
 
-	public SocketsCliente(Login login, Semaphore semLogin, Semaphore semUP) {
+	public SocketsCliente(Login login, Semaphore semLogin, Semaphore semUP, Semaphore semReg) {
 		try {
 			this.socketId = new Socket("localhost", 9999);
 			this.outStream = new ObjectOutputStream(socketId.getOutputStream());
@@ -27,6 +28,7 @@ public class SocketsCliente {
 			this.login = login;
 			this.semLogin = semLogin;
 			this.semUP = semUP;
+			this.semReg = semReg;
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -41,7 +43,7 @@ public class SocketsCliente {
 
 			this.sendReceive = new ClientSendReceiveThread(
 
-					socketId, outStream, inStream, login, semLogin, semUP, juegoCliente);
+					socketId, outStream, inStream, login, semLogin, semUP, semReg, juegoCliente);
 			Thread sendReceiveThread = new Thread(sendReceive);
 			sendReceiveThread.start();
 			return true;

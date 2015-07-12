@@ -61,38 +61,34 @@ public class ConsultasUsuario {
 	public static boolean registrarse(DatosRegistro datosRegistro) {
 		
 		Conexion con = null;
-		String sql,sql2;
-		ResultSet rs;
+		String sql, sql2;
 		String nombre = datosRegistro.getNombre();
 		String correo = datosRegistro.getCorreo();
 		String usuario = datosRegistro.getUsuario();
-		char[] password = datosRegistro.getPassword();
+		String password = datosRegistro.getPassword();
+		int pregunta = datosRegistro.getPregunta();
 		String respSecreta = datosRegistro.getRespuesta();
-		int cuenta = 0;
+		
+		ResultSet rs = null;
 		
 		try {
 			con = new Conexion();
 			
 			sql = "INSERT INTO usuario (nom_usuario, contraseña, fecha_mod, usuario_mod, nick_usuario, "
 					+ "correo, pregunta_seguridad, partidas_jugadas, total_puntos, fecha_creacion,partidas_ganadas,tipo_usuario,respuesta_seguridad)"
-					+ " VALUES ('"+nombre+"','"+password.toString()
-					+"',getdate(),'"+usuario+"','"+usuario+"','"+correo+"',0,0,0,"+"getdate()"+",0,1,'"+respSecreta+"');"
+					+ " VALUES ('"+nombre+"','"+password
+					+"',getdate(),'"+usuario+"','"+usuario+"','"+correo+"','"+pregunta+"',0,0,"+"getdate()"+",0,1,'"+respSecreta+"');"
 			  		+"INSERT INTO ranking (cod_usuario, puntos) VALUES ('"+usuario+"',0);";
-					
-			sql2 = "SELECT COUNT(*) cuenta FROM usuario WHERE nick_usuario='"+datosRegistro.getUsuario()+"'";
 			
-			//System.out.println(sql2);
-			//System.out.println();
-			rs= con.obtenerRegistros(sql2);
+			sql2 = "SELECT nick_usuario FROM usuario WHERE nick_usuario='" + usuario + "'";
+			
+			rs = con.obtenerRegistros(sql2);
+			
 			if (rs.next()) {
-				cuenta= rs.getInt("cuenta");
+				return false;
 			}
 			
-			//System.out.println(sql);
-			if(cuenta>0)
-				return false;
-			else
-				return con.ejecutarQuery(sql);
+			return con.ejecutarQuery(sql);
 			
 		}catch(SQLException e){
 			e.printStackTrace();

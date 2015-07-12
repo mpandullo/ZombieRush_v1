@@ -10,6 +10,7 @@ import datosSocket.DatosCrearPartida;
 import datosSocket.DatosLogin;
 import datosSocket.DatosMovimiento;
 import datosSocket.DatosPartidas;
+import datosSocket.DatosRegistro;
 import datosSocket.DatosUnirsePartida;
 
 public class ServerSendReceiveThread extends Thread {
@@ -62,8 +63,14 @@ public class ServerSendReceiveThread extends Thread {
 						outStream.flush();
 						System.out.println("llegue server login");
 						this.semOutStream.release();
+						break;
 						
-
+					case "DatosRegistro":
+						DatosRegistro datosRegistro = Usuario.registro((DatosRegistro) this.obj);
+						this.semOutStream.acquire();
+						outStream.writeObject(datosRegistro);
+						outStream.flush();
+						this.semOutStream.release();
 						break;
 						
 					case "DatosPartidas":

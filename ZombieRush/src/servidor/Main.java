@@ -16,5 +16,4 @@ public class Main {
 		panelServer = new PanelServer(juego, semOutStream);
 		panelServer.setVisible(true);
 	}
-
 }

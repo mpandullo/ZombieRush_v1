@@ -3,7 +3,8 @@ package interfaz;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
+import java.io.IOException;
+import java.util.concurrent.Semaphore;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import cliente.SocketsCliente;
 import datosSocket.DatosRegistro;
 
 public class ModalRegistro extends JDialog {
@@ -36,6 +38,10 @@ public class ModalRegistro extends JDialog {
 	private JComboBox comboPregSeguridad;
 	
 	private Login login;
+	private SocketsCliente socket;
+	private DatosRegistro datosRegistro;
+	
+	private Semaphore semReg = null;
 	
 	 private static final String PATTERN_EMAIL = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 	            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -43,9 +49,11 @@ public class ModalRegistro extends JDialog {
 	/**
 	 * @wbp.parser.constructor
 	 */
-	public ModalRegistro(Login l) {
+	public ModalRegistro(Login l, SocketsCliente socket, Semaphore semReg) {
 		super(l, true);
 		this.login = l;
+		this.socket = socket;
+		this.semReg = semReg;
 		carga();		
 	}
 	
@@ -115,7 +123,12 @@ public class ModalRegistro extends JDialog {
 		JButton btnRegistrarse = new JButton("Registrarse");
 		btnRegistrarse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				registro();
+				try {
+					registro();
+				} catch (IOException | InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btnRegistrarse.setBounds(137, 371, 102, 23);
@@ -186,11 +199,11 @@ public class ModalRegistro extends JDialog {
 		contentPane.add(lblImagen);
 	}
 	
-	public void registro() {
+	public void registro() throws IOException, InterruptedException {
 		String usuario = this.txtUsuario.getText().trim();
 		String nombre = this.txtNombre.getText().trim();
-		char[] password = this.passwordField.getPassword();
-		char[] repPassword = this.passwordFieldConf.getPassword();
+		String password = this.passwordField.getText();
+		String repPassword = this.passwordFieldConf.getText();
 		String correo = this.txtCorreo.getText().trim();
 		String repCorreo = this.txtRepCorreo.getText().trim();
 		int pregunta = this.comboPregSeguridad.getSelectedIndex();
@@ -198,15 +211,15 @@ public class ModalRegistro extends JDialog {
 		
 		boolean valida = true;
 		
-		if (usuario.isEmpty() || nombre.isEmpty() || password.length == 0 || correo.isEmpty() || respuesta.isEmpty()) {
+		if (usuario.isEmpty() || nombre.isEmpty() || password.length() == 0 || correo.isEmpty() || respuesta.isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
 			valida = false;
 		} else {
-			if (usuario.length() < 6 || password.length < 6) {
+			if (usuario.length() < 6 || password.length() < 6) {
 				JOptionPane.showMessageDialog(this, "El usuario y contraseña deben tener al menos 6 caracteres", "Error", JOptionPane.ERROR_MESSAGE);
 				valida = false;
 			} else {
-				if (!Arrays.equals(password, repPassword)) {
+				if (password.compareTo(repPassword) != 0) {
 					JOptionPane.showMessageDialog(this, "Las contraseñas no coinciden", "Error", JOptionPane.ERROR_MESSAGE);
 					valida = false;
 				} else {
@@ -224,11 +237,15 @@ public class ModalRegistro extends JDialog {
 		}		
 		
 		if (valida) {
-			DatosRegistro datos = new DatosRegistro(usuario, nombre, correo, password, pregunta, respuesta);
+			datosRegistro = new DatosRegistro(usuario, nombre, correo, password, pregunta, respuesta);
 			
-			// Envio los datos por socket que devuelve boolean
-			boolean valor = true;
-			if (valor) {
+			this.socket.enviarObjeto(datosRegistro);
+			
+			this.semReg.acquire();
+			this.semReg.acquire();
+			
+			int valor = datosRegistro.getPregunta();
+			if (valor != -1) {
 				JOptionPane.showMessageDialog(this, "Registro Exitoso", "Registro", JOptionPane.INFORMATION_MESSAGE);
 				this.login.setUsuario(usuario);
 				this.dispose();
@@ -236,6 +253,8 @@ public class ModalRegistro extends JDialog {
 				JOptionPane.showMessageDialog(this, "Nombre de usuario no disponible", "Error", JOptionPane.ERROR_MESSAGE);
 			}			
 		}		
+		
+		this.semReg.release();
 	}
 	
 	private boolean validarCorreo(String correo) {
@@ -245,5 +264,9 @@ public class ModalRegistro extends JDialog {
         Matcher matcher = pattern.matcher(correo);
         return matcher.matches(); 
     }	
+	
+	public void setDatosRegistro(DatosRegistro datos) {
+		this.datosRegistro = datos;
+	}
 }
 

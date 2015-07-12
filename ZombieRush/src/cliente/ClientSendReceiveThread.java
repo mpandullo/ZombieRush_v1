@@ -11,6 +11,7 @@ import java.util.concurrent.Semaphore;
 import datosSocket.DatosLogin;
 import datosSocket.DatosPartidaEnJuego;
 import datosSocket.DatosPartidas;
+import datosSocket.DatosRegistro;
 import datosSocket.DatosUnirsePartida;
 
 public class ClientSendReceiveThread extends Thread {
@@ -21,11 +22,12 @@ public class ClientSendReceiveThread extends Thread {
 	Login login = null;
 	Semaphore semLogin = null;
 	Semaphore semUP = null;
+	Semaphore semReg = null;
 	JuegoCliente juegoCliente = null;
 
 	public ClientSendReceiveThread(Socket socketId,
 			ObjectOutputStream outStream, ObjectInputStream inStream,
-			Login login, Semaphore semLogin, Semaphore semUP,
+			Login login, Semaphore semLogin, Semaphore semUP, Semaphore semReg,
 			JuegoCliente juegoCliente) throws IOException {
 		this.socketId = socketId;
 		this.inStream = inStream;
@@ -33,6 +35,7 @@ public class ClientSendReceiveThread extends Thread {
 		this.login = login;
 		this.semLogin = semLogin;
 		this.semUP = semUP;
+		this.semReg = semReg;
 		this.juegoCliente = juegoCliente;
 	}
 
@@ -53,7 +56,7 @@ public class ClientSendReceiveThread extends Thread {
 				switch (obj.getClass().getSimpleName()) {
 
 				// Devolucion de login de usuario desde el server
-				case "DatosLogin":					
+				case "DatosLogin":	
 					// debe devolver DatosLogin a la clase Login
 					login.setDatosLogin((DatosLogin) obj);
 					semLogin.release();
@@ -62,6 +65,15 @@ public class ClientSendReceiveThread extends Thread {
 					
 					break;
 
+				case "DatosRegistro":					
+					// debe devolver DatosLogin a la clase Login
+					login.setDatosRegistro((DatosRegistro) obj); 
+					semReg.release();
+					System.out.println("llegue a registro");
+					//sleep(5000);
+					
+					break;	
+				
 				case "DatosUnirsePartida":
 					DatosUnirsePartida datos = (DatosUnirsePartida) obj;
 

@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import datosSocket.DatosLogin;
+import datosSocket.DatosRegistro;
 
 public class Usuario {
 
@@ -142,6 +143,15 @@ public class Usuario {
 		}
 		// datos.setIdUsuario(2);
 		// datos.setTipoUsuario(1);
+		return datos;
+	}
+	
+	public static DatosRegistro registro(DatosRegistro datos) {
+		if (ConsultasUsuario.registrarse(datos))
+			datos.setPregunta(1);
+		else
+			datos.setPregunta(-1);
+		
 		return datos;
 	}
 

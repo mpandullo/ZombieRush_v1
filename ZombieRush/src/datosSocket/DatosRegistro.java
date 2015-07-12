@@ -7,12 +7,12 @@ public class DatosRegistro implements Serializable {
 	private String usuario;
 	private String nombre;
 	private String correo;
-	private char[] password;
+	private String password;
 	private int pregunta;
 	private String respuesta;
 
 	public DatosRegistro(String usuario, String nombre, String correo,
-			char[] password, int pregunta, String respuesta) {
+			String password, int pregunta, String respuesta) {
 		this.usuario = usuario;
 		this.nombre = nombre;
 		this.correo = correo;
@@ -45,11 +45,11 @@ public class DatosRegistro implements Serializable {
 		this.correo = correo;
 	}
 
-	public char[] getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
-	public void setPassword(char[] password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
