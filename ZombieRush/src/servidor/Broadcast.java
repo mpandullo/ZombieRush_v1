@@ -20,19 +20,8 @@ public class Broadcast {
 		for (Usuario usuario : listaUsuarios) {
 
 			semOutStream.acquire();
-			if (obj.getClass().getSimpleName().compareTo("DatosPartidaEnJuego") == 0) {
-				DatosPartidaEnJuego datos = (DatosPartidaEnJuego) obj;
-				for (int i = 0; i < datos.getMatriz().length; i++) {
-					for (int j = 0; j < datos.getMatriz()[0].length; j++) {
-						if (datos.getMatriz()[i][j] == 0)
-							System.out.print(datos.getMatriz()[i][j] + " ");
-						else
-							System.out.print(datos.getMatriz()[i][j]);
-					}
-					System.out.println();
-				}
-			}
-			usuario.getOutStream().writeObject(obj);
+			usuario.getOutStream().reset();
+			usuario.getOutStream().writeUnshared(obj);
 			usuario.getOutStream().flush();
 			semOutStream.release();
 		}
@@ -43,10 +32,12 @@ public class Broadcast {
 
 		for (Usuario usuario : listaUsuarios) {
 			semOutStream.acquire();
-			usuario.getOutStream().writeObject(obj);
+			usuario.getOutStream().reset();
+			usuario.getOutStream().writeUnshared(obj);
 			usuario.getOutStream().flush();
 			semOutStream.release();
 		}
 
 	}
 }
+

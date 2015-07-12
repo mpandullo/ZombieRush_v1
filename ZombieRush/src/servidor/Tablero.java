@@ -80,7 +80,7 @@ public class Tablero {
 		int[] pos = buscar(m.getUsuarioId());
 		
 		switch (m.getMovimiento()) {
-		case 'd':
+		case 'u':
 			System.out.println("movimiento izquierda");
 			if (matriz[pos[0]-1][pos[1]] != -1) {
 				if (matriz[pos[0]-1][pos[1]] != 0) {
@@ -92,7 +92,7 @@ public class Tablero {
 			}				
 			break;
 			
-		case 'u':
+		case 'd':
 			System.out.println("movimiento derecha");
 			if (matriz[pos[0]+1][pos[1]] != -1) {
 				if (matriz[pos[0]+1][pos[1]] != 0) {
