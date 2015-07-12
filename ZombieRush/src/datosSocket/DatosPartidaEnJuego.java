@@ -8,8 +8,8 @@ import servidor.Jugador;
 
 public class DatosPartidaEnJuego implements Serializable {
 
-	private int[][] matriz;
-	private ArrayList<Jugador> jugadores;
+	private int[][] matriz = null;
+	private ArrayList<Jugador> jugadores = null;
 
 	public DatosPartidaEnJuego(int[][] matriz, ArrayList<Jugador> jugadores) {
 		this.matriz = matriz;

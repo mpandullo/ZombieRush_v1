@@ -115,6 +115,7 @@ public class Partida {
 		if (this.cantJugadores != this.maxJugadores) {
 			this.tablero.agregarJugador(new Jugador(usuario));
 			this.cantJugadores++;
+			ConsultasUsuario.agregarUsuario(this.partidaId, this.cantJugadores);
 		} else {
 			datos.setEstadoPartida(-1);
 			return datos;

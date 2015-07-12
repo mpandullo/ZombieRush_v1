@@ -170,7 +170,12 @@ public class VentanaJuego extends JDialog {
 	private void cerrar() {
 		int opcion = JOptionPane.showConfirmDialog(this, "Desea abandonar la partida?\nSe perderán los puntos acumulados.", "Salir", JOptionPane.YES_NO_OPTION);
 		if( opcion == JOptionPane.YES_OPTION) {
-			this.dispose();
+			try {
+				this.juego.abandonarPartida();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			this.dispose();			
 		} 
 	}
 	

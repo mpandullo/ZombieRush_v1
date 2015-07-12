@@ -126,6 +126,7 @@ public class JuegoCliente {
 		datosAP.setPartidaId(this.partidaIniciada);
 		datosAP.setUsuarioId(this.usuario.getIdUsuario());
 		this.clientSocket.enviarObjeto(datosAP);
+		this.panel.setEnabled(true);
 	}
 	
 	public void actualizarTablero(DatosPartidaEnJuego datos) {
@@ -138,6 +139,7 @@ public class JuegoCliente {
 			this.ventana = new VentanaJuego(panel, this);
 			this.ventana.actualizarTablero(datos);
 			this.panel.getEspera().dispose();
+			this.panel.setEnabled(false);
 			this.ventana.setVisible(true);
 			this.iniciada = true;
 		} else {			

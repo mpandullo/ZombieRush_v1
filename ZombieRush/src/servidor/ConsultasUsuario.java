@@ -219,7 +219,7 @@ public class ConsultasUsuario {
 		return false;
 	}
 	
-public static int obtenerIdPartida(String nombre){
+	public static int obtenerIdPartida(String nombre){
 		
 		Conexion con = null;
 		ResultSet rs = null;
@@ -267,6 +267,30 @@ public static int obtenerIdPartida(String nombre){
 		} finally {
 			try {
 				con.cerrarRs(rs);
+				if (con != null)
+					con.cerrarConexion();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public static void agregarUsuario(int idPartida, int cantidad) {
+		Conexion con = null;
+		String sql;
+		
+		try {
+			
+			con = new Conexion();
+			sql = "UPDATE partida SET cant_jugadores = '"+cantidad+"' WHERE cod_partida = '"+idPartida+"';";
+			
+			con.ejecutarQuery(sql);
+			
+			
+		} catch(SQLException e){
+			e.printStackTrace();
+		} finally {
+			try {
 				if (con != null)
 					con.cerrarConexion();
 			} catch (Exception e) {

@@ -83,7 +83,7 @@ public class JuegoServer {
 		return datos;
 	}
 
-	public DatosUnirsePartida unirsePartida(DatosUnirsePartida partida) {
+	public DatosUnirsePartida unirsePartida(DatosUnirsePartida partida) throws IOException, InterruptedException {
 		int p = 0;
 		int u = 0;		
 		
@@ -101,6 +101,8 @@ public class JuegoServer {
 		
 		System.out.println("usuario " + usuarios.get(u).getUsuario() + " uniendose a " + partidas.get(p).getNombre());
 		DatosUnirsePartida d = partidas.get(p).agregarUsuario(usuarios.get(u));
+		broadcast.broadcastMsgNormal(ConsultasUsuario.cargarTablaPrincipal(), usuarios);
+		broadcast.broadcastMsgAdmin(ConsultasUsuario.cargarTablaPrincipal(), usuariosAdmin);
 		return d;
 	}
 	

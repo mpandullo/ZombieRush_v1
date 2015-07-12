@@ -195,6 +195,15 @@ public class PanelAdmin extends JFrame {
 		
 		scrollPane_1.setViewportView(tablaPartidas);
 		
+		JButton btnActualizar = new JButton("Actualizar");
+		btnActualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cargarPartidas();
+			}
+		});
+		btnActualizar.setBounds(635, 316, 117, 23);
+		panelPartidas.add(btnActualizar);
+		
 		// Panel Estadisticas
 		JPanel panelEstadisticas = new JPanel();
 		tabbedPane.addTab("Estadisticas", null, panelEstadisticas, null);
