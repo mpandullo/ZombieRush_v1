@@ -52,6 +52,7 @@ public class Tablero {
 		int x = r.nextInt(alto);
 		int y = r.nextInt(ancho);
 		
+
 		while(matriz[x][y] != 0) {
 			x = r.nextInt(alto);
 			y = r.nextInt(ancho);

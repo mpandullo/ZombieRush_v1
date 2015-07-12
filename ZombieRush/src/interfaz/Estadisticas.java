@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.ScrollPaneConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
 
 public class Estadisticas extends JDialog {
 
@@ -29,6 +30,7 @@ public class Estadisticas extends JDialog {
 	public Estadisticas(PanelCliente p) {
 		
 		super(p,true);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Estadisticas.class.getResource("/img/icon ZR.png")));
 		
 		setTitle("Estadisticas");
 		setBounds(100, 100, 405, 446);

@@ -21,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 import cliente.JuegoAdmin;
 import cliente.UsuarioAdmin;
+import java.awt.Toolkit;
 
 public class PanelAdmin extends JFrame {
 	private JTable tablaUsuarios;
@@ -39,6 +40,7 @@ public class PanelAdmin extends JFrame {
 
 	// Constructor
 	public PanelAdmin(Login login, JuegoAdmin juego, UsuarioAdmin usuario) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(PanelAdmin.class.getResource("/img/admin.jpg")));
 		
 		setVisible(true);
 		

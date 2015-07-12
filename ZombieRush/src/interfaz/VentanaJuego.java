@@ -20,6 +20,7 @@ import javax.swing.border.LineBorder;
 import cliente.JuegoCliente;
 import datosSocket.DatosMovimiento;
 import datosSocket.DatosPartidaEnJuego;
+import java.awt.Toolkit;
 
 public class VentanaJuego extends JDialog {
 
@@ -37,6 +38,7 @@ public class VentanaJuego extends JDialog {
 	public VentanaJuego(PanelCliente p, JuegoCliente juego) {
 		
 		super(p);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaJuego.class.getResource("/img/icon ZR.png")));
 		this.juego = juego;
 		
 		

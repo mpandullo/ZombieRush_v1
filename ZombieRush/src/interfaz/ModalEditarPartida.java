@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
+import java.awt.Toolkit;
 
 public class ModalEditarPartida extends JDialog {
 
@@ -25,6 +26,7 @@ public class ModalEditarPartida extends JDialog {
 	public ModalEditarPartida(PanelAdmin p) {	
 		// Le decimos al contructor q es una clase hija de PanelAdmin
 		super(p, true);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ModalEditarPartida.class.getResource("/img/icon ZR.png")));
 		
 		setTitle("Editar Partida");
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

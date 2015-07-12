@@ -17,6 +17,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 import cliente.JuegoAdmin;
+import java.awt.Toolkit;
 
 public class ModalPartida extends JDialog {
 
@@ -32,6 +33,7 @@ public class ModalPartida extends JDialog {
 	public ModalPartida(PanelAdmin p, JuegoAdmin juego) {	
 		// Le decimos al contructor q es una clase hija de PanelAdmin
 		super(p, true);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ModalPartida.class.getResource("/img/icon ZR.png")));
 		this.panel = p;
 		this.juego = juego;
 		
@@ -135,20 +137,23 @@ public class ModalPartida extends JDialog {
 	}
 	
 	private void agregarPartida() throws IOException {
-		int respuesta = this.juego.agregarPartida(this.textNombre.getText(), this.textMinJug.getText(), this.textMaxJug.getText());
+		if(Integer.parseInt(this.textMinJug.getText()) > Integer.parseInt(this.textMaxJug.getText()))
+			JOptionPane.showMessageDialog(this, "La cantidad minima de participantes no puede ser mayor que la cantidad maxima de participantes", "Error", JOptionPane.ERROR_MESSAGE);
+		else{	
+			int respuesta = this.juego.agregarPartida(this.textNombre.getText(), this.textMinJug.getText(), this.textMaxJug.getText());
+			if (respuesta == -2) {
+				JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
+			}
 		
-		if (respuesta == -2) {
-			JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
-		}
+			if (respuesta == -1) {
+				JOptionPane.showMessageDialog(this, "Inserte un número válido", "Error", JOptionPane.ERROR_MESSAGE);
+			}
 		
-		if (respuesta == -1) {
-			JOptionPane.showMessageDialog(this, "Inserte un número válido", "Error", JOptionPane.ERROR_MESSAGE);
-		}
-		
-		if (respuesta == 1) {
-			JOptionPane.showMessageDialog(this, "Partida Creada", "Nueva Partida", JOptionPane.INFORMATION_MESSAGE);
-			this.panel.cargarPartidas();
-			this.dispose();
+			if (respuesta == 1) {
+				JOptionPane.showMessageDialog(this, "Partida Creada", "Nueva Partida", JOptionPane.INFORMATION_MESSAGE);
+				this.panel.cargarPartidas();
+				this.dispose();
+			}
 		}
 	}
 }

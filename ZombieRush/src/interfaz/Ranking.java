@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import java.awt.Toolkit;
 
 public class Ranking extends JDialog {
 
@@ -26,6 +27,7 @@ public class Ranking extends JDialog {
 	public Ranking(PanelCliente p) {
 		
 		super(p, true);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Ranking.class.getResource("/img/icon ZR.png")));
 		
 		setResizable(false);
 		setTitle("Ranking");
