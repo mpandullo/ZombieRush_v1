@@ -26,6 +26,7 @@ import servidor.JuegoServer;
 import servidor.ServerAcceptSocketsThread;
 
 import javax.swing.JTextArea;
+import java.awt.Toolkit;
 
 public class PanelServer extends JFrame {
 
@@ -42,6 +43,7 @@ public class PanelServer extends JFrame {
 	 * Create the frame.
 	 */
 	public PanelServer(JuegoServer juegoServer, final Semaphore semOutStream) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(PanelServer.class.getResource("/img/iconServer.jpg")));
 		setTitle("ZombieRush Server");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 381);

@@ -46,12 +46,12 @@ public class Tablero {
 		int x = r.nextInt(ancho);
 		int y = r.nextInt(alto);
 		
-		while(matriz[x][y] != 0) {
+		while(matriz[y][x] != 0) {
 			x = r.nextInt(ancho);
 			y = r.nextInt(alto);
 		}
 		
-		matriz[x][y] = jugador.getUsuarioId();
+		matriz[y][x] = jugador.getUsuarioId();
 	}
 	
 	public int[] buscar(int id) {

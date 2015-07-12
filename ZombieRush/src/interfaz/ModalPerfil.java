@@ -16,6 +16,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import cliente.UsuarioNormal;
+import java.awt.Toolkit;
 
 public class ModalPerfil extends JDialog {
 	
@@ -35,6 +36,7 @@ public class ModalPerfil extends JDialog {
 	// Constructor
 	public ModalPerfil(PanelCliente p, UsuarioNormal usuario) {
 		super(p, true);		
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ModalPerfil.class.getResource("/img/icon ZR.png")));
 		this.usuario = usuario;
 		cargar();		
 	}

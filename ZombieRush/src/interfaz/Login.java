@@ -21,6 +21,8 @@ import cliente.UsuarioAdmin;
 import cliente.UsuarioNormal;
 import datosSocket.DatosLogin;
 import datosSocket.DatosRegistro;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 @SuppressWarnings("serial")
 public class Login extends JFrame {
@@ -38,6 +40,7 @@ public class Login extends JFrame {
 
 	// Constructor
 	public Login(Semaphore semLogin, Semaphore semUP, Semaphore semReg) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/img/icon ZR.png")));
 
 		this.semLogin = semLogin;
 		this.semUP = semUP;
@@ -53,20 +56,20 @@ public class Login extends JFrame {
 		setLocationRelativeTo(null);
 
 		JLabel lblUsuario = new JLabel("Usuario:");
-		lblUsuario.setBounds(105, 73, 77, 14);
+		lblUsuario.setBounds(127, 140, 77, 14);
 		contentPane.add(lblUsuario);
 
 		JLabel lblContrasea = new JLabel("Contrase\u00F1a:");
-		lblContrasea.setBounds(105, 113, 77, 14);
+		lblContrasea.setBounds(127, 180, 77, 14);
 		contentPane.add(lblContrasea);
 
 		txtUsuario = new JTextField();
-		txtUsuario.setBounds(181, 70, 86, 20);
+		txtUsuario.setBounds(203, 137, 86, 20);
 		contentPane.add(txtUsuario);
 		txtUsuario.setColumns(10);
 
 		txtPassword = new JPasswordField();
-		txtPassword.setBounds(181, 110, 86, 20);
+		txtPassword.setBounds(203, 177, 86, 20);
 		contentPane.add(txtPassword);
 
 		// Boton entrar
@@ -84,7 +87,7 @@ public class Login extends JFrame {
 				}
 			}
 		});
-		btnEntrar.setBounds(48, 183, 89, 23);
+		btnEntrar.setBounds(51, 228, 89, 23);
 		contentPane.add(btnEntrar);
 
 		// Boton Salir
@@ -94,7 +97,7 @@ public class Login extends JFrame {
 				System.exit(0);
 			}
 		});
-		btnSalir.setBounds(310, 183, 89, 23);
+		btnSalir.setBounds(307, 228, 89, 23);
 		contentPane.add(btnSalir);
 
 		// Boton Registrarse
@@ -104,8 +107,13 @@ public class Login extends JFrame {
 				abrirVentanaRegistro();
 			}
 		});
-		btnRegistrarse.setBounds(166, 183, 112, 23);
+		btnRegistrarse.setBounds(165, 228, 112, 23);
 		contentPane.add(btnRegistrarse);
+		
+		JLabel label = new JLabel("New label");
+		label.setIcon(new ImageIcon(Login.class.getResource("/img/logo2.png")));
+		label.setBounds(165, 11, 102, 102);
+		contentPane.add(label);
 
 		this.setVisible(true);
 	}

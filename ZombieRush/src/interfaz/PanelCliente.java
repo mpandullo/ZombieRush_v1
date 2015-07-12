@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 
 import cliente.JuegoCliente;
 import cliente.UsuarioNormal;
+import java.awt.Toolkit;
 
 public class PanelCliente extends JDialog {
 
@@ -39,6 +40,7 @@ public class PanelCliente extends JDialog {
 	public PanelCliente(Login login, JuegoCliente juego, UsuarioNormal usuario) {
 		
 		super(login);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(PanelCliente.class.getResource("/img/icon ZR.png")));
 		this.login = login;		
 		this.usuario = usuario;
 		this.juego = juego;

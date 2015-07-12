@@ -23,6 +23,7 @@ import javax.swing.border.EmptyBorder;
 
 import cliente.SocketsCliente;
 import datosSocket.DatosRegistro;
+import java.awt.Toolkit;
 
 public class ModalRegistro extends JDialog {
 
@@ -51,6 +52,7 @@ public class ModalRegistro extends JDialog {
 	 */
 	public ModalRegistro(Login l, SocketsCliente socket, Semaphore semReg) {
 		super(l, true);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ModalRegistro.class.getResource("/img/icon ZR.png")));
 		this.login = l;
 		this.socket = socket;
 		this.semReg = semReg;
