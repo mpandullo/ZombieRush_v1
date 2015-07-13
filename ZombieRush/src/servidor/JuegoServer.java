@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import datosSocket.DatosAbandonarPartida;
+import datosSocket.DatosContinuarPartida;
 import datosSocket.DatosCrearPartida;
 import datosSocket.DatosMovimiento;
 import datosSocket.DatosUnirsePartida;
@@ -56,15 +57,6 @@ public class JuegoServer {
 	// Metodos
 	public void agregarUsuario(UsuarioNormal usuario) {
 		usuarios.add(usuario);
-		/*
-		try {
-			ObjectOutputStream outStream = new ObjectOutputStream(usuario.getSocket().getOutputStream());
-			outStream.writeObject(ConsultasUsuario.cargarTablaPrincipal());
-			outStream.flush();
-			System.out.println("llegue a mandar partidas");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
 	}
 	
 	public void agregarUsuario(UsuarioAdmin usuario) {
@@ -114,13 +106,25 @@ public class JuegoServer {
 	}
 	
 	public void abandonarPartida(DatosAbandonarPartida datosAP) {
-		
+		for (int i = 0; i < this.partidas.size(); i++) {
+			if (this.partidas.get(i).getPartidaId() == datosAP.getPartidaId()) {
+				this.partidas.get(i).eliminarUsuario(datosAP);
+			}
+		}
 	}
 	
 	public void encolarMovimiento(DatosMovimiento dato) {
 		for (int i = 0; i < this.partidas.size(); i++) {
 			if (this.partidas.get(i).getPartidaId() == dato.getPartidaId())
 				this.partidas.get(i).encolarMovimiento(dato);
+		}
+	}
+	
+	public void continuarPartida(DatosContinuarPartida datos) {
+		for (int i = 0; i < this.partidas.size(); i++) {
+			if (this.partidas.get(i).getPartidaId() == datos.getPartidaId()) {
+				this.partidas.get(i).continuarPartida();
+			}
 		}
 	}
 }

@@ -76,10 +76,14 @@ public class Tablero {
 		return pos;
 	}
 	
-	public void eliminarJugador(Jugador jugador) {
-		int[] pos = buscar(jugador.getUsuarioId());
-		this.jugadores.remove(jugador);
-		matriz[pos[0]][pos[1]] = 0;
+	public void eliminarJugador(int id) {
+		for (int i = 0; i < this.jugadores.size(); i++) {
+			if (this.jugadores.get(i).getUsuarioId() == id) {
+				int[] pos =  this.buscar(id);
+				this.matriz[pos[0]][pos[1]] = 0;
+				this.jugadores.remove(i);
+			}
+		}
 	}
 	
 	public void mover(DatosMovimiento m) {
@@ -162,5 +166,30 @@ public class Tablero {
 			jugadores.get(jugDestino).setTipo(1);
 			this.partida.incremetarZombie();	
 		}		
+	}
+	
+	public void reiniciar() {
+		for (int i = 0; i < matriz.length; i++) {
+			for (int j = 0; j < matriz[0].length; j++) {
+				if (matriz[i][j] != -1)
+					matriz[i][j] = 0;
+			}
+		}
+		
+		for (int i = 0; i < this.jugadores.size(); i++) {
+			this.jugadores.get(i).setTipo(0);
+			
+			Random r = new Random();
+			int x = r.nextInt(alto);
+			int y = r.nextInt(ancho);
+
+			while(matriz[x][y] != 0) {
+				x = r.nextInt(alto);
+				y = r.nextInt(ancho);
+			}
+			
+			matriz[x][y] = this.jugadores.get(i).getUsuarioId();
+		}
+		
 	}
 }

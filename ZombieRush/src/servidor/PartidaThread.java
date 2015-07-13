@@ -3,6 +3,7 @@ package servidor;
 import java.io.IOException;
 
 import datosSocket.DatosPartidaEnJuego;
+import datosSocket.DatosPartidaTerminada;
 
 public class PartidaThread extends Thread {
 
@@ -24,23 +25,24 @@ public class PartidaThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			sleep(5000);
+			sleep(2000);
 			while (enJuego) {				
 				// Proceso todos los movimientos y hago el broadcast
-				System.out.println(this.partida.getUsuarios().get(0)
-						.getNombre());
 				this.datosPartidaEnJuego = this.partida.procesarMovimientos();
-				/*for (int i = 0; i <datosPartidaEnJuego.getMatriz().length; i++) {
-					for (int j = 0; j < datosPartidaEnJuego.getMatriz()[0].length; j++) {
-						System.out.print(datosPartidaEnJuego.getMatriz()[i][j] + " ");
-					}
-					System.out.println();		
-				}*/
-				// broadcast.broadcastMsgNormal(this.datosPartidaEnJuego,partida.getUsuarios());
-				this.partida.getBroadcast().broadcastMsgNormal(
-						this.datosPartidaEnJuego, this.partida.getUsuarios());
-				// Espero 5 segundos para volver a procesar
-				sleep(5000);
+				
+				if (this.partida.getCantJugadores()-1 == this.partida.getCantZombies()) {
+					this.partida.getBroadcast().broadcastMsgNormal(new DatosPartidaTerminada(), this.partida.getUsuarios());
+					this.partida.setCantJugadores(0);
+					this.partida.setCantZombies(1);
+					this.partida.getCola().clear();
+					this.enJuego = false;	
+				}
+				
+				if (this.enJuego) {
+					this.partida.getBroadcast().broadcastMsgNormal(this.datosPartidaEnJuego, this.partida.getUsuarios());
+					// Espero 5 segundos para volver a procesar
+					sleep(2000);
+				}
 			}
 
 		} catch (InterruptedException | IOException e) {

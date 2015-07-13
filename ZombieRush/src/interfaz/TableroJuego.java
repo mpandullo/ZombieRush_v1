@@ -52,9 +52,6 @@ public class TableroJuego extends JPanel  {
 			}
 		}		
 		
-		pos[0] *= 30;
-		pos[1] *= 30;
-		
 		if( this.tipoPersonaje == 1) {
 			g2.drawImage(background, 0, 0, null);
 		} else {
@@ -66,28 +63,29 @@ public class TableroJuego extends JPanel  {
 			g2.drawImage(background, bdistx1, bdisty1, bdistx2, bdisty2, bdistx1, bdisty1, bdistx2, bdisty2, null);
 		}
 		
-	
-		for (int i = 0; i < matriz.length; i++) {
-			for (int j = 0; j < matriz[0].length; j++) {
-				if (matriz[i][j] > 0) {
-					if ( this.tipoPersonaje == 1 ) {
+		if ( this.tipoPersonaje == 1 ) {
+			for (int i = 0; i < matriz.length; i++) {
+				for (int j = 0; j < matriz[0].length; j++) {
+					if (matriz[i][j] > 0) {
 						if (this.jugadores.get(buscar(matriz[i][j])).getTipo() == 0 )
 							g2.drawImage(humano, j*30, i*30, null);
 						else
 							g2.drawImage(zombie, j*30, i*30, null);
-					} else {
-						if (i == pos[0]-1 && j == pos[1]+1 || i == pos[0] && j == pos[1]+1 || i == pos[0]+1 && j == pos[1]+1 || 
-							i == pos[0]-1 && j == pos[1]   || i == pos[0] && j == pos[1]   || i == pos[0]+1 && j == pos[1]   ||
-							i == pos[0]-1 && j == pos[1]-1 || i == pos[0] && j == pos[1]-1 || i == pos[0]+1 && j == pos[1]-1) {
-							if (this.jugadores.get(buscar(matriz[i][j])).getTipo() == 0 )
-								g2.drawImage(humano, j*30, i*30, null);
-							else
-								g2.drawImage(zombie, j*30, i*30, null);
-						}
-					}
+					} 
+				}
+			}		
+		} else {
+			for (int i = pos[1]-1; i <= pos[1]+1; i++) {
+				for (int j = pos[0]-1; j <= pos[0]+1; j++) {
+					if (matriz[i][j] > 0) {
+						if (this.jugadores.get(buscar(matriz[i][j])).getTipo() == 0 )
+							g2.drawImage(humano, j*30, i*30, null);
+						else
+							g2.drawImage(zombie, j*30, i*30, null);
+					} 
 				}
 			}
-		}		
+		}
 				
 		Toolkit.getDefaultToolkit().sync();
 		g.dispose();

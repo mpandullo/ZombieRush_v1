@@ -10,6 +10,7 @@ import java.util.concurrent.Semaphore;
 import datosSocket.DatosAbandonarPartida;
 import datosSocket.DatosMovimiento;
 import datosSocket.DatosPartidaEnJuego;
+import datosSocket.DatosPartidaTerminada;
 import datosSocket.DatosPartidas;
 import datosSocket.DatosUnirsePartida;
 
@@ -22,6 +23,7 @@ public class JuegoCliente {
 	private SocketsCliente clientSocket = null;
 	private Semaphore semUP = null;
 	private boolean iniciada = false;
+	private boolean continuar = false;
 
 	private DatosUnirsePartida datosUP;
 	
@@ -72,10 +74,20 @@ public class JuegoCliente {
 		return datosUP;
 	}
 
-
 	public void setDatosUP(DatosUnirsePartida datosUP) {
 		this.datosUP = datosUP;
+	}
 
+	public SocketsCliente getClientSocket() {
+		return clientSocket;
+	}
+
+	public boolean isContinuar() {
+		return continuar;
+	}
+
+	public void setContinuar(boolean continuar) {
+		this.continuar = continuar;
 	}
 
 	public String[][] obtenerPartidas() {
@@ -130,25 +142,20 @@ public class JuegoCliente {
 	}
 	
 	public void actualizarTablero(DatosPartidaEnJuego datos) {
-		System.out.println("llegue a actualizar tablero");
-		for (int i = 0; i < datos.getJugadores().size(); i++) {
-			System.out.println(datos.getJugadores().get(i).getNombre() + " " + datos.getJugadores().get(i).getTipo());
-		}
-		if (!this.iniciada) {			
-			this.datosUP.setEstadoPartida(1);
-			this.ventana = new VentanaJuego(panel, this);
-			this.ventana.actualizarTablero(datos);
-			this.panel.getEspera().dispose();
-			this.panel.setEnabled(false);
-			this.ventana.setVisible(true);
-			this.iniciada = true;
-		} else {			
-			/*for (int i = 0; i < datos.getMatriz().length; i++) {
-				for (int j = 0; j < datos.getMatriz()[0].length; j++) {
-					System.out.print(datos.getMatriz()[i][j] + " ");
-				}
-				System.out.println();
-			}*/
+		if (!this.continuar) {
+			if (!this.iniciada) {			
+				this.datosUP.setEstadoPartida(1);
+				this.ventana = new VentanaJuego(panel, this);
+				this.ventana.actualizarTablero(datos);
+				this.panel.getEspera().dispose();
+				this.panel.setEnabled(false);
+				this.ventana.setVisible(true);
+				this.iniciada = true;
+			} else {			
+				this.ventana.actualizarTablero(datos);
+			}
+		} else {
+			this.ventana.cerrarContinuar();
 			this.ventana.actualizarTablero(datos);
 		}
 	}
@@ -160,5 +167,10 @@ public class JuegoCliente {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void terminarPartida(DatosPartidaTerminada datos) {
+		this.ventana.terminarPartida(datos);
+		this.continuar = true;
 	}
 }

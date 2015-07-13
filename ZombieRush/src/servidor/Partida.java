@@ -1,13 +1,16 @@
 package servidor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import datosSocket.DatosAbandonarPartida;
 import datosSocket.DatosCrearPartida;
 import datosSocket.DatosMovimiento;
 import datosSocket.DatosPartidaEnJuego;
+import datosSocket.DatosPartidaTerminada;
 import datosSocket.DatosUnirsePartida;
 
 public class Partida {
@@ -87,6 +90,18 @@ public class Partida {
 		this.usuarios = usuarios;
 	}
 
+	public int getCantZombies() {
+		return cantZombies;
+	}
+
+	public void setCantZombies(int cantZombies) {
+		this.cantZombies = cantZombies;
+	}
+
+	public Queue<DatosMovimiento> getCola() {
+		return cola;
+	}
+
 	// Metodos
 	public DatosCrearPartida crearPartida(DatosCrearPartida datos, Broadcast broadcast) {
 		ConsultasUsuario.crearPartida(datos);
@@ -127,14 +142,23 @@ public class Partida {
 		if (this.cantJugadores >= this.minJugadores && this.estado == 0) {
 			this.estado = 1;
 			this.iniciarPartida();
-		} 
-		
+		} 		
 		
 		datos.setEstadoPartida(estado);
 		datos.setNombrePartida(this.nombre);
 		datos.setTipoJugador(0);
 		
 		return datos;
+	}
+	
+	public void eliminarUsuario(DatosAbandonarPartida datos) {
+		for (int i = 0; i < this.usuarios.size(); i++) {
+			if (datos.getUsuarioId() == this.usuarios.get(i).getIdUsuario()) {
+				this.usuarios.remove(i);
+				this.tablero.eliminarJugador(datos.getUsuarioId());
+				this.cantJugadores--;
+			}
+		}
 	}
 
 	public void encolarMovimiento(DatosMovimiento datos) {
@@ -149,9 +173,6 @@ public class Partida {
 		}
 		
 		DatosPartidaEnJuego datosJuego = new DatosPartidaEnJuego(this.tablero.getMapa(), this.tablero.getJugadores());
-		if (this.cantZombies == this.cantJugadores-1) {
-			// parar juego
-		}
 		
 		return datosJuego;
 	}
@@ -176,7 +197,6 @@ public class Partida {
 			jugadores.get(0).setTipo(1);
 		}
 		
-	System.out.println("iniciando partida");
 		this.partidaThread.setEnJuego(true);
 		this.partidaRun.start();
 	}
@@ -185,10 +205,37 @@ public class Partida {
 		cantZombies++;
 	}
 	
-	private void pararPartida() {
-		if (this.cantZombies == this.cantJugadores-1) {
-			this.partidaRun.stop();
-		}
+	public void continuarPartida() {
+		
+		this.cantJugadores++;
+		
+		if (this.cantJugadores >= this.minJugadores) {
+			System.out.println("continuar partida");
+			this.tablero.reiniciar();
+			
+			// iniciar
+			List<Jugador> jugadores = this.tablero.getJugadores();
+			boolean flag = true;
+			
+			for (int i = 0; i < jugadores.size() && flag; i++) {
+				if (!jugadores.get(i).getFueZombie()) {
+					flag = false;
+					jugadores.get(i).setFueZombie(true);
+					jugadores.get(i).setTipo(1);
+				}
+			}
+			
+			if (flag) {
+				for (int i = 0; i < jugadores.size(); i++) {
+					jugadores.get(i).setFueZombie(false);
+				}
+				jugadores.get(0).setFueZombie(true);
+				jugadores.get(0).setTipo(1);
+			}
+			
+			this.partidaThread.setEnJuego(true);
+			this.partidaThread.run();
+		} 		
 	}
 
 }

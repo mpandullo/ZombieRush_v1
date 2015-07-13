@@ -10,6 +10,7 @@ import java.util.concurrent.Semaphore;
 
 import datosSocket.DatosLogin;
 import datosSocket.DatosPartidaEnJuego;
+import datosSocket.DatosPartidaTerminada;
 import datosSocket.DatosPartidas;
 import datosSocket.DatosRegistro;
 import datosSocket.DatosUnirsePartida;
@@ -76,27 +77,18 @@ public class ClientSendReceiveThread extends Thread {
 				
 				case "DatosUnirsePartida":
 					DatosUnirsePartida datos = (DatosUnirsePartida) obj;
-
 					juegoCliente.setDatosUP(datos);
-
-					//System.out.println(datos.getEstadoPartida()+datos.getNombrePartida()+datos.getPartidaId()+datos.getTipoJugador()+datos.getUsuarioId());
-
 					semUP.release();
 					System.out.println("llegue unirse partida");
+					break;
+					
+				case "DatosPartidaTerminada":
+					DatosPartidaTerminada datosPT = (DatosPartidaTerminada) obj;
+					juegoCliente.terminarPartida(datosPT);
 					break;
 
 				case "DatosPartidaEnJuego":
 					System.out.println(this.juegoCliente.getUsuario().getNombre() + " recibiendo mapa");
-					DatosPartidaEnJuego datosJuego = (DatosPartidaEnJuego) obj;
-					for (int i = 0; i <datosJuego.getMatriz().length; i++) {
-						for (int j = 0; j < datosJuego.getMatriz()[0].length; j++) {
-							if (datosJuego.getMatriz()[i][j] == 0)
-								System.out.print(datosJuego.getMatriz()[i][j] + " ");
-							else
-								System.out.print(datosJuego.getMatriz()[i][j]);
-						}
-						System.out.println();		
-					}
 					juegoCliente.actualizarTablero((DatosPartidaEnJuego) obj);
 					break;
 

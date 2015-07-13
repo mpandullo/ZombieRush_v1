@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.util.concurrent.Semaphore;
 
 import datosSocket.DatosAbandonarPartida;
+import datosSocket.DatosContinuarPartida;
 import datosSocket.DatosCrearPartida;
 import datosSocket.DatosLogin;
 import datosSocket.DatosMovimiento;
@@ -108,13 +109,18 @@ public class ServerSendReceiveThread extends Thread {
 
 					case "DatosAbandonarPartida":
 						DatosAbandonarPartida datosAbandonarPartida = (DatosAbandonarPartida) obj;
-						// this.juegoServer.abandonarPartida(datosAbandonarPartida);
+						this.juegoServer.abandonarPartida(datosAbandonarPartida);
 						break;
 
 					case "DatosMovimiento":
 						System.out.println("llego datos mov");
 						DatosMovimiento datosMov = (DatosMovimiento) obj;
 						this.juegoServer.encolarMovimiento(datosMov);
+						break;
+						
+					case "DatosContinuarPartida":
+						DatosContinuarPartida datosCP = (DatosContinuarPartida) obj;
+						this.juegoServer.continuarPartida(datosCP);
 						break;
 
 					default:

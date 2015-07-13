@@ -3,6 +3,7 @@ package datosSocket;
 import java.io.Serializable;
 
 public class DatosAbandonarPartida implements Serializable {
+	
 	private int partidaId;
 	private int usuarioId;
 

@@ -2,6 +2,7 @@ package interfaz;
 
 import java.awt.Color;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -14,13 +15,13 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import cliente.JuegoCliente;
-import datosSocket.DatosMovimiento;
 import datosSocket.DatosPartidaEnJuego;
-import java.awt.Toolkit;
+import datosSocket.DatosPartidaTerminada;
 
 public class VentanaJuego extends JDialog {
 
@@ -28,6 +29,7 @@ public class VentanaJuego extends JDialog {
 	
 	private TableroJuego tablero;
 	private JuegoCliente juego;
+	private ModalPartidaTerminada modal;
 	
 	private JButton btnUp;
 	private JButton btnDown;
@@ -211,7 +213,7 @@ public class VentanaJuego extends JDialog {
 		this.juego.mover('d');
 	}
 	
-	private void bloquearTeclado() {
+	public void bloquearTeclado() {
 		this.btnDown.setEnabled(false);
 		this.btnLeft.setEnabled(false);
 		this.btnRight.setEnabled(false);
@@ -229,6 +231,17 @@ public class VentanaJuego extends JDialog {
 		this.tablero.actualizar(datos);
 		this.activarTeclado();
 	}
+	
+	public void terminarPartida(DatosPartidaTerminada datos) {
+		modal = new ModalPartidaTerminada(this, this.juego);
+		modal.setVisible(true);
+	}
+	
+	public void cerrarContinuar() {
+		this.juego.setContinuar(false);
+		modal.dispose();		
+	}
+	
 }
 
 
