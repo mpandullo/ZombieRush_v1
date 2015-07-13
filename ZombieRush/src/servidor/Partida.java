@@ -32,6 +32,11 @@ public class Partida {
 	private Thread partidaRun ;
 	private Broadcast broadcast;
 	
+	public Partida() {
+		this.partidaThread = new PartidaThread(this);
+		this.partidaRun = new Thread(partidaThread);
+	}
+	
 	// Getters And Setters
 	public int getPartidaId() {
 		return partidaId;
@@ -191,12 +196,13 @@ public class Partida {
 			jugadores.get(0).setFueZombie(true);
 			jugadores.get(0).setTipo(1);
 		}
-		
-		this.partidaThread = new PartidaThread(this);
-		this.partidaRun = new Thread(partidaThread);
-		
+				
 		this.partidaThread.setEnJuego(true);
-		this.partidaRun.start();
+		
+		if( this.partidaRun.isAlive())
+			this.partidaRun.run();
+		else
+			this.partidaRun.start();
 	}
 	
 	public void incremetarZombie() {
@@ -211,8 +217,9 @@ public class Partida {
 			System.out.println("continuar partida");
 			this.tablero.reiniciar();
 			
+			this.iniciarPartida();
 			// iniciar
-			List<Jugador> jugadores = this.tablero.getJugadores();
+			/*List<Jugador> jugadores = this.tablero.getJugadores();
 			boolean flag = true;
 			
 			for (int i = 0; i < jugadores.size() && flag; i++) {
@@ -232,7 +239,7 @@ public class Partida {
 			}
 			
 			this.partidaThread.setEnJuego(true);
-			this.partidaThread.run();
+			this.partidaThread.run();*/
 		} 		
 	}
 
