@@ -1,5 +1,6 @@
 package interfaz;
 
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -22,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
 
 import cliente.JuegoCliente;
 import cliente.UsuarioNormal;
-import java.awt.Toolkit;
+import datosSocket.DatosDesloguearse;
 
 public class PanelCliente extends JDialog {
 
@@ -231,6 +232,12 @@ public class PanelCliente extends JDialog {
 	private void salir() {
 		int opcion = JOptionPane.showConfirmDialog(this, "seguro que desea salir?", "Seleccionar una Opción",JOptionPane.YES_NO_OPTION);
 		if( opcion == JOptionPane.YES_OPTION) {
+			try {
+				this.juego.getClientSocket().enviarObjeto(new DatosDesloguearse(this.usuario.getIdUsuario(), 1));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			System.exit(0);
 		} 
 	}

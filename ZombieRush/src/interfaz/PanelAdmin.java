@@ -1,10 +1,12 @@
 package interfaz;
 
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -21,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
 
 import cliente.JuegoAdmin;
 import cliente.UsuarioAdmin;
-import java.awt.Toolkit;
+import datosSocket.DatosDesloguearse;
 
 public class PanelAdmin extends JFrame {
 	private JTable tablaUsuarios;
@@ -253,11 +255,9 @@ public class PanelAdmin extends JFrame {
 	
 	public void cargarUsuarios(){
 		
-		
 	}
 	
 	public void eliminarUsuario(){
-		
 		
 	}
 	
@@ -266,6 +266,11 @@ public class PanelAdmin extends JFrame {
 	private void salir() {
 		int opcion = JOptionPane.showConfirmDialog(this, "Desea salir?", "Salir", JOptionPane.YES_NO_OPTION);
 		if( opcion == JOptionPane.YES_OPTION) {
+			try {
+				this.juego.getClientSocket().enviarObjeto(new DatosDesloguearse(this.usuario.getIdUsuario(), 0));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			System.exit(0);
 		}
 	}

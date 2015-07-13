@@ -7,6 +7,7 @@ import java.util.List;
 import datosSocket.DatosAbandonarPartida;
 import datosSocket.DatosContinuarPartida;
 import datosSocket.DatosCrearPartida;
+import datosSocket.DatosDesloguearse;
 import datosSocket.DatosMovimiento;
 import datosSocket.DatosUnirsePartida;
 
@@ -124,6 +125,24 @@ public class JuegoServer {
 		for (int i = 0; i < this.partidas.size(); i++) {
 			if (this.partidas.get(i).getPartidaId() == datos.getPartidaId()) {
 				this.partidas.get(i).continuarPartida();
+			}
+		}
+	}
+	
+	public void eliminarUsuario(DatosDesloguearse datos) throws IOException {
+		if (datos.getTipo() == 0) {
+			for (int i = 0; i < this.usuariosAdmin.size(); i++) {
+				if (this.usuariosAdmin.get(i).getIdUsuario() == datos.getUsuarioId()) {
+					this.usuariosAdmin.get(i).getSocket().close();
+					this.usuariosAdmin.remove(i);
+				}
+			}
+		} else {
+			for (int i = 0; i < this.usuarios.size(); i++) {
+				if (this.usuarios.get(i).getIdUsuario() == datos.getUsuarioId()) {
+					this.usuarios.get(i).getSocket().close();
+					this.usuarios.remove(i);
+				}
 			}
 		}
 	}

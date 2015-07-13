@@ -8,6 +8,7 @@ import java.util.concurrent.Semaphore;
 import datosSocket.DatosAbandonarPartida;
 import datosSocket.DatosContinuarPartida;
 import datosSocket.DatosCrearPartida;
+import datosSocket.DatosDesloguearse;
 import datosSocket.DatosLogin;
 import datosSocket.DatosMovimiento;
 import datosSocket.DatosPartidas;
@@ -121,6 +122,11 @@ public class ServerSendReceiveThread extends Thread {
 					case "DatosContinuarPartida":
 						DatosContinuarPartida datosCP = (DatosContinuarPartida) obj;
 						this.juegoServer.continuarPartida(datosCP);
+						break;
+						
+					case "DatosDesloguearse":
+						DatosDesloguearse datosDL = (DatosDesloguearse) obj;
+						this.juegoServer.eliminarUsuario(datosDL);
 						break;
 
 					default:
