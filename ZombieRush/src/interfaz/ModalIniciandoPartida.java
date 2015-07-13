@@ -25,7 +25,6 @@ public class ModalIniciandoPartida extends JDialog {
 
 	public  ModalIniciandoPartida(PanelCliente p) {
 		super(p, true);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ModalIniciandoPartida.class.getResource("/img/icon ZR.png")));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {

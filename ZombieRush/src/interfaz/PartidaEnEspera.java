@@ -25,7 +25,6 @@ public class PartidaEnEspera extends JDialog {
 
 	public PartidaEnEspera(PanelCliente p) {
 		super(p, true);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(PartidaEnEspera.class.getResource("/img/icon ZR.png")));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {

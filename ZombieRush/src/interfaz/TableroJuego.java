@@ -34,9 +34,9 @@ public class TableroJuego extends JPanel  {
 		setBackground(Color.WHITE);
 		setDoubleBuffered(true);
 		
-		background = new ImageIcon(this.getClass().getResource(	"../img/background.png")).getImage();		
-		humano = new ImageIcon(this.getClass().getResource("../img/humano.png")).getImage();
-		zombie = new ImageIcon(this.getClass().getResource("../img/zombie.png")).getImage();
+		background = new ImageIcon(this.getClass().getResource(	"/img/background.png")).getImage();		
+		humano = new ImageIcon(this.getClass().getResource("/img/humano.png")).getImage();
+		zombie = new ImageIcon(this.getClass().getResource("/img/zombie.png")).getImage();
 	}
 
 	@Override
