@@ -22,7 +22,7 @@ public class SocketsCliente {
 
 	public SocketsCliente(Login login, Semaphore semLogin, Semaphore semUP, Semaphore semReg) {
 		try {
-			this.socketId = new Socket("localhost", 9999);
+			this.socketId = new Socket("192.168.0.223", 9999);
 			this.outStream = new ObjectOutputStream(socketId.getOutputStream());
 			this.inStream = new ObjectInputStream(socketId.getInputStream());
 			this.login = login;

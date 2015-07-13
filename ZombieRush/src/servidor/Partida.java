@@ -32,11 +32,6 @@ public class Partida {
 	private Thread partidaRun ;
 	private Broadcast broadcast;
 	
-	public Partida() {
-		this.partidaThread = new PartidaThread(this);
-		this.partidaRun = new Thread(partidaThread);
-	}
-	
 	// Getters And Setters
 	public int getPartidaId() {
 		return partidaId;
@@ -196,6 +191,9 @@ public class Partida {
 			jugadores.get(0).setFueZombie(true);
 			jugadores.get(0).setTipo(1);
 		}
+		
+		this.partidaThread = new PartidaThread(this);
+		this.partidaRun = new Thread(partidaThread);
 		
 		this.partidaThread.setEnJuego(true);
 		this.partidaRun.start();

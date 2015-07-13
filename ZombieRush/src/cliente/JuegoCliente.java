@@ -144,6 +144,7 @@ public class JuegoCliente {
 	public void actualizarTablero(DatosPartidaEnJuego datos) {
 		if (!this.continuar) {
 			if (!this.iniciada) {			
+				System.out.println("abrime el mapaaaaaaa");
 				this.datosUP.setEstadoPartida(1);
 				this.ventana = new VentanaJuego(panel, this);
 				this.ventana.actualizarTablero(datos);
@@ -151,6 +152,7 @@ public class JuegoCliente {
 				this.panel.setEnabled(false);
 				this.ventana.setVisible(true);
 				this.iniciada = true;
+				System.out.println("llegue aca gatooo");
 			} else {			
 				this.ventana.actualizarTablero(datos);
 			}

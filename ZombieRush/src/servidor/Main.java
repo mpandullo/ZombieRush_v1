@@ -1,8 +1,8 @@
 package servidor;
 
-import java.util.concurrent.Semaphore;
-
 import interfazServer.PanelServer;
+
+import java.util.concurrent.Semaphore;
 
 public class Main {
 

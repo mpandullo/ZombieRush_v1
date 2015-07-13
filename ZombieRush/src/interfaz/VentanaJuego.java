@@ -15,7 +15,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
@@ -40,9 +39,7 @@ public class VentanaJuego extends JDialog {
 	public VentanaJuego(PanelCliente p, JuegoCliente juego) {
 		
 		super(p);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaJuego.class.getResource("/img/icon ZR.png")));
 		this.juego = juego;
-		
 		
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
@@ -75,14 +72,6 @@ public class VentanaJuego extends JDialog {
 		JLabel lblPuntos = new JLabel("Puntos: 0");
 		lblPuntos.setBounds(546, 9, 64, 14);
 		contentPane.add(lblPuntos);
-		
-		JLabel lblTiempoDePartida = new JLabel("Tiempo de Partida: 12:01");
-		lblTiempoDePartida.setBounds(10, 489, 200, 14);
-		contentPane.add(lblTiempoDePartida);
-		
-		JLabel lblTiempoDeTurno = new JLabel("Tiempo de Turno: 5");
-		lblTiempoDeTurno.setBounds(495, 489, 115, 14);
-		contentPane.add(lblTiempoDeTurno);
 		
 		// Boton Arriba
 		ImageIcon iconUp = new ImageIcon(VentanaJuego.class.getResource("/img/arriba.png"));

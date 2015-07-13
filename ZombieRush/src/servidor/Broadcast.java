@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-import datosSocket.DatosPartidaEnJuego;
-
 public class Broadcast {
 
 	private Semaphore semOutStream = null;

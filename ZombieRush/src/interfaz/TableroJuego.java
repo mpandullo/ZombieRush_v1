@@ -23,11 +23,12 @@ public class TableroJuego extends JPanel  {
 	private ArrayList<Jugador> jugadores;
 	
 	// 0 -> Humano / 1 -> Zombie
-	private int tipoPersonaje = 0;
-	private int usuarioId = 4;
+	private int tipoPersonaje = 1;
+	private int usuarioId = -1;
 	private int[] pos = new int[2];
 
 	public TableroJuego(int usuarioId) {
+		
 		this.usuarioId = usuarioId;
 			
 		setBackground(Color.WHITE);
