@@ -137,23 +137,36 @@ public class ModalPartida extends JDialog {
 	}
 	
 	private void agregarPartida() throws IOException {
+		String nombre = this.textNombre.getText().trim();
+		String min = this.textMinJug.getText().trim();
+		String max = this.textMaxJug.getText().trim();
+		
+		if (nombre.isEmpty() && min.isEmpty() && max.isEmpty()) {
+			JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		} 
+		
 		if(Integer.parseInt(this.textMinJug.getText()) > Integer.parseInt(this.textMaxJug.getText()))
 			JOptionPane.showMessageDialog(this, "La cantidad minima de participantes no puede ser mayor que la cantidad maxima de participantes", "Error", JOptionPane.ERROR_MESSAGE);
-		else{	
-			int respuesta = this.juego.agregarPartida(this.textNombre.getText(), this.textMinJug.getText(), this.textMaxJug.getText());
-			if (respuesta == -2) {
-				JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
-			}
-		
-			if (respuesta == -1) {
-				JOptionPane.showMessageDialog(this, "Inserte un número válido", "Error", JOptionPane.ERROR_MESSAGE);
-			}
-		
-			if (respuesta == 1) {
-				JOptionPane.showMessageDialog(this, "Partida Creada", "Nueva Partida", JOptionPane.INFORMATION_MESSAGE);
-				this.panel.cargarPartidas();
-				this.dispose();
-			}
+		else {	
+			if ( Integer.parseInt(this.textMinJug.getText()) < 3 ) {
+				JOptionPane.showMessageDialog(this, "La cantidad minima de participantes permitida es 3", "Error", JOptionPane.ERROR_MESSAGE);
+			} else {
+				int respuesta = this.juego.agregarPartida(this.textNombre.getText(), this.textMinJug.getText(), this.textMaxJug.getText());
+				if (respuesta == -2) {
+					JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			
+				if (respuesta == -1) {
+					JOptionPane.showMessageDialog(this, "Inserte un número válido", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			
+				if (respuesta == 1) {
+					JOptionPane.showMessageDialog(this, "Partida Creada", "Nueva Partida", JOptionPane.INFORMATION_MESSAGE);
+					this.panel.cargarPartidas();
+					this.dispose();
+				}
+			}			
 		}
 	}
 }

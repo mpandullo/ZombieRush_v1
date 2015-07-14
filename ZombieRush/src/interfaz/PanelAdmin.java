@@ -153,21 +153,8 @@ public class PanelAdmin extends JFrame {
 				crearModalPartida();
 			}
 		});
-		btnAgregar_1.setBounds(238, 316, 89, 23);
+		btnAgregar_1.setBounds(340, 316, 89, 23);
 		panelPartidas.add(btnAgregar_1);
-
-		JButton btnEditar_1 = new JButton("Editar");
-		btnEditar_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//crearModalEditarPartida();
-			}
-		});
-		btnEditar_1.setBounds(337, 316, 89, 23);
-		panelPartidas.add(btnEditar_1);
-
-		JButton btnEliminar_1 = new JButton("Eliminar");
-		btnEliminar_1.setBounds(436, 316, 89, 23);
-		panelPartidas.add(btnEliminar_1);
 
 		// Tabla Partidas
 		tablaPartidas = new javax.swing.JTable(){
