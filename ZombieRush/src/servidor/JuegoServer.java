@@ -97,15 +97,6 @@ public class JuegoServer {
 		return d;
 	}
 	
-	public void iniciarPartida(int idPartida) {
-		for (int i = 0; i < partidas.size(); i++) {
-			if (partidas.get(i).getPartidaId() == idPartida) {
-				System.out.println("Metodo iniciar partida");
-				partidas.get(i).iniciarPartida();
-			}
-		}
-	}
-	
 	public void abandonarPartida(DatosAbandonarPartida datosAP) {
 		for (int i = 0; i < this.partidas.size(); i++) {
 			if (this.partidas.get(i).getPartidaId() == datosAP.getPartidaId()) {

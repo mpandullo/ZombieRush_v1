@@ -97,7 +97,6 @@ public class ServerSendReceiveThread extends Thread {
 
 					case "DatosUnirsePartida":
 						DatosUnirsePartida datosUnirsePartida = (DatosUnirsePartida) obj;
-						//int idPartida = datosUnirsePartida.getPartidaId();
 						datosUnirsePartida = this.juegoServer.unirsePartida(datosUnirsePartida);
 						System.out.println("llegue a enviar unirse partida");
 						this.semOutStream.acquire();

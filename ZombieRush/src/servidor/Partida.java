@@ -1,6 +1,5 @@
 package servidor;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,7 +9,6 @@ import datosSocket.DatosAbandonarPartida;
 import datosSocket.DatosCrearPartida;
 import datosSocket.DatosMovimiento;
 import datosSocket.DatosPartidaEnJuego;
-import datosSocket.DatosPartidaTerminada;
 import datosSocket.DatosUnirsePartida;
 
 public class Partida {
@@ -22,6 +20,7 @@ public class Partida {
 	private int cantJugadores = 0;
 	private int estado = 0; // 0 en espera - 1 activo
 	private int cantZombies = 1;
+	private boolean continuarPartida = false;
 	
 	private List<UsuarioNormal> usuarios = new ArrayList<UsuarioNormal>();
 	private Tablero tablero = new Tablero(this);
@@ -33,8 +32,7 @@ public class Partida {
 	private Broadcast broadcast;
 	
 	public Partida() {
-		this.partidaThread = new PartidaThread(this);
-		this.partidaRun = new Thread(partidaThread);
+
 	}
 	
 	// Getters And Setters
@@ -102,6 +100,22 @@ public class Partida {
 		return cola;
 	}
 
+	public boolean isContinuarPartida() {
+		return continuarPartida;
+	}
+
+	public void setContinuarPartida(boolean continuarPartida) {
+		this.continuarPartida = continuarPartida;
+	}
+
+	public int getEstado() {
+		return estado;
+	}
+
+	public void setEstado(int estado) {
+		this.estado = estado;
+	}
+
 	// Metodos
 	public DatosCrearPartida crearPartida(DatosCrearPartida datos, Broadcast broadcast) {
 		ConsultasUsuario.crearPartida(datos);
@@ -154,9 +168,13 @@ public class Partida {
 	public void eliminarUsuario(DatosAbandonarPartida datos) {
 		for (int i = 0; i < this.usuarios.size(); i++) {
 			if (datos.getUsuarioId() == this.usuarios.get(i).getIdUsuario()) {
+				if (this.cantZombies == 1 && this.tablero.esZombie(this.usuarios.get(i).getIdUsuario())) 
+					this.tablero.setearZombie();
+				
 				this.usuarios.remove(i);
 				this.tablero.eliminarJugador(datos.getUsuarioId());
-				this.cantJugadores--;
+				if (!this.continuarPartida)
+					this.cantJugadores--;
 			}
 		}
 	}
@@ -179,7 +197,9 @@ public class Partida {
 	
 	public void iniciarPartida() {
 		List<Jugador> jugadores = this.tablero.getJugadores();
-		boolean flag = true;
+		this.tablero.reiniciar();
+		boolean flag = true;		
+		this.continuarPartida = false;
 		
 		for (int i = 0; i < jugadores.size() && flag; i++) {
 			if (!jugadores.get(i).getFueZombie()) {
@@ -196,13 +216,12 @@ public class Partida {
 			jugadores.get(0).setFueZombie(true);
 			jugadores.get(0).setTipo(1);
 		}
-				
-		this.partidaThread.setEnJuego(true);
 		
-		if( this.partidaRun.isAlive())
-			this.partidaRun.run();
-		else
-			this.partidaRun.start();
+		this.partidaThread = new PartidaThread(this);
+		this.partidaRun = new Thread(partidaThread);
+		
+		this.partidaThread.setEnJuego(true);
+		this.partidaRun.start();	
 	}
 	
 	public void incremetarZombie() {
@@ -214,32 +233,8 @@ public class Partida {
 		this.cantJugadores++;
 		
 		if (this.cantJugadores >= this.minJugadores) {
-			System.out.println("continuar partida");
-			this.tablero.reiniciar();
-			
+			System.out.println("continuar partida");			
 			this.iniciarPartida();
-			// iniciar
-			/*List<Jugador> jugadores = this.tablero.getJugadores();
-			boolean flag = true;
-			
-			for (int i = 0; i < jugadores.size() && flag; i++) {
-				if (!jugadores.get(i).getFueZombie()) {
-					flag = false;
-					jugadores.get(i).setFueZombie(true);
-					jugadores.get(i).setTipo(1);
-				}
-			}
-			
-			if (flag) {
-				for (int i = 0; i < jugadores.size(); i++) {
-					jugadores.get(i).setFueZombie(false);
-				}
-				jugadores.get(0).setFueZombie(true);
-				jugadores.get(0).setTipo(1);
-			}
-			
-			this.partidaThread.setEnJuego(true);
-			this.partidaThread.run();*/
 		} 		
 	}
 

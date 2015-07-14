@@ -192,4 +192,27 @@ public class Tablero {
 		}
 		
 	}
+	
+	public boolean esZombie(int id) {
+		for (int i = 0; i < this.jugadores.size(); i++) {
+			if (this.jugadores.get(i).getUsuarioId() == id) {
+				if (this.jugadores.get(i).getTipo() == 1)
+					return true;
+				else
+					return false;
+			}
+		}
+		return false;
+	}
+	
+	public void setearZombie() {
+		boolean flag = true;
+		for (int i = 0; i < this.jugadores.size() && flag; i++) {
+			if (this.jugadores.get(i).getTipo() == 0) {
+				this.jugadores.get(i).setTipo(1);
+				flag = false;
+				this.jugadores.get(i).setFueZombie(true);
+			}
+		}
+	}
 }

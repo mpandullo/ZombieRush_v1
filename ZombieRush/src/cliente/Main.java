@@ -21,7 +21,6 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		//clientSocket.enviarObjeto(Datos.getDatosPartidas());
 		login.setVisible(true);		
 	}
 

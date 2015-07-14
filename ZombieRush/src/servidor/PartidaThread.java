@@ -11,11 +11,9 @@ public class PartidaThread extends Thread {
 	private Partida partida = null;
 	private DatosPartidaEnJuego datosPartidaEnJuego = null;
 	private boolean enJuego = false;
-	private Broadcast broadcast = null;
 
 	public PartidaThread(Partida partida) {
 		this.partida = partida;
-		this.broadcast = partida.getBroadcast();
 	}
 
 	public void setEnJuego(boolean enJuego) {
@@ -27,15 +25,16 @@ public class PartidaThread extends Thread {
 		try {
 			sleep(2000);
 			while (enJuego) {		
-				
 				// Proceso todos los movimientos y hago el broadcast
 				this.datosPartidaEnJuego = this.partida.procesarMovimientos();
 				
 				if (this.partida.getCantJugadores()-1 == this.partida.getCantZombies()) {
 					this.partida.getBroadcast().broadcastMsgNormal(new DatosPartidaTerminada(), this.partida.getUsuarios());
-					this.partida.setCantJugadores(0);
 					this.partida.setCantZombies(1);
+					this.partida.setCantJugadores(0);
 					this.partida.getCola().clear();
+					this.partida.setContinuarPartida(true);
+					this.partida.setEstado(0);
 					this.enJuego = false;	
 				}
 				
